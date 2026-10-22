@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="nb"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>NM-deltakelse i seiling</title><meta name="description" content="Startende båter i norgesmesterskap i seiling 2017–2026, per år, kategori og klasse.">
+<style>
+:root{color-scheme:light;
+--color-fg:#16212b;--color-fg-muted:#5b6670;--color-bg:#ffffff;--color-panel:#f6f8fa;--color-border-line:#dde3e8;
+--color-ok:#1b7f4b;--color-warn:#a66300;--color-bad:#c0392b;
+--cds-gap-xs:4px;--cds-gap-sm:8px;--cds-gap-md:16px;--cds-gap-lg:28px;--cds-gap-xl:40px;
+--cds-pad-xs:4px;--cds-pad-sm:8px;--cds-pad-md:12px;--cds-pad-lg:18px;--cds-pad-xl:28px;
+--cds-radius:8px;--cds-font-size-caption:12.5px;--cds-font-size-body:14.5px;--cds-font-size-heading:17px;--cds-font-size-title:30px;
+--cds-font-weight-medium:600;--cds-chart-grid:#e7ecf0;--cds-chart-axis:#9aa6b0;--cds-chart-muted:#c3ccd4;--cds-chart-reference:#7b8790;
+--cds-surface-popover:#ffffff;--cds-border:#d5dce2;--cds-shadow-popover:0 4px 16px rgba(16,33,43,.12);--cds-text-secondary:#5b6670;
+--cds-dur-slow:.3s;--cds-ease-out:cubic-bezier(.2,.7,.2,1);
+--font-anthropic-sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+--font-anthropic-serif:Georgia,"Times New Roman",serif;}
+html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:var(--font-anthropic-sans);font-size:14.5px;line-height:1.45}
+#dash-root{max-width:1200px;margin:0 auto;padding:24px max(16px,env(safe-area-inset-left,0px)) 32px max(16px,env(safe-area-inset-right,0px));box-sizing:border-box}
+#dash-root *, #dash-root *::before, #dash-root *::after{box-sizing:border-box}
+.dash-skeleton{color:transparent!important;background:linear-gradient(90deg,#eef2f5,#f6f8fa,#eef2f5);border-radius:6px}
+#ranking-gull .np-tablewrap,#ranking-totalt .np-tablewrap{max-height:none}
+@media (max-width:480px){#dash-root .np-table th,#dash-root .np-table td{padding:4px 5px}#ranking-gull th[data-field] .np-medal+*{display:none}}
+.sa-foot{margin-top:24px;font-size:12px;color:var(--color-fg-muted)}
+</style>
+<style>
+.nm { font-family: var(--font-anthropic-sans); display: grid; gap: var(--cds-gap-lg); }
+.nm-head h1 { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); margin: 0; text-wrap: balance; }
+.nm-head p { margin: var(--cds-gap-xs) 0 0; color: var(--color-fg-muted); max-width: 70ch; font-size: var(--cds-font-size-body); }
+.nm-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr)); gap: var(--cds-gap-md); }
+.nm-card { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-lg); min-width: 0; }
+.nm-kpi .lbl { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.nm-kpi .val { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); font-variant-numeric: tabular-nums; margin-top: var(--cds-gap-xs); }
+.nm-kpi .sub { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); margin-top: var(--cds-gap-xs); font-variant-numeric: tabular-nums; }
+.nm-kpi .up { color: var(--color-ok); }
+.nm-kpi .down { color: var(--color-bad); }
+.nm-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr)); gap: var(--cds-gap-md); }
+.nm-card h2 { font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); margin: 0; }
+.nm-card .note { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); margin: var(--cds-gap-xs) 0 var(--cds-gap-md); }
+.nm-chart { position: relative; min-height: 220px; overflow-x: auto; }
+.nm-legend { display: flex; gap: var(--cds-gap-md); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); margin-bottom: var(--cds-gap-sm); flex-wrap: wrap; }
+.nm-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; }
+.nm-tip { position: absolute; pointer-events: none; background: var(--cds-surface-popover); border: 1px solid var(--cds-border); border-radius: var(--cds-radius); box-shadow: var(--cds-shadow-popover); padding: var(--cds-pad-xs) var(--cds-pad-sm); font-size: var(--cds-font-size-caption); white-space: nowrap; z-index: 2; }
+.nm-tip .t { color: var(--cds-text-secondary); margin-bottom: 2px; }
+.nm-tablewrap { max-height: 32rem; overflow: auto; }
+.nm-table { width: 100%; border-collapse: collapse; font-size: var(--cds-font-size-body); font-variant-numeric: tabular-nums; }
+.nm-table th { position: sticky; top: 0; background: var(--color-panel); text-align: left; font-weight: var(--cds-font-weight-medium); padding: var(--cds-pad-xs) var(--cds-pad-sm); border-bottom: 1px solid var(--color-border-line); }
+.nm-table th button { all: unset; cursor: pointer; }
+.nm-table th button:focus-visible { outline: 2px solid var(--color-fg); }
+.nm-table td { padding: var(--cds-pad-xs) var(--cds-pad-sm); border-bottom: 1px solid var(--color-border-line); }
+.nm-table .num { text-align: right; }
+.nm-table .pos { color: var(--color-ok); }
+.nm-table .neg { color: var(--color-bad); }
+.nm-table .na { color: var(--color-fg-muted); }
+.nm-hm text { font-variant-numeric: tabular-nums; }
+.nm-search { width: 100%; max-width: 18rem; padding: var(--cds-pad-xs) var(--cds-pad-sm); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); background: var(--color-bg); color: var(--color-fg); font: inherit; margin-bottom: var(--cds-gap-sm); }
+.nm-method { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); max-width: 80ch; }
+.nm-method ul { margin: var(--cds-gap-xs) 0 0; padding-left: 1.2em; }
+.nm-fail { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: inherit; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.nm-fail::before { content: ""; width: .375rem; height: .375rem; border-radius: 50%; background: var(--color-bad); }
+[data-dash-source-state=empty] { color: transparent; }
+[data-dash-source-state=refreshing] { opacity: .5; transition: opacity var(--cds-dur-slow); }
+</style>
+</head><body data-id="nm-deltakelse"><div id="dash-root">
+
+
+<div class="nm">
+  <header class="nm-head">
+    <h1 id="tittel">NM-deltakelse i seiling 2017–2026</h1>
+    <p id="takeaway">I 2026 startet <b data-source="aarstotal" data-field="baater" data-where="aar=2026" class="dash-skeleton">—</b> båter i <span data-source="aarstotal" data-field="klasser" data-where="aar=2026" class="dash-skeleton">—</span> NM-klasser, mot <span data-source="aarstotal" data-field="baater" data-where="aar=2017" class="dash-skeleton">—</span> båter i <span data-source="aarstotal" data-field="klasser" data-where="aar=2017" class="dash-skeleton">—</span> klasser i 2017. Utenom pandemiåret 2020 har totalen vært ganske stabil, mens det er stor bevegelse mellom klassene.</p>
+  </header>
+
+  <section class="nm-kpis" id="nokkeltall">
+    <div class="nm-card nm-kpi"><div class="lbl">Startende båter 2026</div><div class="val dash-skeleton" data-source="aarstotal" data-field="baater" data-where="aar=2026">—</div><div class="sub"><span data-source="aarstotal" data-field="baater" data-where="aar=2017">—</span> i 2017</div></div>
+    <div class="nm-card nm-kpi"><div class="lbl">NM-klasser 2026</div><div class="val dash-skeleton" data-source="aarstotal" data-field="klasser" data-where="aar=2026">—</div><div class="sub"><span data-source="aarstotal" data-field="klasser" data-where="aar=2017">—</span> i 2017</div></div>
+    <div class="nm-card nm-kpi"><div class="lbl">Snitt båter per klasse 2026</div><div class="val dash-skeleton" data-source="aarstotal" data-field="snitt" data-where="aar=2026">—</div><div class="sub"><span data-source="aarstotal" data-field="snitt" data-where="aar=2017">—</span> i 2017</div></div>
+    <div class="nm-card nm-kpi"><div class="lbl">Utenlandske båter 2026</div><div class="val dash-skeleton" data-source="aarstotal" data-field="utenlandske" data-where="aar=2026">—</div><div class="sub"><span data-source="aarstotal" data-field="utenlandske" data-where="aar=2017">—</span> i 2017</div></div>
+  </section>
+
+  <section class="nm-card" id="per-aar">
+    <h2>Startende båter per år</h2>
+    <p class="note">Alle NM-klasser med resultatliste, uten e-seiling. 2020 var preget av pandemien.</p>
+    <div class="nm-chart dash-skeleton" id="aar-chart" data-source="aarstotal"></div>
+  </section>
+
+  <section class="nm-grid">
+    <div class="nm-card" id="kategori">
+      <h2>Båter per kategori</h2>
+      <p class="note">Sum startende båter per kategori og år. Grupperingen er et forslag.</p>
+      <div class="nm-chart dash-skeleton" id="kat-chart" data-source="perkategori"></div>
+    </div>
+    <div class="nm-card" id="ungdom">
+      <h2>Ungdomsklasser mot øvrige</h2>
+      <p class="note">Ungdom: Optimist, ILCA 4, ILCA 6 (utenom dameklassen til 2021), RS Feva, 29er, Andunge, Techno 293 og iQFoil U19.</p>
+      <div class="nm-chart dash-skeleton" id="ung-chart" data-source="perungdom"></div>
+    </div>
+  </section>
+
+  <section class="nm-card" id="klasser">
+    <h2>Startende båter per klasse og år</h2>
+    <p class="note">Mørkere felt betyr flere båter. Tomt felt betyr at det ikke finnes resultatliste for året.</p>
+    <div class="nm-chart dash-skeleton" id="klasse-chart" data-source="perklasse"></div>
+  </section>
+
+  <section class="nm-card" id="tabell">
+    <h2>Alle klasser</h2>
+    <p class="note">Klikk på en kolonneoverskrift for å sortere. Endring er fra første til siste år klassen har resultatliste.</p>
+    <input class="nm-search" id="nm-search" type="search" placeholder="Søk etter klasse" aria-label="Søk etter klasse">
+    <div class="nm-tablewrap">
+      <table class="nm-table" data-source="perklasse" data-row-key="klasse">
+        <thead><tr>
+          <th data-field="klasse"><button data-k="klasse">Klasse</button></th>
+          <th data-field="kategori"><button data-k="kategori">Kategori</button></th>
+          <th data-field="b2017" class="num"><button data-k="b2017">2017</button></th>
+          <th data-field="b2018" class="num"><button data-k="b2018">2018</button></th>
+          <th data-field="b2019" class="num"><button data-k="b2019">2019</button></th>
+          <th data-field="b2020" class="num"><button data-k="b2020">2020</button></th>
+          <th data-field="b2021" class="num"><button data-k="b2021">2021</button></th>
+          <th data-field="b2022" class="num"><button data-k="b2022">2022</button></th>
+          <th data-field="b2023" class="num"><button data-k="b2023">2023</button></th>
+          <th data-field="b2024" class="num"><button data-k="b2024">2024</button></th>
+          <th data-field="b2025" class="num"><button data-k="b2025">2025</button></th>
+          <th data-field="b2026" class="num"><button data-k="b2026">2026</button></th>
+          <th data-field="endring" class="num"><button data-k="endring">Endring</button></th>
+        </tr></thead>
+        <tbody id="nm-tbody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="nm-method" id="metode">
+    <strong>Slik er tallene laget</strong>
+    <ul>
+      <li>Tallene er antall båter i de endelige resultatlistene fra Manage2Sail, altså startende båter. Påmeldte som ikke startet er ikke med.</li>
+      <li>Disse er regnet som samme klasse: Laser og ILCA (ILCA 4 = Laser 4.7, ILCA 6 = Laser Radial, ILCA 7 = Laser Standard), ORCi og NOR Rating, Shorthanded og Doublehanded, og 1/2 ton og Halvtonn.</li>
+      <li>Der én klasse har flere resultatlister samme år, er de lagt sammen. Det gjelder for eksempel gutter og jenter, liten og stor klasse, og klasse A, B og C.</li>
+      <li>Dame-NM seiles i ulike båttyper: Snipe i 2018–2019 og J/70 fra 2022. Dame-NM i J/70 er holdt utenfor J/70-klassen.</li>
+      <li>ILCA 7 omfatter også masters. I 2024 og 2026 hadde masters egen resultatliste, og den er lagt sammen med ILCA 7-listen.</li>
+      <li>2026 er tatt med slik sesongen står nå. Wingfoil 2026 gjelder bare gullfinalen. Waszp hadde ingen deltakere i 2026.</li>
+      <li>NM i e-seiling står i tabellen, men er holdt utenfor totaler og figurer fordi det ikke er båter på vannet.</li>
+      <li>Utenlandske båter er telt ut fra nasjonskoden i seilnummeret. Båter uten nasjonskode er regnet som norske. Noen NM ble seilt sammen med nordiske eller internasjonale mesterskap, og da er alle båtene med.</li>
+    </ul>
+  </section>
+</div>
+
+
+<p class="sa-foot">Kilde: resultatlister fra Manage2Sail, sammenstilt av Norges Seilforbund. Oppdatert 22.10.2026.</p>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script>window.__NM_DATA__={"nm":[{"aar":"2018","klasse":"11mOD","kategori":"Kjølbåt","ungdom":"nei","baater":"23","utenlandske":"2"},{"aar":"2018","klasse":"12,5 kvm","kategori":"Kjølbåt","ungdom":"nei","baater":"23","utenlandske":"0"},{"aar":"2018","klasse":"2.4mR","kategori":"Kjølbåt","ungdom":"nei","baater":"31","utenlandske":"2"},{"aar":"2018","klasse":"29er","kategori":"Jolle og brett","ungdom":"ja","baater":"13","utenlandske":"3"},{"aar":"2018","klasse":"Albin Express","kategori":"Kjølbåt","ungdom":"nei","baater":"43","utenlandske":"1"},{"aar":"2018","klasse":"Andunge","kategori":"Kjølbåt","ungdom":"ja","baater":"20","utenlandske":"3"},{"aar":"2018","klasse":"BB11","kategori":"Kjølbåt","ungdom":"nei","baater":"25","utenlandske":"1"},{"aar":"2018","klasse":"Dame-NM","kategori":"Jolle og brett","ungdom":"nei","baater":"15","utenlandske":"0"},{"aar":"2018","klasse":"Drage","kategori":"Kjølbåt","ungdom":"nei","baater":"9","utenlandske":"0"},{"aar":"2018","klasse":"Finnjolle","kategori":"Jolle og brett","ungdom":"nei","baater":"14","utenlandske":"8"},{"aar":"2018","klasse":"Grimstadjolle","kategori":"Jolle og brett","ungdom":"nei","baater":"19","utenlandske":"0"},{"aar":"2018","klasse":"H-båt","kategori":"Kjølbåt","ungdom":"nei","baater":"26","utenlandske":"11"},{"aar":"2018","klasse":"IF-båt","kategori":"Kjølbåt","ungdom":"nei","baater":"18","utenlandske":"1"},{"aar":"2018","klasse":"Killing","kategori":"Kjølbåt","ungdom":"nei","baater":"45","utenlandske":"0"},{"aar":"2018","klasse":"Knarr","kategori":"Kjølbåt","ungdom":"nei","baater":"21","utenlandske":"0"},{"aar":"2018","klasse":"ILCA 4 / Laser 4.7","kategori":"Jolle og brett","ungdom":"ja","baater":"36","utenlandske":"2"},{"aar":"2018","klasse":"ILCA 6 / Laser Radial","kategori":"Jolle og brett","ungdom":"nei","baater":"6","utenlandske":"0"},{"aar":"2018","klasse":"ILCA 6 / Laser Radial","kategori":"Jolle og brett","ungdom":"ja","baater":"31","utenlandske":"2"},{"aar":"2018","klasse":"ILCA 7 / Laser Standard","kategori":"Jolle og brett","ungdom":"nei","baater":"23","utenlandske":"2"},{"aar":"2018","klasse":"Melges 24","kategori":"Kjølbåt","ungdom":"nei","baater":"40","utenlandske":"8"},{"aar":"2018","klasse":"Rating-NM (ORCi / NOR Rating)","kategori":"Rating og havseiling","ungdom":"nei","baater":"18","utenlandske":"0"},{"aar":"2018","klasse":"Optimist","kategori":"Jolle og brett","ungdom":"ja","baater":"20","utenlandske":"0"},{"aar":"2018","klasse":"Optimist","kategori":"Jolle og brett","ungdom":"ja","baater":"25","utenlandske":"0"},{"aar":"2018","klasse":"Oselvar","kategori":"Tradisjonsbåt","ungdom":"nei","baater":"22","utenlandske":"0"},{"aar":"2018","klasse":"RS Feva","kategori":"Jolle og brett","ungdom":"ja","baater":"10","utenlandske":"0"},{"aar":"2018","klasse":"Snipe","kategori":"Jolle og brett","ungdom":"nei","baater":"30","utenlandske":"4"},{"aar":"2018","klasse":"Snipe Master","kategori":"Jolle og brett","ungdom":"nei","baater":"15","utenlandske":"1"},{"aar":"2018","klasse":"Yngling","kategori":"Kjølbåt","ungdom":"nei","baater":"25","utenlandske":"7"},{"aar":"2019","klasse":"11mOD","kategori":"Kjølbåt","ungdom":"nei","baater":"16","utenlandske":"2"},{"aar":"2019","klasse":"12,5 kvm","kategori":"Kjølbåt","ungdom":"nei","baater":"20","utenlandske":"0"},{"aar":"2019","klasse":"2.4mR","kategori":"Kjølbåt","ungdom":"nei","baater":"24","utenlandske":"0"},{"aar":"2019","klasse":"29er","kategori":"Jolle og brett","ungdom":"ja","baater":"14","utenlandske":"0"},{"aar":"2019","klasse":"Albin Express","kategori":"Kjølbåt","ungdom":"nei","baater":"52","utenlandske":"3"},{"aar":"2019","klasse":"Andunge","kategori":"Kjølbåt","ungdom":"ja","baater":"22","utenlandske":"4"},{"aar":"2019","klasse":"BB11","kategori":"Kjølbåt","ungdom":"nei","baater":"16","utenlandske":"0"},{"aar":"2019","klasse":"Dame-NM","kategori":"Jolle og brett","ungdom":"nei","baater":"16","utenlandske":"1"},{"aar":"2019","klasse":"Finnjolle","kategori":"Jolle og brett","ungdom":"nei","baater":"13","utenlandske":"5"},{"aar":"2019","klasse":"Grimstadjolle","kategori":"Jolle og brett","ungdom":"nei","baater":"24","utenlandske":"0"},{"aar":"2019","klasse":"IF-båt","kategori":"Kjølbåt","ungdom":"nei","baater":"20","utenlandske":"1"},{"aar":"2019","klasse":"J/70","kategori":"Kjølbåt","ungdom":"nei","baater":"33","utenlandske":"13"},{"aar":"2019","klasse":"Killing","kategori":"Kjølbåt","ungdom":"nei","baater":"52","utenlandske":"0"},{"aar":"2019","klasse":"Knarr","kategori":"Kjølbåt","ungdom":"nei","baater":"18","utenlandske":"0"},{"aar":"2019","klasse":"ILCA 4 / Laser 4.7","kategori":"Jolle og brett","ungdom":"ja","baater":"11","utenlandske":"0"},{"aar":"2019","klasse":"ILCA 6 / Laser Radial","kategori":"Jolle og brett","ungdom":"ja","baater":"25","utenlandske":"0"},{"aar":"2019","klasse":"ILCA 6 / Laser Radial","kategori":"Jolle og brett","ungdom":"nei","baater":"8","utenlandske":"1"},{"aar":"2019","klasse":"ILCA 7 / Laser Standard","kategori":"Jolle og brett","ungdom":"nei","baater":"32","utenlandske":"2"},{"aar":"2019","klasse":"Melges 24","kategori":"Kjølbåt","ungdom":"nei","baater":"27","utenlandske":"2"},{"aar":"2019","klasse":"Shorthanded / Doublehanded","kategori":"Rating og havseiling","ungdom":"nei","baater":"14","utenlandske":"0"},{"aar":"2019","klasse":"Optimist","kategori":"Jolle og brett","ungdom":"ja","baater":"21","utenlandske":"1"},{"aar":"2019","klasse":"Optimist","kategori":"Jolle og brett","ungdom":"ja","baater":"24","utenlandske":"0"},{"aar":"2019","klasse":"Rating-NM (ORCi / NOR Rating)","kategori":"Rating og havseiling","ungdom":"nei","baater":"23","utenlandske":"0"},{"aar":"2019","klasse":"Oselvar","kategori":"Tradisjonsbåt","ungdom":"nei","baater":"23","utenlandske":"0"},{"aar":"2019","klasse":"RS Feva","kategori":"Jolle og brett","ungdom":"ja","baater":"12","utenlandske":"0"},{"aar":"2019","klasse":"Snipe","kategori":"Jolle og brett","ungdom":"nei","baater":"33","utenlandske":"1"},{"aar":"2019","klasse":"Snipe Master","kategori":"Jolle og brett","ungdom":"nei","baater":"21","utenlandske":"2"},{"aar":"2019","klasse":"Waszp","kategori":"Jolle og brett","ungdom":"nei","baater":"28","utenlandske":"3"},{"aar":"2019","klasse":"Yngling","kategori":"Kjølbåt","ungdom":"nei","baater":"11","utenlandske":"0"},{"aar":"2020","klasse":"2.4mR","kategori":"Kjølbåt","ungdom":"nei","baater":"22","utenlandske":"0"},{"aar":"2020","klasse":"29er","kategori":"Jolle og brett","ungdom":"ja","baater":"19","utenlandske":"2"},{"aar":"2020","klasse":"49er","kategori":"Jolle og brett","ungdom":"nei","baater":"8","utenlandske":"0"},{"aar":"2020","klasse":"Finnjolle","kategori":"Jolle og brett","ungdom":"nei","baater":"13","utenlandske":"0"},{"aar":"2020","klasse":"ILCA 4 / Laser 4.7","kategori":"Jolle og brett","ungdom":"ja","baater":"32","utenlandske":"0"},{"aar":"2020","klasse":"ILCA 6 / Laser Radial","kategori":"Jolle og brett","ungdom":"ja","baater":"33","utenlandske":"0"},{"aar":"2020","klasse":"Techno 293 (BIC)","kategori":"Jolle og brett","ungdom":"ja","baater":"19","utenlandske":"0"},{"aar":"2020","klasse":"Shorthanded / Doublehanded","kategori":"Rating og havseiling","ungdom":"nei","baater":"19","utenlandske":"0"},{"aar":"2020","klasse":"Shorthanded / Doublehanded","kategori":"Rating og havseiling","ungdom":"nei","baater":"24","utenlandske":"0"},{"aar":"2020","klasse":"Shorthanded / Doublehanded","kategori":"Rating og havseiling","ungdom":"nei","baater":"27","utenlandske":"0"},{"aar":"2020","klasse":"Sportsbåt shorthanded","kategori":"Rating og havseiling","ungdom":"nei","baater":"26","utenlandske":"0"},{"aar":"2020","klasse":"Optimist","kategori":"Jolle og brett","ungdom":"ja","baater":"34","utenlandske":"1"},{"aar":"2020","klasse":"Waszp","kategori":"Jolle og brett","ungdom":"nei","baater":"20","utenlandske":"0"},{"aar":"2021","klasse":"11mOD","kategori":"Kjølbåt","ungdom":"nei","baater":"16","utenlandske":"1"},{"aar":"2021","klasse":"12,5 kvm","kategori":"Kjølbåt","ungdom":"nei","baater":"18","utenlandske":"0"},{"aar":"2021","klasse":"2.4mR","kategori":"Kjølbåt","ungdom":"nei","baater":"25","utenlandske":"0"},{"aar":"2021","klasse":"29er","kategori":"Jolle og brett","ungdom":"ja","baater":"12","utenlandske":"1"},{"aar":"2021","klasse":"49er","kategori":"Jolle og brett","ungdom":"nei","baater":"6","utenlandske":"0"},{"aar":"2021","klasse":"Albin Express","kategori":"Kjølbåt","ungdom":"nei","baater":"24","utenlandske":"0"},{"aar":"2021","klasse":"Andunge","kategori":"Kjølbåt","ungdom":"ja","baater":"19","utenlandske":"7"},{"aar":"2021","klasse":"Finnjolle","kategori":"Jolle og brett","ungdom":"nei","baater":"20","utenlandske":"2"},{"aar":"2021","klasse":"Grimstadjolle","kategori":"Jolle og brett","ungdom":"nei","baater":"19","utenlandske":"0"},{"aar":"2021","klasse":"H-båt","kategori":"Kjølbåt","ungdom":"nei","baater":"17","utenlandske":"0"},{"aar":"2021","klasse":"IF-båt","kategori":"Kjølbåt","ungdom":"nei","baater":"16","utenlandske":"1"},{"aar":"2021","klasse":"J/70","kategori":"Kjølbåt","ungdom":"nei","baater":"23","utenlandske":"0"},{"aar":"2021","klasse":"Killing","kategori":"Kjølbåt","ungdom":"nei","baater":"33","utenlandske":"0"},{"aar":"2021","klasse":"ILCA 4 / Laser 4.7","kategori":"Jolle og brett","ungdom":"ja","baater":"17","utenlandske":"0"},{"aar":"2021","klasse":"ILCA 4 / Laser 4.7","kategori":"Jolle og brett","ungdom":"ja","baater":"21","utenlandske":"0"},{"aar":"2021","klasse":"ILCA 6 / Laser Radial","kategori":"Jolle og brett","ungdom":"nei","baater":"18","utenlandske":"0"},{"aar":"2021","klasse":"ILCA 6 / Laser Radial","kategori":"Jolle og brett","ungdom":"ja","baater":"21","utenlandske":"0"},{"aar":"2021","klasse":"ILCA 6 / Laser Radial","kategori":"Jolle og brett","ungdom":"ja","baater":"10","utenlandske":"0"},{"aar":"2021","klasse":"ILCA 7 / Laser Standard","kategori":"Jolle og brett","ungdom":"nei","baater":"41","utenlandske":"2"},{"aar":"2021","klasse":"Shorthanded / Doublehanded","kategori":"Rating og havseiling","ungdom":"nei","baater":"27","utenlandske":"0"},{"aar":"2021","klasse":"Melges 24","kategori":"Kjølbåt","ungdom":"nei","baater":"16","utenlandske":"0"},{"aar":"2021","klasse":"E-seiling","kategori":"E-seiling","ungdom":"nei","baater":"112","utenlandske":"0"},{"aar":"2021","klasse":"Rating-NM (ORCi / NOR Rating)","kategori":"Rating og havseiling","ungdom":"nei","baater":"19","utenlandske":"0"},{"aar":"2021","klasse":"X-35","kategori":"Kjølbåt","ungdom":"nei","baater":"11","utenlandske":"1"},{"aar":"2021","klasse":"Optimist","kategori":"Jolle og brett","ungdom":"ja","baater":"14","utenlandske":"0"},{"aar":"2021","klasse":"Optimist","kategori":"Jolle og brett","ungdom":"ja","baater":"22","utenlandske":"0"},{"aar":"2021","klasse":"Oselvar","kategori":"Tradisjonsbåt","ungdom":"nei","baater":"19","utenlandske":"0"},{"aar":"2021","klasse":"Slalom brettseiling","kategori":"Jolle og brett","ungdom":"nei","baater":"24","utenlandske":"0"},{"aar":"2021","klasse":"Snipe","kategori":"Jolle og brett","ungdom":"nei","baater":"16","utenlandske":"0"},{"aar":"2021","klasse":"Snipe Master","kategori":"Jolle og brett","ungdom":"nei","baater":"19","utenlandske":"2"},{"aar":"2021","klasse":"Soling","kategori":"Kjølbåt","ungdom":"nei","baater":"15","utenlandske":"0"},{"aar":"2021","klasse":"Shorthanded / Doublehanded","kategori":"Rating og havseiling","ungdom":"nei","baater":"22","utenlandske":"0"},{"aar":"2021","klasse":"Waszp","kategori":"Jolle og brett","ungdom":"nei","baater":"16","utenlandske":"0"},{"aar":"2021","klasse":"iQFoil / Windfoil","kategori":"Jolle og brett","ungdom":"nei","baater":"15","utenlandske":"2"},{"aar":"2021","klasse":"Yngling","kategori":"Kjølbåt","ungdom":"nei","baater":"16","utenlandske":"1"},{"aar":"2022","klasse":"11mOD","kategori":"Kjølbåt","ungdom":"nei","baater":"15","utenlandske":"1"},{"aar":"2022","klasse":"12,5 kvm","kategori":"Kjølbåt","ungdom":"nei","baater":"14","utenlandske":"0"},{"aar":"2022","klasse":"2.4mR","kategori":"Kjølbåt","ungdom":"nei","baater":"18","utenlandske":"0"},{"aar":"2022","klasse":"29er","kategori":"Jolle og brett","ungdom":"ja","baater":"13","utenlandske":"1"},{"aar":"2022","klasse":"Albin Express","kategori":"Kjølbåt","ungdom":"nei","baater":"31","utenlandske":"0"},{"aar":"2022","klasse":"Andunge","kategori":"Kjølbåt","ungdom":"ja","baater":"22","utenlandske":"6"},{"aar":"2022","klasse":"BB11","kategori":"Kjølbåt","ungdom":"nei","baater":"12","utenlandske":"0"},{"aar":"2022","klasse":"Finnjolle","kategori":"Jolle og brett","ungdom":"nei","baater":"24","utenlandske":"5"},{"aar":"2022","klasse":"Grimstadjolle","kategori":"Jolle og brett","ungdom":"nei","baater":"14","utenlandske":"0"},{"aar":"2022","klasse":"H-båt","kategori":"Kjølbåt","ungdom":"nei","baater":"16","utenlandske":"1"},{"aar":"2022","klasse":"IF-båt","kategori":"Kjølbåt","ungdom":"nei","baater":"17","utenlandske":"1"},{"aar":"2022","klasse":"ILCA 4 / Laser 4.7","kategori":"Jolle og brett","ungdom":"ja","baater":"15","utenlandske":"0"},{"aar":"2022","klasse":"ILCA 6 / Laser Radial","kategori":"Jolle og brett","ungdom":"ja","baater":"10","utenlandske":"0"},{"aar":"2022","klasse":"ILCA 6 / Laser Radial","kategori":"Jolle og brett","ungdom":"ja","baater":"18","utenlandske":"0"},{"aar":"2022","klasse":"ILCA 7 / Laser Standard","kategori":"Jolle og brett","ungdom":"nei","baater":"19","utenlandske":"1"},{"aar":"2022","klasse":"iQFoil / Windfoil","kategori":"Jolle og brett","ungdom":"ja","baater":"16","utenlandske":"0"},{"aar":"2022","klasse":"iQFoil / Windfoil","kategori":"Jolle og brett","ungdom":"nei","baater":"5","utenlandske":"0"},{"aar":"2022","klasse":"iQFoil / Windfoil","kategori":"Jolle og brett","ungdom":"nei","baater":"3","utenlandske":"0"},{"aar":"2022","klasse":"Dame-NM","kategori":"Kjølbåt","ungdom":"nei","baater":"19","utenlandske":"0"},{"aar":"2022","klasse":"J/70","kategori":"Kjølbåt","ungdom":"nei","baater":"24","utenlandske":"1"},{"aar":"2022","klasse":"Killing","kategori":"Kjølbåt","ungdom":"nei","baater":"38","utenlandske":"0"},{"aar":"2022","klasse":"Knarr","kategori":"Kjølbåt","ungdom":"nei","baater":"18","utenlandske":"0"},{"aar":"2022","klasse":"Melges 24","kategori":"Kjølbåt","ungdom":"nei","baater":"15","utenlandske":"3"},{"aar":"2022","klasse":"E-seiling","kategori":"E-seiling","ungdom":"nei","baater":"64","utenlandske":"0"},{"aar":"2022","klasse":"Shorthanded / Doublehanded","kategori":"Rating og havseiling","ungdom":"nei","baater":"18","utenlandske":"0"},{"aar":"2022","klasse":"Rating-NM (ORCi / NOR Rating)","kategori":"Rating og havseiling","ungdom":"nei","baater":"15","utenlandske":"1"},{"aar":"2022","klasse":"Rating-NM (ORCi / NOR Rating)","kategori":"Rating og havseiling","ungdom":"nei","baater":"16","utenlandske":"2"},{"aar":"2022","klasse":"Optimist","kategori":"Jolle og brett","ungdom":"ja","baater":"35","utenlandske":"0"},{"aar":"2022","klasse":"Optimist","kategori":"Jolle og brett","ungdom":"ja","baater":"25","utenlandske":"0"},{"aar":"2022","klasse":"Oselvar","kategori":"Tradisjonsbåt","ungdom":"nei","baater":"19","utenlandske":"0"},{"aar":"2022","klasse":"RS Feva","kategori":"Jolle og brett","ungdom":"ja","baater":"18","utenlandske":"0"},{"aar":"2022","klasse":"Snipe","kategori":"Jolle og brett","ungdom":"nei","baater":"28","utenlandske":"4"},{"aar":"2022","klasse":"Snipe Master","kategori":"Jolle og brett","ungdom":"nei","baater":"18","utenlandske":"0"},{"aar":"2022","klasse":"Soling","kategori":"Kjølbåt","ungdom":"nei","baater":"16","utenlandske":"1"},{"aar":"2022","klasse":"X-35","kategori":"Kjølbåt","ungdom":"nei","baater":"9","utenlandske":"1"},{"aar":"2022","klasse":"Yngling","kategori":"Kjølbåt","ungdom":"nei","baater":"17","utenlandske":"0"},{"aar":"2023","klasse":"11mOD","kategori":"Kjølbåt","ungdom":"nei","baater":"15","utenlandske":"3"},{"aar":"2023","klasse":"12,5 kvm","kategori":"Kjølbåt","ungdom":"nei","baater":"18","utenlandske":"0"},{"aar":"2023","klasse":"Halvtonn (1/2 ton)","kategori":"Kjølbåt","ungdom":"nei","baater":"20","utenlandske":"1"},{"aar":"2023","klasse":"2.4mR","kategori":"Kjølbåt","ungdom":"nei","baater":"17","utenlandske":"0"},{"aar":"2023","klasse":"29er","kategori":"Jolle og brett","ungdom":"ja","baater":"16","utenlandske":"1"},{"aar":"2023","klasse":"Albin Express","kategori":"Kjølbåt","ungdom":"nei","baater":"32","utenlandske":"0"},{"aar":"2023","klasse":"Andunge","kategori":"Kjølbåt","ungdom":"ja","baater":"18","utenlandske":"5"},{"aar":"2023","klasse":"BB11","kategori":"Kjølbåt","ungdom":"nei","baater":"21","utenlandske":"0"},{"aar":"2023","klasse":"Finnjolle","kategori":"Jolle og brett","ungdom":"nei","baater":"27","utenlandske":"9"},{"aar":"2023","klasse":"Grimstadjolle","kategori":"Jolle og brett","ungdom":"nei","baater":"19","utenlandske":"0"},{"aar":"2023","klasse":"H-båt","kategori":"Kjølbåt","ungdom":"nei","baater":"15","utenlandske":"0"},{"aar":"2023","klasse":"IF-båt","kategori":"Kjølbåt","ungdom":"nei","baater":"16","utenlandske":"1"},{"aar":"2023","klasse":"ILCA 4 / Laser 4.7","kategori":"Jolle og brett","ungdom":"ja","baater":"15","utenlandske":"1"},{"aar":"2023","klasse":"ILCA 4 / Laser 4.7","kategori":"Jolle og brett","ungdom":"ja","baater":"13","utenlandske":"0"},{"aar":"2023","klasse":"ILCA 6 / Laser Radial","kategori":"Jolle og brett","ungdom":"ja","baater":"12","utenlandske":"0"},{"aar":"2023","klasse":"ILCA 6 / Laser Radial","kategori":"Jolle og brett","ungdom":"ja","baater":"17","utenlandske":"0"},{"aar":"2023","klasse":"ILCA 7 / Laser Standard","kategori":"Jolle og brett","ungdom":"nei","baater":"33","utenlandske":"4"},{"aar":"2023","klasse":"J/70","kategori":"Kjølbåt","ungdom":"nei","baater":"25","utenlandske":"2"},{"aar":"2023","klasse":"Killing","kategori":"Kjølbåt","ungdom":"nei","baater":"39","utenlandske":"0"},{"aar":"2023","klasse":"Knarr","kategori":"Kjølbåt","ungdom":"nei","baater":"21","utenlandske":"0"},{"aar":"2023","klasse":"Melges 24","kategori":"Kjølbåt","ungdom":"nei","baater":"15","utenlandske":"0"},{"aar":"2023","klasse":"E-seiling","kategori":"E-seiling","ungdom":"nei","baater":"51","utenlandske":"0"},{"aar":"2023","klasse":"Shorthanded / Doublehanded","kategori":"Rating og havseiling","ungdom":"nei","baater":"17","utenlandske":"0"},{"aar":"2023","klasse":"Rating-NM (ORCi / NOR Rating)","kategori":"Rating og havseiling","ungdom":"nei","baater":"16","utenlandske":"0"},{"aar":"2023","klasse":"Rating-NM (ORCi / NOR Rating)","kategori":"Rating og havseiling","ungdom":"nei","baater":"13","utenlandske":"1"},{"aar":"2023","klasse":"Optimist","kategori":"Jolle og brett","ungdom":"ja","baater":"32","utenlandske":"1"},{"aar":"2023","klasse":"Optimist","kategori":"Jolle og brett","ungdom":"ja","baater":"23","utenlandske":"0"},{"aar":"2023","klasse":"Oselvar","kategori":"Tradisjonsbåt","ungdom":"nei","baater":"18","utenlandske":"0"},{"aar":"2023","klasse":"RS Feva","kategori":"Jolle og brett","ungdom":"ja","baater":"23","utenlandske":"0"},{"aar":"2023","klasse":"Snipe","kategori":"Jolle og brett","ungdom":"nei","baater":"28","utenlandske":"2"},{"aar":"2023","klasse":"Snipe Master","kategori":"Jolle og brett","ungdom":"nei","baater":"22","utenlandske":"3"},{"aar":"2023","klasse":"Soling","kategori":"Kjølbåt","ungdom":"nei","baater":"16","utenlandske":"0"},{"aar":"2023","klasse":"Waszp","kategori":"Jolle og brett","ungdom":"nei","baater":"24","utenlandske":"11"},{"aar":"2023","klasse":"Waszp","kategori":"Jolle og brett","ungdom":"nei","baater":"8","utenlandske":"0"},{"aar":"2023","klasse":"Yngling","kategori":"Kjølbåt","ungdom":"nei","baater":"19","utenlandske":"0"},{"aar":"2024","klasse":"11mOD","kategori":"Kjølbåt","ungdom":"nei","baater":"15","utenlandske":"2"},{"aar":"2024","klasse":"12,5 kvm","kategori":"Kjølbåt","ungdom":"nei","baater":"15","utenlandske":"0"},{"aar":"2024","klasse":"2.4mR","kategori":"Kjølbåt","ungdom":"nei","baater":"20","utenlandske":"0"},{"aar":"2024","klasse":"Albin Express","kategori":"Kjølbåt","ungdom":"nei","baater":"31","utenlandske":"2"},{"aar":"2024","klasse":"Andunge","kategori":"Kjølbåt","ungdom":"ja","baater":"19","utenlandske":"7"},{"aar":"2024","klasse":"BB11","kategori":"Kjølbåt","ungdom":"nei","baater":"16","utenlandske":"0"},{"aar":"2024","klasse":"Finnjolle","kategori":"Jolle og brett","ungdom":"nei","baater":"21","utenlandske":"1"},{"aar":"2024","klasse":"Grimstadjolle","kategori":"Jolle og brett","ungdom":"nei","baater":"20","utenlandske":"0"},{"aar":"2024","klasse":"H-båt","kategori":"Kjølbåt","ungdom":"nei","baater":"15","utenlandske":"0"},{"aar":"2024","klasse":"IF-båt","kategori":"Kjølbåt","ungdom":"nei","baater":"15","utenlandske":"1"},{"aar":"2024","klasse":"ILCA 4 / Laser 4.7","kategori":"Jolle og brett","ungdom":"ja","baater":"20","utenlandske":"0"},{"aar":"2024","klasse":"ILCA 6 / Laser Radial","kategori":"Jolle og brett","ungdom":"ja","baater":"23","utenlandske":"1"},{"aar":"2024","klasse":"ILCA 6 / Laser Radial","kategori":"Jolle og brett","ungdom":"ja","baater":"13","utenlandske":"0"},{"aar":"2024","klasse":"ILCA 7 / Laser Standard","kategori":"Jolle og brett","ungdom":"nei","baater":"15","utenlandske":"1"},{"aar":"2024","klasse":"IOD","kategori":"Kjølbåt","ungdom":"nei","baater":"10","utenlandske":"1"},{"aar":"2024","klasse":"IOD Princess","kategori":"Kjølbåt","ungdom":"nei","baater":"18","utenlandske":"0"},{"aar":"2024","klasse":"iQFoil / Windfoil","kategori":"Jolle og brett","ungdom":"ja","baater":"15","utenlandske":"0"},{"aar":"2024","klasse":"Dame-NM","kategori":"Kjølbåt","ungdom":"nei","baater":"21","utenlandske":"0"},{"aar":"2024","klasse":"J/70","kategori":"Kjølbåt","ungdom":"nei","baater":"25","utenlandske":"3"},{"aar":"2024","klasse":"Killing","kategori":"Kjølbåt","ungdom":"nei","baater":"33","utenlandske":"0"},{"aar":"2024","klasse":"Knarr","kategori":"Kjølbåt","ungdom":"nei","baater":"18","utenlandske":"0"},{"aar":"2024","klasse":"Melges 24","kategori":"Kjølbåt","ungdom":"nei","baater":"17","utenlandske":"0"},{"aar":"2024","klasse":"E-seiling","kategori":"E-seiling","ungdom":"nei","baater":"26","utenlandske":"0"},{"aar":"2024","klasse":"Halvtonn (1/2 ton)","kategori":"Kjølbåt","ungdom":"nei","baater":"15","utenlandske":"1"},{"aar":"2024","klasse":"Optimist","kategori":"Jolle og brett","ungdom":"ja","baater":"20","utenlandske":"0"},{"aar":"2024","klasse":"Optimist","kategori":"Jolle og brett","ungdom":"ja","baater":"15","utenlandske":"0"},{"aar":"2024","klasse":"Rating-NM (ORCi / NOR Rating)","kategori":"Rating og havseiling","ungdom":"nei","baater":"9","utenlandske":"0"},{"aar":"2024","klasse":"Rating-NM (ORCi / NOR Rating)","kategori":"Rating og havseiling","ungdom":"nei","baater":"8","utenlandske":"0"},{"aar":"2024","klasse":"Oselvar","kategori":"Tradisjonsbåt","ungdom":"nei","baater":"15","utenlandske":"0"},{"aar":"2024","klasse":"RS Feva","kategori":"Jolle og brett","ungdom":"ja","baater":"27","utenlandske":"0"},{"aar":"2024","klasse":"Shorthanded / Doublehanded","kategori":"Rating og havseiling","ungdom":"nei","baater":"11","utenlandske":"0"},{"aar":"2024","klasse":"Snipe","kategori":"Jolle og brett","ungdom":"nei","baater":"24","utenlandske":"0"},{"aar":"2024","klasse":"Snipe Master","kategori":"Jolle og brett","ungdom":"nei","baater":"15","utenlandske":"0"},{"aar":"2024","klasse":"Waszp","kategori":"Jolle og brett","ungdom":"nei","baater":"10","utenlandske":"0"},{"aar":"2024","klasse":"Waszp","kategori":"Jolle og brett","ungdom":"nei","baater":"13","utenlandske":"0"},{"aar":"2024","klasse":"Yngling","kategori":"Kjølbåt","ungdom":"nei","baater":"20","utenlandske":"1"},{"aar":"2025","klasse":"11mOD","kategori":"Kjølbåt","ungdom":"nei","baater":"16","utenlandske":"0"},{"aar":"2025","klasse":"12,5 kvm","kategori":"Kjølbåt","ungdom":"nei","baater":"16","utenlandske":"0"},{"aar":"2025","klasse":"2.4mR","kategori":"Kjølbåt","ungdom":"nei","baater":"15","utenlandske":"1"},{"aar":"2025","klasse":"Albin Express","kategori":"Kjølbåt","ungdom":"nei","baater":"20","utenlandske":"1"},{"aar":"2025","klasse":"Andunge","kategori":"Kjølbåt","ungdom":"ja","baater":"24","utenlandske":"5"},{"aar":"2025","klasse":"Shorthanded / Doublehanded","kategori":"Rating og havseiling","ungdom":"nei","baater":"20","utenlandske":"0"},{"aar":"2025","klasse":"Shorthanded / Doublehanded","kategori":"Rating og havseiling","ungdom":"nei","baater":"19","utenlandske":"0"},{"aar":"2025","klasse":"Drage","kategori":"Kjølbåt","ungdom":"nei","baater":"15","utenlandske":"2"},{"aar":"2025","klasse":"Finnjolle","kategori":"Jolle og brett","ungdom":"nei","baater":"25","utenlandske":"5"},{"aar":"2025","klasse":"Grimstadjolle","kategori":"Jolle og brett","ungdom":"nei","baater":"16","utenlandske":"0"},{"aar":"2025","klasse":"H-båt","kategori":"Kjølbåt","ungdom":"nei","baater":"17","utenlandske":"2"},{"aar":"2025","klasse":"Halvtonn (1/2 ton)","kategori":"Kjølbåt","ungdom":"nei","baater":"15","utenlandske":"2"},{"aar":"2025","klasse":"IF-båt","kategori":"Kjølbåt","ungdom":"nei","baater":"18","utenlandske":"1"},{"aar":"2025","klasse":"ILCA 6 / Laser Radial","kategori":"Jolle og brett","ungdom":"ja","baater":"18","utenlandske":"0"},{"aar":"2025","klasse":"ILCA 6 / Laser Radial","kategori":"Jolle og brett","ungdom":"ja","baater":"6","utenlandske":"0"},{"aar":"2025","klasse":"ILCA 7 / Laser Standard","kategori":"Jolle og brett","ungdom":"nei","baater":"21","utenlandske":"3"},{"aar":"2025","klasse":"IOD","kategori":"Kjølbåt","ungdom":"nei","baater":"7","utenlandske":"0"},{"aar":"2025","klasse":"IOD Princess","kategori":"Kjølbåt","ungdom":"nei","baater":"17","utenlandske":"0"},{"aar":"2025","klasse":"iQFoil / Windfoil","kategori":"Jolle og brett","ungdom":"nei","baater":"5","utenlandske":"1"},{"aar":"2025","klasse":"J/70","kategori":"Kjølbåt","ungdom":"nei","baater":"18","utenlandske":"0"},{"aar":"2025","klasse":"Dame-NM","kategori":"Kjølbåt","ungdom":"nei","baater":"21","utenlandske":"0"},{"aar":"2025","klasse":"Killing","kategori":"Kjølbåt","ungdom":"nei","baater":"32","utenlandske":"0"},{"aar":"2025","klasse":"Knarr","kategori":"Kjølbåt","ungdom":"nei","baater":"16","utenlandske":"0"},{"aar":"2025","klasse":"Melges 24","kategori":"Kjølbåt","ungdom":"nei","baater":"16","utenlandske":"0"},{"aar":"2025","klasse":"Yngling","kategori":"Kjølbåt","ungdom":"nei","baater":"17","utenlandske":"0"},{"aar":"2025","klasse":"Rating-NM (ORCi / NOR Rating)","kategori":"Rating og havseiling","ungdom":"nei","baater":"11","utenlandske":"0"},{"aar":"2025","klasse":"Rating-NM (ORCi / NOR Rating)","kategori":"Rating og havseiling","ungdom":"nei","baater":"10","utenlandske":"1"},{"aar":"2025","klasse":"Optimist","kategori":"Jolle og brett","ungdom":"ja","baater":"35","utenlandske":"0"},{"aar":"2025","klasse":"Oselvar","kategori":"Tradisjonsbåt","ungdom":"nei","baater":"12","utenlandske":"0"},{"aar":"2025","klasse":"RS Feva","kategori":"Jolle og brett","ungdom":"ja","baater":"16","utenlandske":"0"},{"aar":"2025","klasse":"Snipe","kategori":"Jolle og brett","ungdom":"nei","baater":"31","utenlandske":"5"},{"aar":"2025","klasse":"Snipe Master","kategori":"Jolle og brett","ungdom":"nei","baater":"19","utenlandske":"1"},{"aar":"2025","klasse":"Soling","kategori":"Kjølbåt","ungdom":"nei","baater":"15","utenlandske":"0"},{"aar":"2025","klasse":"Waszp","kategori":"Jolle og brett","ungdom":"nei","baater":"18","utenlandske":"4"},{"aar":"2024","klasse":"ILCA 7 / Laser Standard","kategori":"Jolle og brett","ungdom":"nei","baater":"7","utenlandske":"0"},{"aar":"2017","klasse":"11mOD","kategori":"Kjølbåt","ungdom":"nei","baater":"22","utenlandske":"2"},{"aar":"2017","klasse":"12,5 kvm","kategori":"Kjølbåt","ungdom":"nei","baater":"14","utenlandske":"0"},{"aar":"2017","klasse":"2.4mR","kategori":"Kjølbåt","ungdom":"nei","baater":"22","utenlandske":"0"},{"aar":"2017","klasse":"29er","kategori":"Jolle og brett","ungdom":"ja","baater":"22","utenlandske":"5"},{"aar":"2017","klasse":"Albin Express","kategori":"Kjølbåt","ungdom":"nei","baater":"41","utenlandske":"1"},{"aar":"2017","klasse":"Andunge","kategori":"Kjølbåt","ungdom":"ja","baater":"16","utenlandske":"3"},{"aar":"2017","klasse":"BB11","kategori":"Kjølbåt","ungdom":"nei","baater":"17","utenlandske":"0"},{"aar":"2017","klasse":"Finnjolle","kategori":"Jolle og brett","ungdom":"nei","baater":"8","utenlandske":"2"},{"aar":"2017","klasse":"Grimstadjolle","kategori":"Jolle og brett","ungdom":"nei","baater":"21","utenlandske":"0"},{"aar":"2017","klasse":"IF-båt","kategori":"Kjølbåt","ungdom":"nei","baater":"24","utenlandske":"1"},{"aar":"2017","klasse":"Killing","kategori":"Kjølbåt","ungdom":"nei","baater":"44","utenlandske":"0"},{"aar":"2017","klasse":"Knarr","kategori":"Kjølbåt","ungdom":"nei","baater":"21","utenlandske":"0"},{"aar":"2017","klasse":"ILCA 4 / Laser 4.7","kategori":"Jolle og brett","ungdom":"ja","baater":"27","utenlandske":"1"},{"aar":"2017","klasse":"ILCA 7 / Laser Standard","kategori":"Jolle og brett","ungdom":"nei","baater":"11","utenlandske":"0"},{"aar":"2017","klasse":"ILCA 6 / Laser Radial","kategori":"Jolle og brett","ungdom":"ja","baater":"30","utenlandske":"0"},{"aar":"2017","klasse":"ILCA 6 / Laser Radial","kategori":"Jolle og brett","ungdom":"nei","baater":"8","utenlandske":"0"},{"aar":"2017","klasse":"Melges 24","kategori":"Kjølbåt","ungdom":"nei","baater":"21","utenlandske":"5"},{"aar":"2017","klasse":"Optimist","kategori":"Jolle og brett","ungdom":"ja","baater":"32","utenlandske":"2"},{"aar":"2017","klasse":"Optimist","kategori":"Jolle og brett","ungdom":"ja","baater":"24","utenlandske":"0"},{"aar":"2017","klasse":"Rating-NM (ORCi / NOR Rating)","kategori":"Rating og havseiling","ungdom":"nei","baater":"23","utenlandske":"3"},{"aar":"2017","klasse":"Oselvar","kategori":"Tradisjonsbåt","ungdom":"nei","baater":"18","utenlandske":"0"},{"aar":"2017","klasse":"RS:X","kategori":"Jolle og brett","ungdom":"nei","baater":"26","utenlandske":"11"},{"aar":"2017","klasse":"Shorthanded / Doublehanded","kategori":"Rating og havseiling","ungdom":"nei","baater":"23","utenlandske":"0"},{"aar":"2017","klasse":"Snipe Master","kategori":"Jolle og brett","ungdom":"nei","baater":"15","utenlandske":"0"},{"aar":"2017","klasse":"Snipe","kategori":"Jolle og brett","ungdom":"nei","baater":"47","utenlandske":"4"},{"aar":"2017","klasse":"Dame-NM","kategori":"Jolle og brett","ungdom":"nei","baater":"12","utenlandske":"1"},{"aar":"2017","klasse":"Techno 293 (BIC)","kategori":"Jolle og brett","ungdom":"ja","baater":"13","utenlandske":"2"},{"aar":"2017","klasse":"Yngling","kategori":"Kjølbåt","ungdom":"nei","baater":"14","utenlandske":"0"},{"aar":"2026","klasse":"11mOD","kategori":"Kjølbåt","ungdom":"nei","baater":"15","utenlandske":"3"},{"aar":"2026","klasse":"12,5 kvm","kategori":"Kjølbåt","ungdom":"nei","baater":"16","utenlandske":"0"},{"aar":"2026","klasse":"2.4mR","kategori":"Kjølbåt","ungdom":"nei","baater":"20","utenlandske":"0"},{"aar":"2026","klasse":"Snipe","kategori":"Jolle og brett","ungdom":"nei","baater":"30","utenlandske":"2"},{"aar":"2026","klasse":"BB11","kategori":"Kjølbåt","ungdom":"nei","baater":"25","utenlandske":"0"},{"aar":"2026","klasse":"Dame-NM","kategori":"Kjølbåt","ungdom":"nei","baater":"12","utenlandske":"0"},{"aar":"2026","klasse":"Drage","kategori":"Kjølbåt","ungdom":"nei","baater":"19","utenlandske":"2"},{"aar":"2026","klasse":"Albin Express","kategori":"Kjølbåt","ungdom":"nei","baater":"38","utenlandske":"4"},{"aar":"2026","klasse":"Finnjolle","kategori":"Jolle og brett","ungdom":"nei","baater":"28","utenlandske":"8"},{"aar":"2026","klasse":"Grimstadjolle","kategori":"Jolle og brett","ungdom":"nei","baater":"18","utenlandske":"0"},{"aar":"2026","klasse":"H-båt","kategori":"Kjølbåt","ungdom":"nei","baater":"15","utenlandske":"0"},{"aar":"2026","klasse":"Halvtonn (1/2 ton)","kategori":"Kjølbåt","ungdom":"nei","baater":"16","utenlandske":"2"},{"aar":"2026","klasse":"ILCA 4 / Laser 4.7","kategori":"Jolle og brett","ungdom":"ja","baater":"17","utenlandske":"1"},{"aar":"2026","klasse":"ILCA 6 / Laser Radial","kategori":"Jolle og brett","ungdom":"ja","baater":"35","utenlandske":"7"},{"aar":"2026","klasse":"ILCA 7 / Laser Standard","kategori":"Jolle og brett","ungdom":"nei","baater":"27","utenlandske":"3"},{"aar":"2026","klasse":"ILCA 7 / Laser Standard","kategori":"Jolle og brett","ungdom":"nei","baater":"8","utenlandske":"0"},{"aar":"2026","klasse":"IOD Princess","kategori":"Kjølbåt","ungdom":"nei","baater":"17","utenlandske":"0"},{"aar":"2026","klasse":"iQFoil / Windfoil","kategori":"Jolle og brett","ungdom":"nei","baater":"13","utenlandske":"3"},{"aar":"2026","klasse":"J/70","kategori":"Kjølbåt","ungdom":"nei","baater":"18","utenlandske":"1"},{"aar":"2026","klasse":"Killing","kategori":"Kjølbåt","ungdom":"nei","baater":"31","utenlandske":"0"},{"aar":"2026","klasse":"Knarr","kategori":"Kjølbåt","ungdom":"nei","baater":"19","utenlandske":"0"},{"aar":"2026","klasse":"Melges 24","kategori":"Kjølbåt","ungdom":"nei","baater":"25","utenlandske":"0"},{"aar":"2026","klasse":"Andunge","kategori":"Kjølbåt","ungdom":"ja","baater":"19","utenlandske":"6"},{"aar":"2026","klasse":"Rating-NM (ORCi / NOR Rating)","kategori":"Rating og havseiling","ungdom":"nei","baater":"10","utenlandske":"0"},{"aar":"2026","klasse":"Rating-NM (ORCi / NOR Rating)","kategori":"Rating og havseiling","ungdom":"nei","baater":"10","utenlandske":"0"},{"aar":"2026","klasse":"29er","kategori":"Jolle og brett","ungdom":"ja","baater":"10","utenlandske":"0"},{"aar":"2026","klasse":"49er","kategori":"Jolle og brett","ungdom":"nei","baater":"6","utenlandske":"1"},{"aar":"2026","klasse":"Shorthanded / Doublehanded","kategori":"Rating og havseiling","ungdom":"nei","baater":"21","utenlandske":"0"},{"aar":"2026","klasse":"Shorthanded / Doublehanded","kategori":"Rating og havseiling","ungdom":"nei","baater":"23","utenlandske":"0"},{"aar":"2026","klasse":"RS Feva","kategori":"Jolle og brett","ungdom":"ja","baater":"11","utenlandske":"0"},{"aar":"2026","klasse":"Optimist","kategori":"Jolle og brett","ungdom":"ja","baater":"23","utenlandske":"0"},{"aar":"2026","klasse":"Optimist","kategori":"Jolle og brett","ungdom":"ja","baater":"15","utenlandske":"0"},{"aar":"2026","klasse":"Oselvar","kategori":"Tradisjonsbåt","ungdom":"nei","baater":"21","utenlandske":"0"},{"aar":"2026","klasse":"Snipe Master","kategori":"Jolle og brett","ungdom":"nei","baater":"16","utenlandske":"0"},{"aar":"2026","klasse":"Soling","kategori":"Kjølbåt","ungdom":"nei","baater":"16","utenlandske":"3"},{"aar":"2026","klasse":"Wingfoil","kategori":"Jolle og brett","ungdom":"nei","baater":"16","utenlandske":"0"},{"aar":"2026","klasse":"Yngling","kategori":"Kjølbåt","ungdom":"nei","baater":"16","utenlandske":"0"},{"aar":"2026","klasse":"IF-båt","kategori":"Kjølbåt","ungdom":"nei","baater":"17","utenlandske":"1"}]};</script>
+<script>
+(function(){
+  if (window.d3) d3.formatDefaultLocale({decimal: ',', thousands: '\u00a0', grouping: [3], currency: ['', ' kr']});
+  const datasets = window.__NM_DATA__, calcs = {}, cache = {}, subs = [];
+  function get(id){
+    if (id in cache) return cache[id];
+    if (id in datasets) return cache[id] = datasets[id];
+    if (id in calcs){ const c = calcs[id]; return cache[id] = c.fn.apply(null, c.inputs.map(get)); }
+    return null;
+  }
+  window.dash = {
+    colors: ['#1f5f99','#e0892b','#3a9d6e','#8b5cb8','#c94f6d','#4fa3b8','#9a7b3a','#6b7785'],
+    calc(id, o){ calcs[id] = o; },
+    data(id){ const d = get(id); return d == null ? {status:'missing', data:[]} : {status:'ok', data:d, columns: d.length ? Object.keys(d[0]) : []}; },
+    onData(fn){ subs.push(fn); fn(); },
+    setLink(){}, params(){ return {}; }, setParams(){}, resetParams(){}, refresh(){}
+  };
+  let w = window.innerWidth, t;
+  window.addEventListener('resize', () => { clearTimeout(t); t = setTimeout(() => { if (Math.abs(window.innerWidth - w) > 4) { w = window.innerWidth; subs.forEach(f => f()); } }, 150); });
+  function post(){ try { parent.postMessage({nmDashHeight: document.documentElement.scrollHeight, id: document.body.dataset.id}, '*'); } catch(e){} }
+  new ResizeObserver(post).observe(document.body); window.addEventListener('load', post);
+})();
+</script>
+<script>
+dash.calc('aarstotal', {
+  inputs: ['nm'],
+  title: 'Totalt per år',
+  description: 'Sum båter, antall klasser, snitt per klasse og utenlandske båter per år, uten e-seiling.',
+  fn: (nm) => {
+    const by = {};
+    nm.filter(r => r.kategori !== 'E-seiling').forEach(r => {
+      const a = String(r.aar);
+      by[a] = by[a] || {aar: a, baater: 0, kl: {}, utenlandske: 0};
+      by[a].baater += Number(r.baater);
+      by[a].kl[r.klasse] = 1;
+      by[a].utenlandske += Number(r.utenlandske);
+    });
+    return Object.values(by).sort((a, b) => a.aar.localeCompare(b.aar)).map(d => {
+      const klasser = Object.keys(d.kl).length;
+      return {aar: d.aar, baater: d.baater, klasser, utenlandske: d.utenlandske, snitt: Math.round(d.baater / klasser * 10) / 10};
+    });
+  }
+});
+
+dash.calc('perklasse', {
+  inputs: ['nm'],
+  title: 'Per klasse og år',
+  description: 'Startende båter per klasse for hvert år (resultatlister samme år lagt sammen), og endringen fra første til siste år med resultatliste.',
+  fn: (nm) => {
+    const years = Array.from(new Set(nm.map(r => String(r.aar)))).sort();
+    const by = {};
+    nm.forEach(r => {
+      const k = r.klasse;
+      if (!by[k]) { by[k] = {klasse: k, kategori: r.kategori}; years.forEach(y => { by[k]['b' + y] = null; }); }
+      by[k]['b' + r.aar] = (by[k]['b' + r.aar] || 0) + Number(r.baater);
+    });
+    return Object.values(by).map(d => {
+      const v = years.map(y => d['b' + y]).filter(x => x != null);
+      return {...d, endring: v.length > 1 ? v[v.length - 1] - v[0] : null};
+    });
+  }
+});
+
+dash.calc('perkategori', {
+  inputs: ['nm'],
+  title: 'Per kategori og år',
+  description: 'Sum startende båter per kategori for hvert år, uten e-seiling.',
+  fn: (nm) => {
+    const by = {};
+    nm.filter(r => r.kategori !== 'E-seiling').forEach(r => {
+      const key = r.kategori + '|' + r.aar;
+      by[key] = by[key] || {kategori: r.kategori, aar: String(r.aar), baater: 0};
+      by[key].baater += Number(r.baater);
+    });
+    return Object.values(by);
+  }
+});
+
+dash.calc('perungdom', {
+  inputs: ['nm'],
+  title: 'Ungdom mot øvrige',
+  description: 'Sum startende båter i ungdomsklasser og øvrige klasser for hvert år, uten e-seiling.',
+  fn: (nm) => {
+    const by = {};
+    nm.filter(r => r.kategori !== 'E-seiling').forEach(r => {
+      const g = r.ungdom === 'ja' ? 'Ungdomsklasser' : 'Øvrige klasser';
+      const key = g + '|' + r.aar;
+      by[key] = by[key] || {gruppe: g, aar: String(r.aar), baater: 0};
+      by[key].baater += Number(r.baater);
+    });
+    return Object.values(by);
+  }
+});
+
+(function () {
+  const fmt = d3.format(',');
+  const CAP = 'var(--cds-font-size-caption)';
+  let YEARS = [];
+
+  function fail(el) { el.classList.remove('dash-skeleton'); el.innerHTML = ''; const d = document.createElement('div'); d.className = 'nm-fail'; d.textContent = 'Failed to load'; el.appendChild(d); }
+  function wait(el) { el.innerHTML = ''; el.classList.add('dash-skeleton'); }
+  function tipFor(box) {
+    let t = box.querySelector('.nm-tip');
+    if (!t) { t = document.createElement('div'); t.className = 'nm-tip'; t.hidden = true; box.appendChild(t); }
+    return t;
+  }
+  function showTip(box, tip, ev, title, lines) {
+    tip.innerHTML = '';
+    const h = document.createElement('div'); h.className = 't'; h.textContent = title; tip.appendChild(h);
+    lines.forEach(([c, n, v]) => {
+      const l = document.createElement('div');
+      if (c) { const s = document.createElement('i'); s.style.cssText = 'display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;background:' + c; l.appendChild(s); }
+      l.appendChild(document.createTextNode(n + ': ' + v)); tip.appendChild(l);
+    });
+    tip.hidden = false;
+    const r = box.getBoundingClientRect();
+    let x = ev.clientX - r.left + box.scrollLeft + 12, y = ev.clientY - r.top + 12;
+    const w = tip.offsetWidth;
+    if (x + w > box.scrollLeft + r.width) x = Math.max(0, ev.clientX - r.left + box.scrollLeft - w - 12);
+    tip.style.left = x + 'px'; tip.style.top = y + 'px';
+  }
+  function textWidth(svg, list) {
+    const probe = svg.append('text').style('font-size', CAP);
+    let w = 0; list.forEach(t => { probe.text(t); w = Math.max(w, probe.node().getComputedTextLength()); });
+    probe.remove(); return Math.ceil(w);
+  }
+
+  function yearBars(el, rows) {
+    el.classList.remove('dash-skeleton'); el.innerHTML = '';
+    const W = el.clientWidth || 400, H = 240, m = {l: 8, r: 8, t: 24, b: 28};
+    const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('height', H);
+    el.style.minHeight = H + 'px';
+    const x = d3.scaleBand(rows.map(r => r.aar), [m.l, W - m.r]).padding(0.3);
+    const y = d3.scaleLinear([0, d3.max(rows, r => r.baater) || 1], [H - m.b, m.t]).nice();
+    y.ticks(4).forEach(t => svg.append('line').attr('x1', m.l).attr('x2', W - m.r).attr('y1', y(t)).attr('y2', y(t)).style('stroke', 'var(--cds-chart-grid)'));
+    const tip = tipFor(el);
+    const bw = Math.min(56, x.bandwidth());
+    rows.forEach(r => {
+      const cx = x(r.aar) + x.bandwidth() / 2;
+      const g = svg.append('g');
+      g.append('rect').attr('x', cx - bw / 2).attr('width', bw).attr('y', y(r.baater)).attr('height', y(0) - y(r.baater)).attr('rx', 4)
+        .style('fill', r.aar === '2020' ? 'var(--cds-chart-muted)' : dash.colors[0]);
+      if (x.bandwidth() > 26) g.append('text').attr('x', cx).attr('y', y(r.baater) - 6).attr('text-anchor', 'middle').style('font-size', CAP).style('fill', 'var(--color-fg)').text(fmt(r.baater));
+      g.append('text').attr('x', cx).attr('y', H - 8).attr('text-anchor', 'middle').style('font-size', CAP).style('fill', 'var(--color-fg-muted)').text(x.bandwidth() > 30 ? r.aar : "'" + r.aar.slice(2));
+      g.on('mousemove', ev => showTip(el, tip, ev, r.aar, [[null, 'Båter', fmt(r.baater)], [null, 'Klasser', fmt(r.klasser)], [null, 'Utenlandske', fmt(r.utenlandske)]]))
+       .on('mouseleave', () => { tip.hidden = true; });
+    });
+    svg.append('line').attr('x1', m.l).attr('x2', W - m.r).attr('y1', y(0)).attr('y2', y(0)).style('stroke', 'var(--cds-chart-axis)');
+  }
+
+  // Line chart, one line per group over the years, labelled at the end
+  function lines(el, rows, keyField) {
+    el.classList.remove('dash-skeleton'); el.innerHTML = '';
+    const years = Array.from(new Set(rows.map(r => r.aar))).sort();
+    const keys = Array.from(new Set(rows.map(r => r[keyField])));
+    const val = (k, a) => { const r = rows.find(x => x[keyField] === k && x.aar === a); return r ? r.baater : 0; };
+    keys.sort((a, b) => val(b, years[years.length - 1]) - val(a, years[years.length - 1]));
+    const col = k => dash.colors[keys.indexOf(k) % dash.colors.length];
+    const W = el.clientWidth || 400, H = 240;
+    const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('height', H);
+    el.style.minHeight = H + 'px';
+    const lw = Math.min(W * 0.4, textWidth(svg, keys.map(k => k + ' 000')));
+    const m = {l: 34, r: lw + 12, t: 10, b: 24};
+    const x = d3.scalePoint(years, [m.l, W - m.r]);
+    const y = d3.scaleLinear([0, d3.max(rows, r => r.baater) || 1], [H - m.b, m.t]).nice();
+    y.ticks(4).forEach(t => {
+      svg.append('line').attr('x1', m.l).attr('x2', W - m.r).attr('y1', y(t)).attr('y2', y(t)).style('stroke', 'var(--cds-chart-grid)');
+      svg.append('text').attr('x', m.l - 6).attr('y', y(t) + 4).attr('text-anchor', 'end').style('font-size', CAP).style('fill', 'var(--color-fg-muted)').text(fmt(t));
+    });
+    const step = (W - m.l - m.r) / Math.max(1, years.length - 1) < 34 ? 2 : 1;
+    years.forEach((a, i) => { if (i % step === 0 || i === years.length - 1) svg.append('text').attr('x', x(a)).attr('y', H - 6).attr('text-anchor', 'middle').style('font-size', CAP).style('fill', 'var(--color-fg-muted)').text(a); });
+    // end labels, spaced so they don't collide
+    const ends = keys.map(k => ({k, y: y(val(k, years[years.length - 1]))})).sort((a, b) => a.y - b.y);
+    for (let i = 1; i < ends.length; i++) if (ends[i].y - ends[i - 1].y < 13) ends[i].y = ends[i - 1].y + 13;
+    keys.forEach(k => {
+      const pts = years.map(a => [x(a), y(val(k, a))]);
+      svg.append('path').attr('d', d3.line()(pts)).style('fill', 'none').style('stroke', col(k)).attr('stroke-width', 2).attr('stroke-linecap', 'round').attr('stroke-linejoin', 'round');
+      pts.forEach(p => svg.append('circle').attr('cx', p[0]).attr('cy', p[1]).attr('r', 2.5).style('fill', col(k)));
+      const e = ends.find(d => d.k === k);
+      svg.append('text').attr('x', W - m.r + 8).attr('y', e.y + 4).style('font-size', CAP).style('fill', col(k)).text(k + ' ' + fmt(val(k, years[years.length - 1])));
+    });
+    const tip = tipFor(el);
+    const rule = svg.append('line').attr('y1', m.t).attr('y2', H - m.b).style('stroke', 'var(--cds-chart-reference)').style('opacity', 0);
+    svg.append('rect').attr('x', m.l - 10).attr('y', 0).attr('width', W - m.l - m.r + 20).attr('height', H).style('fill', 'transparent')
+      .on('mousemove', ev => {
+        const [mx] = d3.pointer(ev);
+        const a = years.reduce((best, yy) => Math.abs(x(yy) - mx) < Math.abs(x(best) - mx) ? yy : best, years[0]);
+        rule.attr('x1', x(a)).attr('x2', x(a)).style('opacity', 1);
+        showTip(el, tip, ev, a, keys.map(k => [col(k), k, fmt(val(k, a)) + ' båter']));
+      })
+      .on('mouseleave', () => { tip.hidden = true; rule.style('opacity', 0); });
+  }
+
+  function heatGrid(el, rows) {
+    el.classList.remove('dash-skeleton'); el.innerHTML = '';
+    const ys = YEARS.map(a => 'b' + a);
+    const data = rows.filter(d => d.kategori !== 'E-seiling').slice().sort((a, b) => d3.sum(ys, y => b[y] || 0) - d3.sum(ys, y => a[y] || 0));
+    const W0 = el.clientWidth || 400;
+    const svg = d3.select(el).append('svg').attr('class', 'nm-hm');
+    const lw = textWidth(svg, data.map(d => d.klasse));
+    const m = {l: lw + 14, r: 52, t: 24, b: 4};
+    const cw = Math.max(40, Math.min(80, (W0 - m.l - m.r) / ys.length));
+    const W = m.l + m.r + cw * ys.length;
+    const row = 24, H = m.t + m.b + data.length * row;
+    svg.attr('width', W).attr('height', H).attr('viewBox', `0 0 ${W} ${H}`);
+    el.style.minHeight = H + 'px';
+    const max = d3.max(data, d => d3.max(ys, y => d[y] || 0)) || 1;
+    const op = d3.scaleLinear([0, max], [0.12, 0.95]);
+    YEARS.forEach((a, j) => svg.append('text').attr('x', m.l + j * cw + cw / 2).attr('y', m.t - 8).attr('text-anchor', 'middle').style('font-size', CAP).style('fill', 'var(--color-fg-muted)').text(a));
+    svg.append('text').attr('x', W - m.r + 8).attr('y', m.t - 8).style('font-size', CAP).style('fill', 'var(--color-fg-muted)').text('Endr.');
+    const tip = tipFor(el);
+    data.forEach((d, i) => {
+      const y = m.t + i * row;
+      const g = svg.append('g');
+      g.append('text').attr('x', m.l - 10).attr('y', y + row / 2 + 4).attr('text-anchor', 'end').style('font-size', CAP).style('fill', 'var(--color-fg)').text(d.klasse);
+      ys.forEach((k, j) => {
+        const v = d[k], x = m.l + j * cw;
+        if (v == null) {
+          g.append('rect').attr('x', x + 2).attr('y', y + 2).attr('width', cw - 4).attr('height', row - 4).attr('rx', 3).style('fill', 'none').style('stroke', 'var(--color-border-line)');
+          return;
+        }
+        g.append('rect').attr('x', x + 2).attr('y', y + 2).attr('width', cw - 4).attr('height', row - 4).attr('rx', 3).style('fill', dash.colors[0]).style('fill-opacity', op(v));
+        g.append('text').attr('x', x + cw / 2).attr('y', y + row / 2 + 4).attr('text-anchor', 'middle').style('font-size', CAP)
+          .style('fill', op(v) > 0.55 ? 'var(--color-bg)' : 'var(--color-fg)').text(fmt(v));
+      });
+      if (d.endring != null) g.append('text').attr('x', W - m.r + 8).attr('y', y + row / 2 + 4).style('font-size', CAP)
+        .style('fill', d.endring > 0 ? 'var(--color-ok)' : d.endring < 0 ? 'var(--color-bad)' : 'var(--color-fg-muted)').text((d.endring > 0 ? '+' : '') + d.endring);
+      g.on('mousemove', ev => showTip(el, tip, ev, d.klasse, YEARS.map(a => [null, a, d['b' + a] == null ? 'ingen resultatliste' : fmt(d['b' + a]) + ' båter'])))
+       .on('mouseleave', () => { tip.hidden = true; });
+    });
+  }
+
+  let sortKey = 'b2026', sortDir = -1, query = '', lastRows = [];
+  function table(rows) {
+    const tb = document.getElementById('nm-tbody');
+    tb.innerHTML = '';
+    const q = query.trim().toLowerCase();
+    const data = rows.filter(r => !q || r.klasse.toLowerCase().includes(q) || r.kategori.toLowerCase().includes(q)).slice().sort((a, b) => {
+      const va = a[sortKey], vb = b[sortKey];
+      if (va == null && vb == null) return 0; if (va == null) return 1; if (vb == null) return -1;
+      return (typeof va === 'number' ? va - vb : String(va).localeCompare(String(vb), 'nb')) * sortDir;
+    });
+    const cols = Array.from(document.querySelectorAll('.nm-table th')).map(th => th.dataset.field).filter(f => /^b\d{4}$/.test(f));
+    data.forEach(r => {
+      const tr = document.createElement('tr');
+      const td = (txt, cls) => { const c = document.createElement('td'); c.textContent = txt; if (cls) c.className = cls; tr.appendChild(c); };
+      td(r.klasse); td(r.kategori);
+      cols.forEach(f => td(r[f] == null ? '' : fmt(r[f]), 'num'));
+      td(r.endring == null ? '' : (r.endring > 0 ? '+' : '') + r.endring, 'num ' + (r.endring > 0 ? 'pos' : r.endring < 0 ? 'neg' : ''));
+      tb.appendChild(tr);
+    });
+    document.querySelectorAll('.nm-table th').forEach(th => {
+      const k = th.querySelector('button').dataset.k;
+      th.setAttribute('aria-sort', k === sortKey ? (sortDir > 0 ? 'ascending' : 'descending') : 'none');
+    });
+  }
+  document.querySelectorAll('.nm-table th button').forEach(b => b.addEventListener('click', () => {
+    const k = b.dataset.k;
+    if (k === sortKey) sortDir *= -1; else { sortKey = k; sortDir = (k === 'klasse' || k === 'kategori') ? 1 : -1; }
+    table(lastRows);
+  }));
+  document.getElementById('nm-search').addEventListener('input', e => { query = e.target.value; table(lastRows); });
+
+  function draw(id, srcId, fn) {
+    const st = dash.data(srcId), el = document.getElementById(id);
+    if (st.status === 'ok') fn(el, st.data); else if (st.status === 'error') fail(el); else wait(el);
+  }
+
+  dash.onData(() => {
+    const tot = dash.data('aarstotal');
+    if (tot.status === 'ok') YEARS = tot.data.map(r => r.aar);
+    document.querySelectorAll('[data-source="aarstotal"][data-field]').forEach(el => {
+      if (tot.status !== 'ok') return;
+      el.classList.remove('dash-skeleton');
+      const r = tot.data.find(x => x.aar === el.dataset.where.split('=')[1]);
+      if (!r) { el.textContent = '—'; return; }
+      const v = r[el.dataset.field];
+      el.textContent = el.dataset.field === 'snitt' ? d3.format('.1f')(v) : fmt(v);
+    });
+    draw('aar-chart', 'aarstotal', yearBars);
+    draw('kat-chart', 'perkategori', (el, d) => lines(el, d, 'kategori'));
+    draw('ung-chart', 'perungdom', (el, d) => lines(el, d, 'gruppe'));
+    const pk = dash.data('perklasse');
+    if (pk.status === 'ok') { lastRows = pk.data; table(lastRows); } else { lastRows = []; table([]); }
+    if (tot.status === 'ok') draw('klasse-chart', 'perklasse', heatGrid); else wait(document.getElementById('klasse-chart'));
+  });
+})();
+</script>
+
+</body></html>
