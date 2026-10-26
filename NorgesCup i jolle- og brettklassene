@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="nb"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>NorgesCup i jolle- og brettklassene</title><meta name="description" content="Deltakelse, frafall og overganger mellom klasser i NorgesCup for jolle- og brettklassene 2019–2026.">
+<style>
+:root{color-scheme:light;
+--color-fg:#16212b;--color-fg-muted:#5b6670;--color-bg:#ffffff;--color-panel:#f6f8fa;--color-border-line:#dde3e8;
+--color-ok:#1b7f4b;--color-warn:#a66300;--color-bad:#c0392b;
+--cds-gap-xs:4px;--cds-gap-sm:8px;--cds-gap-md:16px;--cds-gap-lg:28px;--cds-gap-xl:40px;
+--cds-pad-xs:4px;--cds-pad-sm:8px;--cds-pad-md:12px;--cds-pad-lg:18px;--cds-pad-xl:28px;
+--cds-radius:8px;--cds-font-size-caption:12.5px;--cds-font-size-body:14.5px;--cds-font-size-heading:17px;--cds-font-size-title:30px;
+--cds-font-weight-medium:600;--cds-chart-grid:#e7ecf0;--cds-chart-axis:#9aa6b0;--cds-chart-muted:#c3ccd4;--cds-chart-reference:#7b8790;
+--cds-surface-popover:#ffffff;--cds-border:#d5dce2;--cds-shadow-popover:0 4px 16px rgba(16,33,43,.12);--cds-text-secondary:#5b6670;
+--cds-dur-slow:.3s;--cds-ease-out:cubic-bezier(.2,.7,.2,1);
+--font-anthropic-sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+--font-anthropic-serif:Georgia,"Times New Roman",serif;}
+html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:var(--font-anthropic-sans);font-size:14.5px;line-height:1.45}
+#dash-root{max-width:1200px;margin:0 auto;padding:24px max(16px,env(safe-area-inset-left,0px)) 32px max(16px,env(safe-area-inset-right,0px));box-sizing:border-box}
+#dash-root *, #dash-root *::before, #dash-root *::after{box-sizing:border-box}
+.dash-skeleton{color:transparent!important;background:linear-gradient(90deg,#eef2f5,#f6f8fa,#eef2f5);border-radius:6px}
+#ranking-gull .np-tablewrap,#ranking-totalt .np-tablewrap{max-height:none}
+@media (max-width:480px){#dash-root .np-table th,#dash-root .np-table td{padding:4px 5px}#ranking-gull th[data-field] .np-medal+*{display:none}}
+.sa-foot{margin-top:24px;font-size:12px;color:var(--color-fg-muted)}
+</style>
+<style>
+.nc { font-family: var(--font-anthropic-sans); display: grid; gap: var(--cds-gap-lg); }
+.nc-head h1 { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); margin: 0; text-wrap: balance; }
+.nc-head p { margin: var(--cds-gap-xs) 0 0; color: var(--color-fg-muted); max-width: 72ch; font-size: var(--cds-font-size-body); }
+.nc-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr)); gap: var(--cds-gap-md); }
+.nc-card { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-lg); min-width: 0; }
+.nc-kpi .lbl { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.nc-kpi .val { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); font-variant-numeric: tabular-nums; margin-top: var(--cds-gap-xs); }
+.nc-kpi .sub { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); margin-top: var(--cds-gap-xs); }
+.nc-card h2 { font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); margin: 0; }
+.nc-card .note { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); margin: var(--cds-gap-xs) 0 var(--cds-gap-md); max-width: 90ch; }
+.nc-multi { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr)); gap: var(--cds-gap-md); }
+.nc-mini { position: relative; min-height: 150px; }
+.nc-mini h3 { font-size: var(--cds-font-size-caption); font-weight: var(--cds-font-weight-medium); margin: 0 0 4px; }
+.nc-chart { position: relative; min-height: 200px; overflow-x: auto; }
+.nc-legend { display: flex; gap: var(--cds-gap-md); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); margin-bottom: var(--cds-gap-sm); flex-wrap: wrap; }
+.nc-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
+.nc-tip { position: absolute; pointer-events: none; background: var(--cds-surface-popover); border: 1px solid var(--cds-border); border-radius: var(--cds-radius); box-shadow: var(--cds-shadow-popover); padding: var(--cds-pad-xs) var(--cds-pad-sm); font-size: var(--cds-font-size-caption); white-space: nowrap; z-index: 2; }
+.nc-tip .t { color: var(--cds-text-secondary); margin-bottom: 2px; }
+.nc-tablewrap { overflow-x: auto; }
+.nc-table { width: 100%; border-collapse: collapse; font-size: var(--cds-font-size-body); font-variant-numeric: tabular-nums; }
+.nc-table th { text-align: right; font-weight: var(--cds-font-weight-medium); padding: var(--cds-pad-xs) var(--cds-pad-sm); border-bottom: 1px solid var(--color-border-line); white-space: nowrap; }
+.nc-table th:first-child, .nc-table td:first-child { text-align: left; }
+.nc-table td { padding: var(--cds-pad-xs) var(--cds-pad-sm); border-bottom: 1px solid var(--color-border-line); text-align: right; white-space: nowrap; }
+.nc-table .muted { color: var(--color-fg-muted); }
+.nc-seg { display: inline-flex; flex-wrap: wrap; border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); overflow: hidden; margin-bottom: var(--cds-gap-md); }
+.nc-seg button { all: unset; cursor: pointer; padding: var(--cds-pad-xs) var(--cds-pad-md); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.nc-seg button[aria-pressed="true"] { background: var(--color-fg); color: var(--color-bg); }
+.nc-seg button:focus-visible { outline: 2px solid var(--color-fg); outline-offset: -2px; }
+.nc-method { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); max-width: 85ch; }
+.nc-method ul { margin: var(--cds-gap-xs) 0 0; padding-left: 1.2em; }
+.nc-fail { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: inherit; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.nc-fail::before { content: ""; width: .375rem; height: .375rem; border-radius: 50%; background: var(--color-bad); }
+[data-dash-source-state=empty] { color: transparent; }
+[data-dash-source-state=refreshing] { opacity: .5; transition: opacity var(--cds-dur-slow); }
+</style>
+</head><body data-id="norgescup"><div id="dash-root">
+
+
+<div class="nc">
+  <header class="nc-head">
+    <h1 id="tittel">NorgesCup i jolle- og brettklassene 2019–2026</h1>
+    <p id="takeaway"><b data-source="nc_nokkel" data-field="seilere" data-row="0" class="dash-skeleton">—</b> norske seilere har seilt NorgesCup i perioden. Av dem som seiler et år, er <span data-source="nc_nokkel" data-field="fortsetter_tekst" data-row="0" class="dash-skeleton">—</span> med i NorgesCup også året etter.</p>
+  </header>
+
+  <section class="nc-kpis" id="nokkeltall">
+    <div class="nc-card nc-kpi"><div class="lbl">Seilere 2019–2026</div><div class="val dash-skeleton" data-source="nc_nokkel" data-field="seilere" data-row="0">—</div><div class="sub">Unike norske seilere, alle klasser</div></div>
+    <div class="nc-card nc-kpi"><div class="lbl">Seilere i NorgesCup 2026</div><div class="val dash-skeleton" data-source="nc_aar" data-field="seilere" data-where="aar=2026">—</div><div class="sub"><span data-source="nc_aar" data-field="seilere" data-where="aar=2025">—</span> i 2025</div></div>
+    <div class="nc-card nc-kpi"><div class="lbl">Fortsetter i NorgesCup året etter</div><div class="val dash-skeleton" data-source="nc_nokkel" data-field="fortsetter_tekst" data-row="0">—</div><div class="sub">Snitt 2019–2025</div></div>
+    <div class="nc-card nc-kpi"><div class="lbl">Bytter klasse året etter</div><div class="val dash-skeleton" data-source="nc_nokkel" data-field="bytter_tekst" data-row="0">—</div><div class="sub">Av dem som fortsetter</div></div>
+  </section>
+
+  <section class="nc-card" id="per-klasse">
+    <h2>Seilere per klasse og år</h2>
+    <p class="note">Unike norske seilere som har seilt minst én NorgesCup-regatta i klassen, rormenn og mannskap. Tomt år betyr at det ikke finnes resultatlister.</p>
+    <div class="nc-multi" id="multi" data-source="nc_klasse"></div>
+  </section>
+
+  <section class="nc-card" id="tabell">
+    <h2>Seilere og regattaer</h2>
+    <p class="note">Seilere / antall regattaer med resultatliste. 29er 2019–2023 finnes bare som sesongranking og vises som én liste.</p>
+    <div class="nc-tablewrap" data-source="nc_klasse">
+      <table class="nc-table" id="tbl-klasse">
+        <thead><tr id="tbl-head"><th>Klasse</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="nc-card" id="frafall">
+    <h2>Hva skjer året etter?</h2>
+    <p class="note">For seilere i hver klasse: andelen som seiler samme klasse i NorgesCup året etter, som bytter til en annen klasse, og som ikke er med i NorgesCup året etter. Hver seiler telles i klassen der hun seilte flest regattaer det året.</p>
+    <div class="nc-seg" role="group" aria-label="Velg år" id="seg-frafall"></div>
+    <div class="nc-legend"><span><i id="lg-samme"></i>Samme klasse</span><span><i id="lg-annen"></i>Annen klasse</span><span><i id="lg-ute"></i>Ikke i NorgesCup</span></div>
+    <div class="nc-chart dash-skeleton" id="frafall-chart" data-source="nc_frafall"></div>
+  </section>
+
+  <section class="nc-card" id="overgang">
+    <h2>Overganger mellom klasser</h2>
+    <p class="note">Antall seilere fra klassen i raden ett år til klassen i kolonnen året etter. Raden «Ny i NorgesCup» viser hvor nye seilere starter, og kolonnen «Ikke i NorgesCup» viser frafall.</p>
+    <div class="nc-seg" role="group" aria-label="Velg år" id="seg-overgang"></div>
+    <div class="nc-chart dash-skeleton" id="matrise" data-source="nc_overgang"></div>
+  </section>
+
+  <section class="nc-method" id="metode">
+    <strong>Slik er tallene laget</strong>
+    <ul>
+      <li>Grunnlaget er resultatlister fra NorgesCup i Manage2Sail 2019–2026. Laser og ILCA er slått sammen (ILCA 4 = Laser 4.7, ILCA 6 = Laser Radial, ILCA 7 = Laser Standard), og masters er regnet inn i ILCA 6 og ILCA 7.</li>
+      <li>Brett er én kategori med BIC Techno 293, iQFoil (alle aldersgrupper) og RS:X junior.</li>
+      <li>Bare båter med norsk seilnummer, eller uten nasjonskode, er med. Utenlandske båter, for eksempel i Europa Cup-regattaen i 2019, er holdt utenfor.</li>
+      <li>Identiske resultatlister som var lastet ned flere ganger, er telt én gang. Medaljelister er ikke med. For 29er 2024 er påmeldingslisten fra NC Bærum tatt med, i tillegg til resultatlisten fra Norges Cup #1.</li>
+      <li>29er 2019–2023 finnes bare som sesongranking. I 2019 står bare rormannens initialer, så 29er-tallene for 2019 er usikre.</li>
+      <li>Overganger og frafall beregnes ikke for en klasse et år der klassen ikke har resultatlister året etter, for eksempel RS Feva 2019 og 2025, ILCA 7 2024 og Brett 2025. Da er det ikke mulig å skille frafall fra manglende data.</li>
+      <li>Personer er skilt på navnet slik det står i listen. Siden viser ingen navn, bare antall.</li>
+    </ul>
+  </section>
+</div>
+
+
+<p class="sa-foot">Kilde: resultatlister fra Manage2Sail, sammenstilt av Norges Seilforbund. Oppdatert 26.10.2026.</p>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script>window.__NM_DATA__={"nc_klasse":[{"klasse":"29er","aar":"2019","seilere":12,"regattaer":1,"baater":12,"snitt_baater":12},{"klasse":"Brett","aar":"2019","seilere":12,"regattaer":2,"baater":19,"snitt_baater":9.5},{"klasse":"ILCA 4","aar":"2019","seilere":32,"regattaer":3,"baater":71,"snitt_baater":23.7},{"klasse":"ILCA 6","aar":"2019","seilere":41,"regattaer":3,"baater":90,"snitt_baater":30},{"klasse":"ILCA 7","aar":"2019","seilere":8,"regattaer":2,"baater":11,"snitt_baater":5.5},{"klasse":"Optimist","aar":"2019","seilere":90,"regattaer":3,"baater":230,"snitt_baater":76.7},{"klasse":"RS Feva","aar":"2019","seilere":30,"regattaer":3,"baater":23,"snitt_baater":7.7},{"klasse":"29er","aar":"2020","seilere":26,"regattaer":1,"baater":21,"snitt_baater":21},{"klasse":"Brett","aar":"2020","seilere":22,"regattaer":3,"baater":47,"snitt_baater":15.7},{"klasse":"ILCA 4","aar":"2020","seilere":40,"regattaer":2,"baater":67,"snitt_baater":33.5},{"klasse":"ILCA 6","aar":"2020","seilere":39,"regattaer":2,"baater":56,"snitt_baater":28},{"klasse":"ILCA 7","aar":"2020","seilere":21,"regattaer":2,"baater":26,"snitt_baater":13},{"klasse":"Optimist","aar":"2020","seilere":50,"regattaer":2,"baater":80,"snitt_baater":40},{"klasse":"Waszp","aar":"2020","seilere":13,"regattaer":1,"baater":13,"snitt_baater":13},{"klasse":"29er","aar":"2021","seilere":46,"regattaer":1,"baater":23,"snitt_baater":23},{"klasse":"Brett","aar":"2021","seilere":21,"regattaer":1,"baater":21,"snitt_baater":21},{"klasse":"ILCA 4","aar":"2021","seilere":42,"regattaer":2,"baater":62,"snitt_baater":31},{"klasse":"ILCA 6","aar":"2021","seilere":28,"regattaer":2,"baater":47,"snitt_baater":23.5},{"klasse":"ILCA 7","aar":"2021","seilere":13,"regattaer":2,"baater":20,"snitt_baater":10},{"klasse":"Optimist","aar":"2021","seilere":46,"regattaer":2,"baater":75,"snitt_baater":37.5},{"klasse":"29er","aar":"2022","seilere":34,"regattaer":1,"baater":17,"snitt_baater":17},{"klasse":"ILCA 4","aar":"2022","seilere":28,"regattaer":3,"baater":54,"snitt_baater":18},{"klasse":"ILCA 6","aar":"2022","seilere":43,"regattaer":3,"baater":90,"snitt_baater":30},{"klasse":"ILCA 7","aar":"2022","seilere":17,"regattaer":3,"baater":35,"snitt_baater":11.7},{"klasse":"Brett","aar":"2022","seilere":31,"regattaer":4,"baater":83,"snitt_baater":20.8},{"klasse":"Optimist","aar":"2022","seilere":75,"regattaer":4,"baater":177,"snitt_baater":44.3},{"klasse":"RS Feva","aar":"2022","seilere":20,"regattaer":3,"baater":20,"snitt_baater":6.7},{"klasse":"Waszp","aar":"2022","seilere":17,"regattaer":1,"baater":14,"snitt_baater":14},{"klasse":"29er","aar":"2023","seilere":38,"regattaer":1,"baater":19,"snitt_baater":19},{"klasse":"ILCA 4","aar":"2023","seilere":44,"regattaer":4,"baater":78,"snitt_baater":19.5},{"klasse":"ILCA 6","aar":"2023","seilere":39,"regattaer":4,"baater":97,"snitt_baater":24.3},{"klasse":"ILCA 7","aar":"2023","seilere":14,"regattaer":4,"baater":29,"snitt_baater":7.3},{"klasse":"Brett","aar":"2023","seilere":26,"regattaer":3,"baater":57,"snitt_baater":19},{"klasse":"Optimist","aar":"2023","seilere":66,"regattaer":4,"baater":180,"snitt_baater":45},{"klasse":"RS Feva","aar":"2023","seilere":34,"regattaer":4,"baater":41,"snitt_baater":10.3},{"klasse":"Waszp","aar":"2023","seilere":14,"regattaer":1,"baater":14,"snitt_baater":14},{"klasse":"29er","aar":"2024","seilere":22,"regattaer":2,"baater":15,"snitt_baater":7.5},{"klasse":"ILCA 4","aar":"2024","seilere":33,"regattaer":4,"baater":82,"snitt_baater":20.5},{"klasse":"ILCA 6","aar":"2024","seilere":39,"regattaer":4,"baater":98,"snitt_baater":24.5},{"klasse":"ILCA 7","aar":"2024","seilere":3,"regattaer":2,"baater":5,"snitt_baater":2.5},{"klasse":"Brett","aar":"2024","seilere":20,"regattaer":2,"baater":37,"snitt_baater":18.5},{"klasse":"Optimist","aar":"2024","seilere":56,"regattaer":4,"baater":154,"snitt_baater":38.5},{"klasse":"RS Feva","aar":"2024","seilere":10,"regattaer":1,"baater":10,"snitt_baater":10},{"klasse":"29er","aar":"2025","seilere":22,"regattaer":3,"baater":19,"snitt_baater":6.3},{"klasse":"ILCA 4","aar":"2025","seilere":27,"regattaer":4,"baater":74,"snitt_baater":18.5},{"klasse":"ILCA 6","aar":"2025","seilere":31,"regattaer":4,"baater":78,"snitt_baater":19.5},{"klasse":"Brett","aar":"2025","seilere":10,"regattaer":2,"baater":14,"snitt_baater":7},{"klasse":"Optimist","aar":"2025","seilere":47,"regattaer":4,"baater":144,"snitt_baater":36},{"klasse":"RS Feva","aar":"2025","seilere":32,"regattaer":2,"baater":20,"snitt_baater":10},{"klasse":"29er","aar":"2026","seilere":32,"regattaer":3,"baater":31,"snitt_baater":10.3},{"klasse":"ILCA 4","aar":"2026","seilere":19,"regattaer":4,"baater":51,"snitt_baater":12.8},{"klasse":"ILCA 6","aar":"2026","seilere":35,"regattaer":4,"baater":83,"snitt_baater":20.8},{"klasse":"Optimist","aar":"2026","seilere":48,"regattaer":4,"baater":141,"snitt_baater":35.3},{"klasse":"Waszp","aar":"2026","seilere":4,"regattaer":1,"baater":4,"snitt_baater":4}],"nc_aar":[{"aar":"2019","seilere":219},{"aar":"2020","seilere":201},{"aar":"2021","seilere":192},{"aar":"2022","seilere":260},{"aar":"2023","seilere":258},{"aar":"2024","seilere":174},{"aar":"2025","seilere":165},{"aar":"2026","seilere":130}],"nc_overgang":[{"fra_aar":"2019","fra":"29er","til":"Ikke i NorgesCup","antall":12},{"fra_aar":"2019","fra":"Brett","til":"Brett","antall":4},{"fra_aar":"2019","fra":"Brett","til":"Ikke i NorgesCup","antall":8},{"fra_aar":"2019","fra":"ILCA 4","til":"ILCA 6","antall":12},{"fra_aar":"2019","fra":"ILCA 4","til":"Ikke i NorgesCup","antall":10},{"fra_aar":"2019","fra":"ILCA 4","til":"Waszp","antall":3},{"fra_aar":"2019","fra":"ILCA 4","til":"ILCA 4","antall":7},{"fra_aar":"2019","fra":"ILCA 6","til":"Ikke i NorgesCup","antall":18},{"fra_aar":"2019","fra":"ILCA 6","til":"ILCA 6","antall":12},{"fra_aar":"2019","fra":"ILCA 6","til":"ILCA 7","antall":8},{"fra_aar":"2019","fra":"ILCA 6","til":"29er","antall":1},{"fra_aar":"2019","fra":"ILCA 6","til":"Waszp","antall":1},{"fra_aar":"2019","fra":"ILCA 7","til":"ILCA 7","antall":6},{"fra_aar":"2019","fra":"ILCA 7","til":"Ikke i NorgesCup","antall":2},{"fra_aar":"2019","fra":"Optimist","til":"ILCA 4","antall":24},{"fra_aar":"2019","fra":"Optimist","til":"Ikke i NorgesCup","antall":28},{"fra_aar":"2019","fra":"Optimist","til":"Optimist","antall":28},{"fra_aar":"2019","fra":"Optimist","til":"Waszp","antall":4},{"fra_aar":"2019","fra":"Optimist","til":"ILCA 6","antall":2},{"fra_aar":"2019","fra":"Optimist","til":"29er","antall":3},{"fra_aar":"2020","fra":"29er","til":"Ikke i NorgesCup","antall":10},{"fra_aar":"2020","fra":"29er","til":"29er","antall":14},{"fra_aar":"2020","fra":"Optimist","til":"29er","antall":5},{"fra_aar":"2020","fra":"Brett","til":"Brett","antall":17},{"fra_aar":"2020","fra":"Brett","til":"Ikke i NorgesCup","antall":5},{"fra_aar":"2020","fra":"ILCA 6","til":"ILCA 6","antall":13},{"fra_aar":"2020","fra":"ILCA 4","til":"ILCA 6","antall":13},{"fra_aar":"2020","fra":"ILCA 4","til":"ILCA 4","antall":18},{"fra_aar":"2020","fra":"ILCA 4","til":"Ikke i NorgesCup","antall":7},{"fra_aar":"2020","fra":"Optimist","til":"Ikke i NorgesCup","antall":14},{"fra_aar":"2020","fra":"ILCA 6","til":"Ikke i NorgesCup","antall":20},{"fra_aar":"2020","fra":"ILCA 6","til":"ILCA 7","antall":5},{"fra_aar":"2020","fra":"ILCA 6","til":"29er","antall":1},{"fra_aar":"2020","fra":"ILCA 7","til":"Ikke i NorgesCup","antall":15},{"fra_aar":"2020","fra":"ILCA 7","til":"ILCA 7","antall":6},{"fra_aar":"2020","fra":"Optimist","til":"Optimist","antall":16},{"fra_aar":"2020","fra":"Optimist","til":"ILCA 4","antall":9},{"fra_aar":"2021","fra":"29er","til":"Waszp","antall":7},{"fra_aar":"2021","fra":"29er","til":"Ikke i NorgesCup","antall":19},{"fra_aar":"2021","fra":"29er","til":"29er","antall":17},{"fra_aar":"2021","fra":"29er","til":"ILCA 6","antall":1},{"fra_aar":"2021","fra":"29er","til":"ILCA 4","antall":2},{"fra_aar":"2021","fra":"Brett","til":"Brett","antall":18},{"fra_aar":"2021","fra":"ILCA 4","til":"ILCA 6","antall":11},{"fra_aar":"2021","fra":"ILCA 4","til":"ILCA 4","antall":17},{"fra_aar":"2021","fra":"ILCA 4","til":"29er","antall":1},{"fra_aar":"2021","fra":"ILCA 4","til":"Ikke i NorgesCup","antall":9},{"fra_aar":"2021","fra":"ILCA 6","til":"ILCA 6","antall":20},{"fra_aar":"2021","fra":"ILCA 6","til":"ILCA 7","antall":2},{"fra_aar":"2021","fra":"ILCA 6","til":"Ikke i NorgesCup","antall":6},{"fra_aar":"2021","fra":"ILCA 7","til":"ILCA 7","antall":8},{"fra_aar":"2021","fra":"ILCA 7","til":"ILCA 6","antall":2},{"fra_aar":"2021","fra":"Brett","til":"Ikke i NorgesCup","antall":3},{"fra_aar":"2021","fra":"ILCA 7","til":"Ikke i NorgesCup","antall":3},{"fra_aar":"2021","fra":"Optimist","til":"Optimist","antall":39},{"fra_aar":"2021","fra":"Optimist","til":"Ikke i NorgesCup","antall":6},{"fra_aar":"2021","fra":"Optimist","til":"ILCA 4","antall":1},{"fra_aar":"2022","fra":"29er","til":"29er","antall":21},{"fra_aar":"2022","fra":"Optimist","til":"29er","antall":3},{"fra_aar":"2022","fra":"29er","til":"Ikke i NorgesCup","antall":8},{"fra_aar":"2022","fra":"ILCA 4","til":"29er","antall":1},{"fra_aar":"2022","fra":"29er","til":"Waszp","antall":1},{"fra_aar":"2022","fra":"ILCA 4","til":"ILCA 6","antall":11},{"fra_aar":"2022","fra":"ILCA 4","til":"Ikke i NorgesCup","antall":11},{"fra_aar":"2022","fra":"ILCA 4","til":"ILCA 4","antall":5},{"fra_aar":"2022","fra":"ILCA 6","til":"ILCA 6","antall":21},{"fra_aar":"2022","fra":"ILCA 6","til":"ILCA 7","antall":5},{"fra_aar":"2022","fra":"ILCA 6","til":"Ikke i NorgesCup","antall":16},{"fra_aar":"2022","fra":"ILCA 7","til":"Ikke i NorgesCup","antall":12},{"fra_aar":"2022","fra":"ILCA 7","til":"ILCA 7","antall":5},{"fra_aar":"2022","fra":"Brett","til":"Brett","antall":23},{"fra_aar":"2022","fra":"Brett","til":"Ikke i NorgesCup","antall":8},{"fra_aar":"2022","fra":"Optimist","til":"Optimist","antall":30},{"fra_aar":"2022","fra":"Optimist","til":"Ikke i NorgesCup","antall":16},{"fra_aar":"2022","fra":"Optimist","til":"ILCA 4","antall":21},{"fra_aar":"2022","fra":"Optimist","til":"Waszp","antall":1},{"fra_aar":"2022","fra":"Optimist","til":"ILCA 6","antall":3},{"fra_aar":"2022","fra":"Optimist","til":"RS Feva","antall":1},{"fra_aar":"2022","fra":"RS Feva","til":"29er","antall":4},{"fra_aar":"2022","fra":"RS Feva","til":"RS Feva","antall":9},{"fra_aar":"2022","fra":"RS Feva","til":"Ikke i NorgesCup","antall":7},{"fra_aar":"2022","fra":"Waszp","til":"Waszp","antall":11},{"fra_aar":"2022","fra":"Waszp","til":"Ikke i NorgesCup","antall":6},{"fra_aar":"2023","fra":"29er","til":"29er","antall":8},{"fra_aar":"2023","fra":"29er","til":"Ikke i NorgesCup","antall":24},{"fra_aar":"2023","fra":"29er","til":"ILCA 6","antall":3},{"fra_aar":"2023","fra":"Optimist","til":"29er","antall":2},{"fra_aar":"2023","fra":"ILCA 4","til":"ILCA 6","antall":12},{"fra_aar":"2023","fra":"ILCA 6","til":"Ikke i NorgesCup","antall":21},{"fra_aar":"2023","fra":"ILCA 6","til":"ILCA 6","antall":17},{"fra_aar":"2023","fra":"ILCA 4","til":"Ikke i NorgesCup","antall":10},{"fra_aar":"2023","fra":"ILCA 4","til":"ILCA 4","antall":12},{"fra_aar":"2023","fra":"Optimist","til":"ILCA 6","antall":3},{"fra_aar":"2023","fra":"Optimist","til":"ILCA 4","antall":13},{"fra_aar":"2023","fra":"ILCA 6","til":"29er","antall":1},{"fra_aar":"2023","fra":"ILCA 7","til":"Ikke i NorgesCup","antall":12},{"fra_aar":"2023","fra":"ILCA 7","til":"ILCA 7","antall":2},{"fra_aar":"2023","fra":"Brett","til":"Brett","antall":17},{"fra_aar":"2023","fra":"Brett","til":"Ikke i NorgesCup","antall":9},{"fra_aar":"2023","fra":"Optimist","til":"Ikke i NorgesCup","antall":20},{"fra_aar":"2023","fra":"Optimist","til":"Optimist","antall":25},{"fra_aar":"2023","fra":"RS Feva","til":"RS Feva","antall":4},{"fra_aar":"2023","fra":"RS Feva","til":"Ikke i NorgesCup","antall":29},{"fra_aar":"2024","fra":"29er","til":"29er","antall":5},{"fra_aar":"2024","fra":"29er","til":"Ikke i NorgesCup","antall":14},{"fra_aar":"2024","fra":"29er","til":"ILCA 6","antall":1},{"fra_aar":"2024","fra":"ILCA 6","til":"29er","antall":2},{"fra_aar":"2024","fra":"ILCA 4","til":"ILCA 6","antall":8},{"fra_aar":"2024","fra":"ILCA 4","til":"Ikke i NorgesCup","antall":8},{"fra_aar":"2024","fra":"ILCA 4","til":"ILCA 4","antall":15},{"fra_aar":"2024","fra":"ILCA 6","til":"ILCA 6","antall":17},{"fra_aar":"2024","fra":"ILCA 6","til":"Ikke i NorgesCup","antall":18},{"fra_aar":"2024","fra":"Brett","til":"Ikke i NorgesCup","antall":11},{"fra_aar":"2024","fra":"Brett","til":"Brett","antall":9},{"fra_aar":"2024","fra":"Optimist","til":"Optimist","antall":21},{"fra_aar":"2024","fra":"Optimist","til":"ILCA 4","antall":9},{"fra_aar":"2024","fra":"Optimist","til":"29er","antall":6},{"fra_aar":"2024","fra":"Optimist","til":"Ikke i NorgesCup","antall":16},{"fra_aar":"2024","fra":"RS Feva","til":"RS Feva","antall":3},{"fra_aar":"2024","fra":"Optimist","til":"RS Feva","antall":1},{"fra_aar":"2024","fra":"RS Feva","til":"29er","antall":1},{"fra_aar":"2024","fra":"RS Feva","til":"Ikke i NorgesCup","antall":6},{"fra_aar":"2025","fra":"29er","til":"29er","antall":13},{"fra_aar":"2025","fra":"ILCA 4","til":"29er","antall":2},{"fra_aar":"2025","fra":"Optimist","til":"29er","antall":2},{"fra_aar":"2025","fra":"29er","til":"Ikke i NorgesCup","antall":7},{"fra_aar":"2025","fra":"ILCA 4","til":"ILCA 6","antall":6},{"fra_aar":"2025","fra":"ILCA 6","til":"ILCA 6","antall":22},{"fra_aar":"2025","fra":"ILCA 4","til":"ILCA 4","antall":12},{"fra_aar":"2025","fra":"ILCA 4","til":"Ikke i NorgesCup","antall":6},{"fra_aar":"2025","fra":"ILCA 6","til":"Ikke i NorgesCup","antall":9},{"fra_aar":"2025","fra":"Optimist","til":"Optimist","antall":24},{"fra_aar":"2025","fra":"Optimist","til":"Ikke i NorgesCup","antall":15},{"fra_aar":"2025","fra":"Optimist","til":"ILCA 4","antall":5},{"fra_aar":"2019","fra":"Ny i NorgesCup","til":"29er","antall":20},{"fra_aar":"2019","fra":"Ny i NorgesCup","til":"Waszp","antall":5},{"fra_aar":"2019","fra":"Ny i NorgesCup","til":"Brett","antall":18},{"fra_aar":"2019","fra":"Ny i NorgesCup","til":"ILCA 6","antall":13},{"fra_aar":"2019","fra":"Ny i NorgesCup","til":"ILCA 4","antall":6},{"fra_aar":"2019","fra":"Ny i NorgesCup","til":"ILCA 7","antall":7},{"fra_aar":"2019","fra":"Ny i NorgesCup","til":"Optimist","antall":16},{"fra_aar":"2020","fra":"Ny i NorgesCup","til":"29er","antall":23},{"fra_aar":"2020","fra":"Ny i NorgesCup","til":"Brett","antall":4},{"fra_aar":"2020","fra":"Ny i NorgesCup","til":"ILCA 4","antall":11},{"fra_aar":"2020","fra":"Ny i NorgesCup","til":"ILCA 6","antall":2},{"fra_aar":"2020","fra":"Ny i NorgesCup","til":"ILCA 7","antall":2},{"fra_aar":"2020","fra":"Ny i NorgesCup","til":"Optimist","antall":30},{"fra_aar":"2021","fra":"Ny i NorgesCup","til":"29er","antall":12},{"fra_aar":"2021","fra":"Ny i NorgesCup","til":"ILCA 4","antall":8},{"fra_aar":"2021","fra":"Ny i NorgesCup","til":"ILCA 6","antall":8},{"fra_aar":"2021","fra":"Ny i NorgesCup","til":"ILCA 7","antall":7},{"fra_aar":"2021","fra":"Ny i NorgesCup","til":"Brett","antall":13},{"fra_aar":"2021","fra":"Ny i NorgesCup","til":"Optimist","antall":36},{"fra_aar":"2021","fra":"Ny i NorgesCup","til":"RS Feva","antall":20},{"fra_aar":"2021","fra":"Ny i NorgesCup","til":"Waszp","antall":10},{"fra_aar":"2022","fra":"Ny i NorgesCup","til":"29er","antall":6},{"fra_aar":"2022","fra":"Ny i NorgesCup","til":"ILCA 4","antall":8},{"fra_aar":"2022","fra":"Ny i NorgesCup","til":"Optimist","antall":33},{"fra_aar":"2022","fra":"Ny i NorgesCup","til":"ILCA 6","antall":4},{"fra_aar":"2022","fra":"Ny i NorgesCup","til":"ILCA 7","antall":4},{"fra_aar":"2022","fra":"Ny i NorgesCup","til":"Brett","antall":3},{"fra_aar":"2022","fra":"Ny i NorgesCup","til":"RS Feva","antall":23},{"fra_aar":"2022","fra":"Ny i NorgesCup","til":"Waszp","antall":1},{"fra_aar":"2023","fra":"Ny i NorgesCup","til":"29er","antall":9},{"fra_aar":"2023","fra":"Ny i NorgesCup","til":"ILCA 4","antall":6},{"fra_aar":"2023","fra":"Ny i NorgesCup","til":"ILCA 6","antall":2},{"fra_aar":"2023","fra":"Ny i NorgesCup","til":"ILCA 7","antall":1},{"fra_aar":"2023","fra":"Ny i NorgesCup","til":"Brett","antall":3},{"fra_aar":"2023","fra":"Ny i NorgesCup","til":"Optimist","antall":28},{"fra_aar":"2023","fra":"Ny i NorgesCup","til":"RS Feva","antall":6},{"fra_aar":"2024","fra":"Ny i NorgesCup","til":"29er","antall":6},{"fra_aar":"2024","fra":"Ny i NorgesCup","til":"ILCA 6","antall":5},{"fra_aar":"2024","fra":"Ny i NorgesCup","til":"ILCA 4","antall":2},{"fra_aar":"2024","fra":"Ny i NorgesCup","til":"Brett","antall":1},{"fra_aar":"2024","fra":"Ny i NorgesCup","til":"Optimist","antall":25},{"fra_aar":"2024","fra":"Ny i NorgesCup","til":"RS Feva","antall":28},{"fra_aar":"2025","fra":"Ny i NorgesCup","til":"29er","antall":9},{"fra_aar":"2025","fra":"Ny i NorgesCup","til":"ILCA 4","antall":1},{"fra_aar":"2025","fra":"Ny i NorgesCup","til":"ILCA 6","antall":5},{"fra_aar":"2025","fra":"Ny i NorgesCup","til":"Optimist","antall":21},{"fra_aar":"2025","fra":"Ny i NorgesCup","til":"Waszp","antall":4}],"nc_frafall":[{"klasse":"29er","aar":"2019","samme":0,"annen":0,"ute":12,"totalt":12},{"klasse":"Brett","aar":"2019","samme":4,"annen":0,"ute":8,"totalt":12},{"klasse":"ILCA 4","aar":"2019","samme":7,"annen":15,"ute":10,"totalt":32},{"klasse":"ILCA 6","aar":"2019","samme":12,"annen":10,"ute":18,"totalt":40},{"klasse":"ILCA 7","aar":"2019","samme":6,"annen":0,"ute":2,"totalt":8},{"klasse":"Optimist","aar":"2019","samme":28,"annen":33,"ute":28,"totalt":89},{"klasse":"29er","aar":"2020","samme":14,"annen":0,"ute":10,"totalt":24},{"klasse":"Optimist","aar":"2020","samme":16,"annen":14,"ute":14,"totalt":44},{"klasse":"Brett","aar":"2020","samme":17,"annen":0,"ute":5,"totalt":22},{"klasse":"ILCA 6","aar":"2020","samme":13,"annen":6,"ute":20,"totalt":39},{"klasse":"ILCA 4","aar":"2020","samme":18,"annen":13,"ute":7,"totalt":38},{"klasse":"ILCA 7","aar":"2020","samme":6,"annen":0,"ute":15,"totalt":21},{"klasse":"29er","aar":"2021","samme":17,"annen":10,"ute":19,"totalt":46},{"klasse":"Brett","aar":"2021","samme":18,"annen":0,"ute":3,"totalt":21},{"klasse":"ILCA 4","aar":"2021","samme":17,"annen":12,"ute":9,"totalt":38},{"klasse":"ILCA 6","aar":"2021","samme":20,"annen":2,"ute":6,"totalt":28},{"klasse":"ILCA 7","aar":"2021","samme":8,"annen":2,"ute":3,"totalt":13},{"klasse":"Optimist","aar":"2021","samme":39,"annen":1,"ute":6,"totalt":46},{"klasse":"29er","aar":"2022","samme":21,"annen":1,"ute":8,"totalt":30},{"klasse":"Optimist","aar":"2022","samme":30,"annen":29,"ute":16,"totalt":75},{"klasse":"ILCA 4","aar":"2022","samme":5,"annen":12,"ute":11,"totalt":28},{"klasse":"ILCA 6","aar":"2022","samme":21,"annen":5,"ute":16,"totalt":42},{"klasse":"ILCA 7","aar":"2022","samme":5,"annen":0,"ute":12,"totalt":17},{"klasse":"Brett","aar":"2022","samme":23,"annen":0,"ute":8,"totalt":31},{"klasse":"RS Feva","aar":"2022","samme":9,"annen":4,"ute":7,"totalt":20},{"klasse":"Waszp","aar":"2022","samme":11,"annen":0,"ute":6,"totalt":17},{"klasse":"29er","aar":"2023","samme":8,"annen":3,"ute":24,"totalt":35},{"klasse":"Optimist","aar":"2023","samme":25,"annen":18,"ute":20,"totalt":63},{"klasse":"ILCA 4","aar":"2023","samme":12,"annen":12,"ute":10,"totalt":34},{"klasse":"ILCA 6","aar":"2023","samme":17,"annen":1,"ute":21,"totalt":39},{"klasse":"ILCA 7","aar":"2023","samme":2,"annen":0,"ute":12,"totalt":14},{"klasse":"Brett","aar":"2023","samme":17,"annen":0,"ute":9,"totalt":26},{"klasse":"RS Feva","aar":"2023","samme":4,"annen":0,"ute":29,"totalt":33},{"klasse":"29er","aar":"2024","samme":5,"annen":1,"ute":14,"totalt":20},{"klasse":"ILCA 6","aar":"2024","samme":17,"annen":2,"ute":18,"totalt":37},{"klasse":"ILCA 4","aar":"2024","samme":15,"annen":8,"ute":8,"totalt":31},{"klasse":"Brett","aar":"2024","samme":9,"annen":0,"ute":11,"totalt":20},{"klasse":"Optimist","aar":"2024","samme":21,"annen":16,"ute":16,"totalt":53},{"klasse":"RS Feva","aar":"2024","samme":3,"annen":1,"ute":6,"totalt":10},{"klasse":"29er","aar":"2025","samme":13,"annen":0,"ute":7,"totalt":20},{"klasse":"ILCA 4","aar":"2025","samme":12,"annen":8,"ute":6,"totalt":26},{"klasse":"Optimist","aar":"2025","samme":24,"annen":7,"ute":15,"totalt":46},{"klasse":"ILCA 6","aar":"2025","samme":22,"annen":0,"ute":9,"totalt":31}],"nc_nokkel":[{"seilere":664,"fortsetter":63,"fortsetter_tekst":"63 %","bytter":29,"bytter_tekst":"29 %"}]};</script>
+<script>
+(function(){
+  if (window.d3) d3.formatDefaultLocale({decimal: ',', thousands: '\u00a0', grouping: [3], currency: ['', ' kr']});
+  const datasets = window.__NM_DATA__, calcs = {}, cache = {}, subs = [];
+  function get(id){
+    if (id in cache) return cache[id];
+    if (id in datasets) return cache[id] = datasets[id];
+    if (id in calcs){ const c = calcs[id]; return cache[id] = c.fn.apply(null, c.inputs.map(get)); }
+    return null;
+  }
+  window.dash = {
+    colors: ['#1f5f99','#e0892b','#3a9d6e','#8b5cb8','#c94f6d','#4fa3b8','#9a7b3a','#6b7785'],
+    calc(id, o){ calcs[id] = o; },
+    data(id){ const d = get(id); return d == null ? {status:'missing', data:[]} : {status:'ok', data:d, columns: d.length ? Object.keys(d[0]) : []}; },
+    onData(fn){ subs.push(fn); fn(); },
+    setLink(){}, params(){ return {}; }, setParams(){}, resetParams(){}, refresh(){}
+  };
+  let w = window.innerWidth, t;
+  window.addEventListener('resize', () => { clearTimeout(t); t = setTimeout(() => { if (Math.abs(window.innerWidth - w) > 4) { w = window.innerWidth; subs.forEach(f => f()); } }, 150); });
+  function post(){ try { parent.postMessage({nmDashHeight: document.documentElement.scrollHeight, id: document.body.dataset.id}, '*'); } catch(e){} }
+  new ResizeObserver(post).observe(document.body); window.addEventListener('load', post);
+})();
+</script>
+<script>
+window.NC_KLASSER = ['Optimist', 'RS Feva', 'ILCA 4', 'Brett', '29er', 'ILCA 6', 'Waszp', 'ILCA 7'];
+
+dash.calc('nc_klasse', {
+  inputs: ['nc_deltakelse'],
+  title: 'Seilere per klasse og år',
+  description: 'Unike seilere, antall regattaer og båter per klasse og år.',
+  fn: (nc_deltakelse) => {
+    const by = {};
+    nc_deltakelse.forEach(r => {
+      const k = r.klasse + '|' + r.aar;
+      const d = by[k] = by[k] || {klasse: r.klasse, aar: String(r.aar), p: {}, reg: {}, b: {}};
+      d.p[r.person] = 1; d.reg[r.regatta] = 1; d.b[r.baat] = 1;
+    });
+    return Object.values(by).map(d => {
+      const regattaer = Object.keys(d.reg).length, baater = Object.keys(d.b).length;
+      return {klasse: d.klasse, aar: d.aar, seilere: Object.keys(d.p).length, regattaer, baater, snitt_baater: Math.round(baater / regattaer * 10) / 10};
+    });
+  }
+});
+
+dash.calc('nc_aar', {
+  inputs: ['nc_deltakelse'],
+  title: 'Seilere per år',
+  description: 'Unike seilere i NorgesCup per år, alle klasser.',
+  fn: (nc_deltakelse) => {
+    const by = {};
+    nc_deltakelse.forEach(r => { (by[r.aar] = by[r.aar] || {})[r.person] = 1; });
+    return Object.keys(by).sort().map(a => ({aar: String(a), seilere: Object.keys(by[a]).length}));
+  }
+});
+
+dash.calc('nc_overgang', {
+  inputs: ['nc_deltakelse'],
+  title: 'Overganger mellom klasser',
+  description: 'Seilere fra hovedklassen ett år til hovedklassen året etter (eller ikke i NorgesCup), og nye seilere per klasse. Hovedklasse er klassen med flest regattaer det året.',
+  fn: (nc_deltakelse) => {
+    const ORDER = ['Optimist', 'RS Feva', 'ILCA 4', 'Brett', '29er', 'ILCA 6', 'Waszp', 'ILCA 7'];
+    const cnt = {}, finnes = {};
+    nc_deltakelse.forEach(r => {
+      const a = String(r.aar), k = r.person + '|' + a;
+      cnt[k] = cnt[k] || {}; cnt[k][r.klasse] = (cnt[k][r.klasse] || 0) + 1;
+      finnes[r.klasse + '|' + a] = 1;
+    });
+    const hoved = {};
+    Object.entries(cnt).forEach(([k, c]) => {
+      hoved[k] = Object.entries(c).sort((x, y) => (y[1] - x[1]) || (ORDER.indexOf(y[0]) - ORDER.indexOf(x[0])))[0][0];
+    });
+    const years = [...new Set(Object.keys(hoved).map(k => k.split('|')[1]))].sort();
+    const out = {};
+    const add = (fra_aar, fra, til) => { const k = fra_aar + '|' + fra + '|' + til; out[k] = out[k] || {fra_aar, fra, til, antall: 0}; out[k].antall += 1; };
+    Object.entries(hoved).forEach(([k, kl]) => {
+      const [p, a] = k.split('|'), neste = String(Number(a) + 1);
+      if (!years.includes(neste)) return;
+      if (!finnes[kl + '|' + neste]) return;
+      add(a, kl, hoved[p + '|' + neste] || 'Ikke i NorgesCup');
+    });
+    Object.entries(hoved).forEach(([k, kl]) => {
+      const [p, a] = k.split('|'), forrige = String(Number(a) - 1);
+      if (!years.includes(forrige)) return;
+      if (!hoved[p + '|' + forrige]) add(forrige, 'Ny i NorgesCup', kl);
+    });
+    return Object.values(out);
+  }
+});
+
+dash.calc('nc_frafall', {
+  inputs: ['nc_overgang'],
+  title: 'Året etter per klasse',
+  description: 'Per klasse og år: seilere som fortsetter i samme klasse, bytter klasse eller ikke er med i NorgesCup året etter.',
+  fn: (nc_overgang) => {
+    const by = {};
+    nc_overgang.filter(r => r.fra !== 'Ny i NorgesCup').forEach(r => {
+      const k = r.fra + '|' + r.fra_aar;
+      const d = by[k] = by[k] || {klasse: r.fra, aar: r.fra_aar, samme: 0, annen: 0, ute: 0};
+      if (r.til === r.fra) d.samme += r.antall; else if (r.til === 'Ikke i NorgesCup') d.ute += r.antall; else d.annen += r.antall;
+    });
+    return Object.values(by).map(d => ({...d, totalt: d.samme + d.annen + d.ute}));
+  }
+});
+
+dash.calc('nc_nokkel', {
+  inputs: ['nc_deltakelse', 'nc_frafall'],
+  title: 'Nøkkeltall',
+  description: 'Unike seilere i perioden, og andel som fortsetter i NorgesCup og som bytter klasse året etter.',
+  fn: (nc_deltakelse, nc_frafall) => {
+    const p = {}; nc_deltakelse.forEach(r => { p[r.person] = 1; });
+    let tot = 0, samme = 0, annen = 0;
+    nc_frafall.forEach(r => { tot += r.totalt; samme += r.samme; annen += r.annen; });
+    const fortsetter = tot ? Math.round((samme + annen) / tot * 100) : 0;
+    const bytter = samme + annen ? Math.round(annen / (samme + annen) * 100) : 0;
+    return [{seilere: Object.keys(p).length, fortsetter, fortsetter_tekst: fortsetter + ' %', bytter, bytter_tekst: bytter + ' %'}];
+  }
+});
+
+(function () {
+  const fmt = d3.format(',');
+  const CAP = 'var(--cds-font-size-caption)';
+  const KL = window.NC_KLASSER;
+  const C = {samme: dash.colors[0], annen: dash.colors[1], ute: 'var(--cds-chart-muted)'};
+  document.getElementById('lg-samme').style.background = C.samme;
+  document.getElementById('lg-annen').style.background = C.annen;
+  document.getElementById('lg-ute').style.background = C.ute;
+  let aarFrafall = 'alle', aarOvergang = 'alle';
+
+  function fail(el) { el.classList.remove('dash-skeleton'); el.innerHTML = ''; const d = document.createElement('div'); d.className = 'nc-fail'; d.textContent = 'Failed to load'; el.appendChild(d); }
+  function wait(el) { el.innerHTML = ''; el.classList.add('dash-skeleton'); }
+  function tipFor(box) { let t = box.querySelector(':scope > .nc-tip'); if (!t) { t = document.createElement('div'); t.className = 'nc-tip'; t.hidden = true; box.appendChild(t); } return t; }
+  function showTip(box, tip, ev, title, lines) {
+    tip.innerHTML = '';
+    const h = document.createElement('div'); h.className = 't'; h.textContent = title; tip.appendChild(h);
+    lines.forEach(([c, n, v]) => {
+      const l = document.createElement('div');
+      if (c) { const s = document.createElement('i'); s.style.cssText = 'display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:6px;background:' + c; l.appendChild(s); }
+      l.appendChild(document.createTextNode(n + ': ' + v)); tip.appendChild(l);
+    });
+    tip.hidden = false;
+    const r = box.getBoundingClientRect();
+    let x = ev.clientX - r.left + box.scrollLeft + 12, y = ev.clientY - r.top + 12;
+    if (x + tip.offsetWidth > box.scrollLeft + r.width) x = Math.max(0, ev.clientX - r.left + box.scrollLeft - tip.offsetWidth - 12);
+    tip.style.left = x + 'px'; tip.style.top = y + 'px';
+  }
+  function textWidth(svg, list) { const p = svg.append('text').style('font-size', CAP); let w = 0; list.forEach(t => { p.text(t); w = Math.max(w, p.node().getComputedTextLength()); }); p.remove(); return Math.ceil(w); }
+  function td(tr, txt, cls) { const c = document.createElement('td'); c.textContent = txt; if (cls) c.className = cls; tr.appendChild(c); }
+
+  function segButtons(id, years, current, onPick) {
+    const el = document.getElementById(id);
+    const opts = ['alle', ...years];
+    if (el.dataset.built !== opts.join(',')) {
+      el.innerHTML = '';
+      opts.forEach(o => {
+        const b = document.createElement('button'); b.type = 'button'; b.dataset.v = o;
+        b.textContent = o === 'alle' ? 'Alle år' : o + '→' + (Number(o) + 1);
+        b.addEventListener('click', () => onPick(o));
+        el.appendChild(b);
+      });
+      el.dataset.built = opts.join(',');
+    }
+    el.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === current)));
+  }
+
+  function multi(el, rows) {
+    el.innerHTML = '';
+    const years = [...new Set(rows.map(r => r.aar))].sort();
+    const max = d3.max(rows, r => r.seilere) || 1;
+    KL.forEach(k => {
+      const box = document.createElement('div'); box.className = 'nc-mini';
+      const h = document.createElement('h3'); h.textContent = k; box.appendChild(h);
+      el.appendChild(box);
+      const W = box.clientWidth || 240, H = 130, m = {l: 4, r: 4, t: 14, b: 18};
+      const svg = d3.select(box).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('height', H);
+      const x = d3.scaleBand(years, [m.l, W - m.r]).padding(0.2);
+      const y = d3.scaleLinear([0, max], [H - m.b, m.t]);
+      const tip = tipFor(box);
+      years.forEach(a => {
+        const r = rows.find(d => d.klasse === k && d.aar === a), cx = x(a) + x.bandwidth() / 2;
+        if (r) {
+          const g = svg.append('g');
+          g.append('rect').attr('x', x(a)).attr('width', x.bandwidth()).attr('y', y(r.seilere)).attr('height', y(0) - y(r.seilere)).attr('rx', 2).style('fill', dash.colors[0]);
+          g.append('text').attr('x', cx).attr('y', y(r.seilere) - 3).attr('text-anchor', 'middle').style('font-size', '10px').style('fill', 'var(--color-fg-muted)').text(fmt(r.seilere));
+          g.on('mousemove', ev => showTip(box, tip, ev, k + ' ' + a, [[null, 'Seilere', fmt(r.seilere)], [null, 'Regattaer', fmt(r.regattaer)], [null, 'Båter per regatta', String(r.snitt_baater).replace('.', ',')]])).on('mouseleave', () => { tip.hidden = true; });
+        }
+        svg.append('text').attr('x', cx).attr('y', H - 4).attr('text-anchor', 'middle').style('font-size', '10px').style('fill', 'var(--color-fg-muted)').text("'" + a.slice(2));
+      });
+      svg.append('line').attr('x1', m.l).attr('x2', W - m.r).attr('y1', y(0)).attr('y2', y(0)).style('stroke', 'var(--cds-chart-axis)');
+    });
+  }
+
+  function table(rows) {
+    const years = [...new Set(rows.map(r => r.aar))].sort();
+    const head = document.getElementById('tbl-head');
+    if (head.dataset.built !== years.join(',')) {
+      head.querySelectorAll('th:not(:first-child)').forEach(th => th.remove());
+      years.forEach(a => { const th = document.createElement('th'); th.textContent = a; head.appendChild(th); });
+      head.dataset.built = years.join(',');
+    }
+    const tb = document.querySelector('#tbl-klasse tbody'); tb.innerHTML = '';
+    KL.forEach(k => {
+      const tr = document.createElement('tr'); td(tr, k);
+      years.forEach(a => { const r = rows.find(d => d.klasse === k && d.aar === a); td(tr, r ? fmt(r.seilere) + ' / ' + r.regattaer : '–', r ? '' : 'muted'); });
+      tb.appendChild(tr);
+    });
+  }
+
+  function frafallChart(el, rows) {
+    el.classList.remove('dash-skeleton'); el.innerHTML = '';
+    const agg = KL.map(k => {
+      const rs = rows.filter(r => r.klasse === k && (aarFrafall === 'alle' || r.aar === aarFrafall));
+      const s = {klasse: k, samme: d3.sum(rs, r => r.samme), annen: d3.sum(rs, r => r.annen), ute: d3.sum(rs, r => r.ute)};
+      s.totalt = s.samme + s.annen + s.ute; return s;
+    }).filter(s => s.totalt > 0);
+    const W = el.clientWidth || 400;
+    const svg = d3.select(el).append('svg').attr('width', '100%');
+    const lw = textWidth(svg, agg.map(s => s.klasse + ' (' + s.totalt + ')'));
+    const m = {l: lw + 12, r: 8, t: 4, b: 4}, row = 30, H = m.t + m.b + agg.length * row;
+    svg.attr('viewBox', `0 0 ${W} ${H}`).attr('height', H); el.style.minHeight = H + 'px';
+    const x = d3.scaleLinear([0, 1], [m.l, W - m.r]);
+    const tip = tipFor(el);
+    agg.forEach((s, i) => {
+      const y = m.t + i * row, g = svg.append('g');
+      g.append('text').attr('x', m.l - 8).attr('y', y + row / 2 + 4).attr('text-anchor', 'end').style('font-size', CAP).style('fill', 'var(--color-fg)').text(s.klasse + ' (' + s.totalt + ')');
+      let acc = 0;
+      [['samme', 'Samme klasse'], ['annen', 'Annen klasse'], ['ute', 'Ikke i NorgesCup']].forEach(([f, n]) => {
+        const v = s[f] / s.totalt, x0 = x(acc), x1 = x(acc + v); acc += v;
+        g.append('rect').attr('x', x0).attr('y', y + 4).attr('width', Math.max(0, x1 - x0 - 1)).attr('height', row - 8).style('fill', C[f]);
+        if (x1 - x0 > 30) g.append('text').attr('x', (x0 + x1) / 2).attr('y', y + row / 2 + 4).attr('text-anchor', 'middle').style('font-size', CAP).style('fill', f === 'ute' ? 'var(--color-fg)' : '#fff').text(Math.round(v * 100) + ' %');
+      });
+      g.on('mousemove', ev => showTip(el, tip, ev, s.klasse + (aarFrafall === 'alle' ? ', alle år' : ', ' + aarFrafall + '→' + (Number(aarFrafall) + 1)),
+        [[C.samme, 'Samme klasse', fmt(s.samme)], [C.annen, 'Annen klasse', fmt(s.annen)], [C.ute, 'Ikke i NorgesCup', fmt(s.ute)]])).on('mouseleave', () => { tip.hidden = true; });
+    });
+  }
+
+  function matrise(el, rows) {
+    el.classList.remove('dash-skeleton'); el.innerHTML = '';
+    const rs = rows.filter(r => aarOvergang === 'alle' || r.fra_aar === aarOvergang);
+    const fraL = [...KL.filter(k => rs.some(r => r.fra === k)), 'Ny i NorgesCup'];
+    const tilL = [...KL.filter(k => rs.some(r => r.til === k)), 'Ikke i NorgesCup'];
+    const val = (f, t) => d3.sum(rs.filter(r => r.fra === f && r.til === t), r => r.antall);
+    const W0 = el.clientWidth || 400;
+    const svg = d3.select(el).append('svg');
+    const lw = textWidth(svg, fraL);
+    const cw = Math.max(46, Math.min(84, (W0 - lw - 20) / tilL.length)), row = 28;
+    const m = {l: lw + 12, t: 60, r: 70, b: 4};
+    const W = m.l + cw * tilL.length + m.r, H = m.t + fraL.length * row + m.b;
+    svg.attr('width', W).attr('height', H).attr('viewBox', `0 0 ${W} ${H}`); el.style.minHeight = H + 'px';
+    const max = d3.max(fraL.flatMap(f => tilL.map(t => val(f, t)))) || 1;
+    const op = d3.scaleSqrt([0, max], [0.06, 0.95]);
+    tilL.forEach((t, j) => {
+      const tx = m.l + j * cw + cw / 2;
+      svg.append('text').attr('transform', `translate(${tx},${m.t - 8}) rotate(-30)`).style('font-size', CAP).style('fill', 'var(--color-fg-muted)').text(t);
+    });
+    const tip = tipFor(el);
+    fraL.forEach((f, i) => {
+      const y = m.t + i * row, tot = d3.sum(tilL, t => val(f, t));
+      svg.append('text').attr('x', m.l - 8).attr('y', y + row / 2 + 4).attr('text-anchor', 'end').style('font-size', CAP).style('fill', 'var(--color-fg)').text(f);
+      tilL.forEach((t, j) => {
+        const v = val(f, t), x = m.l + j * cw, g = svg.append('g');
+        const col = t === 'Ikke i NorgesCup' ? 'var(--color-bad)' : f === t ? dash.colors[0] : dash.colors[1];
+        g.append('rect').attr('x', x + 1).attr('y', y + 1).attr('width', cw - 2).attr('height', row - 2).attr('rx', 3).style('fill', v ? col : 'transparent').style('fill-opacity', v ? op(v) : 0).style('stroke', 'var(--color-border-line)');
+        if (v) g.append('text').attr('x', x + cw / 2).attr('y', y + row / 2 + 4).attr('text-anchor', 'middle').style('font-size', CAP).style('fill', op(v) > 0.55 ? '#fff' : 'var(--color-fg)').text(fmt(v));
+        g.on('mousemove', ev => showTip(el, tip, ev, f + ' → ' + t, [[null, 'Seilere', fmt(v)], [null, 'Andel av raden', tot ? Math.round(v / tot * 100) + ' %' : '–']])).on('mouseleave', () => { tip.hidden = true; });
+      });
+    });
+  }
+
+  function draw() {
+    const fr = dash.data('nc_frafall'), og = dash.data('nc_overgang');
+    const fEl = document.getElementById('frafall-chart'), mEl = document.getElementById('matrise');
+    if (fr.status === 'ok') {
+      const ys = [...new Set(fr.data.map(r => r.aar))].sort();
+      segButtons('seg-frafall', ys, aarFrafall, v => { aarFrafall = v; draw(); });
+      frafallChart(fEl, fr.data);
+    } else if (fr.status === 'error') fail(fEl); else wait(fEl);
+    if (og.status === 'ok') {
+      const ys = [...new Set(og.data.map(r => r.fra_aar))].sort();
+      segButtons('seg-overgang', ys, aarOvergang, v => { aarOvergang = v; draw(); });
+      matrise(mEl, og.data);
+    } else if (og.status === 'error') fail(mEl); else wait(mEl);
+  }
+
+  dash.onData(() => {
+    ['nc_nokkel', 'nc_aar'].forEach(id => {
+      const st = dash.data(id);
+      document.querySelectorAll(`[data-source="${id}"][data-field]`).forEach(el => {
+        if (st.status !== 'ok') return;
+        el.classList.remove('dash-skeleton');
+        const r = el.dataset.where ? st.data.find(x => x.aar === el.dataset.where.split('=')[1]) : st.data[Number(el.dataset.row || 0)];
+        const v = r ? r[el.dataset.field] : null;
+        el.textContent = v == null ? '—' : typeof v === 'string' ? v : fmt(v);
+      });
+    });
+    const kl = dash.data('nc_klasse'), mEl = document.getElementById('multi');
+    if (kl.status === 'ok') { multi(mEl, kl.data); table(kl.data); } else if (kl.status === 'error') fail(mEl); else wait(mEl);
+    draw();
+  });
+})();
+</script>
+
+</body></html>
