@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="nb"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>NM-seilere: rekruttering og frafall</title><meta name="description" content="Unike seilere i NM i seiling 2017–2026, nye og utgående seilere per gruppe, og overgangen fra ungdom til senior.">
+<style>
+:root{color-scheme:light;
+--color-fg:#16212b;--color-fg-muted:#5b6670;--color-bg:#ffffff;--color-panel:#f6f8fa;--color-border-line:#dde3e8;
+--color-ok:#1b7f4b;--color-warn:#a66300;--color-bad:#c0392b;
+--cds-gap-xs:4px;--cds-gap-sm:8px;--cds-gap-md:16px;--cds-gap-lg:28px;--cds-gap-xl:40px;
+--cds-pad-xs:4px;--cds-pad-sm:8px;--cds-pad-md:12px;--cds-pad-lg:18px;--cds-pad-xl:28px;
+--cds-radius:8px;--cds-font-size-caption:12.5px;--cds-font-size-body:14.5px;--cds-font-size-heading:17px;--cds-font-size-title:30px;
+--cds-font-weight-medium:600;--cds-chart-grid:#e7ecf0;--cds-chart-axis:#9aa6b0;--cds-chart-muted:#c3ccd4;--cds-chart-reference:#7b8790;
+--cds-surface-popover:#ffffff;--cds-border:#d5dce2;--cds-shadow-popover:0 4px 16px rgba(16,33,43,.12);--cds-text-secondary:#5b6670;
+--cds-dur-slow:.3s;--cds-ease-out:cubic-bezier(.2,.7,.2,1);
+--font-anthropic-sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+--font-anthropic-serif:Georgia,"Times New Roman",serif;}
+html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:var(--font-anthropic-sans);font-size:14.5px;line-height:1.45}
+#dash-root{max-width:1200px;margin:0 auto;padding:24px max(16px,env(safe-area-inset-left,0px)) 32px max(16px,env(safe-area-inset-right,0px));box-sizing:border-box}
+#dash-root *, #dash-root *::before, #dash-root *::after{box-sizing:border-box}
+.dash-skeleton{color:transparent!important;background:linear-gradient(90deg,#eef2f5,#f6f8fa,#eef2f5);border-radius:6px}
+#ranking-gull .np-tablewrap,#ranking-totalt .np-tablewrap{max-height:none}
+@media (max-width:480px){#dash-root .np-table th,#dash-root .np-table td{padding:4px 5px}#ranking-gull th[data-field] .np-medal+*{display:none}}
+.sa-foot{margin-top:24px;font-size:12px;color:var(--color-fg-muted)}
+</style>
+<style>
+.np { font-family: var(--font-anthropic-sans); display: grid; gap: var(--cds-gap-lg); }
+.np-head h1 { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); margin: 0; text-wrap: balance; }
+.np-head p { margin: var(--cds-gap-xs) 0 0; color: var(--color-fg-muted); max-width: 72ch; font-size: var(--cds-font-size-body); }
+.np-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr)); gap: var(--cds-gap-md); }
+.np-card { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-lg); min-width: 0; }
+.np-kpi .lbl { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.np-kpi .val { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); font-variant-numeric: tabular-nums; margin-top: var(--cds-gap-xs); }
+.np-kpi .sub { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); margin-top: var(--cds-gap-xs); }
+.np-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr)); gap: var(--cds-gap-md); }
+.np-card h2 { font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); margin: 0; }
+.np-card .note { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); margin: var(--cds-gap-xs) 0 var(--cds-gap-md); }
+.np-chart { position: relative; min-height: 240px; }
+.np-legend { display: flex; gap: var(--cds-gap-md); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); margin-bottom: var(--cds-gap-sm); flex-wrap: wrap; }
+.np-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
+.np-tip { position: absolute; pointer-events: none; background: var(--cds-surface-popover); border: 1px solid var(--cds-border); border-radius: var(--cds-radius); box-shadow: var(--cds-shadow-popover); padding: var(--cds-pad-xs) var(--cds-pad-sm); font-size: var(--cds-font-size-caption); white-space: nowrap; z-index: 2; }
+.np-tip .t { color: var(--cds-text-secondary); margin-bottom: 2px; }
+.np-tablewrap { max-height: 34rem; overflow: auto; }
+.np-table { width: 100%; border-collapse: collapse; font-size: var(--cds-font-size-body); font-variant-numeric: tabular-nums; }
+.np-table th { position: sticky; top: 0; background: var(--color-panel); text-align: left; font-weight: var(--cds-font-weight-medium); padding: var(--cds-pad-xs) var(--cds-pad-sm); border-bottom: 1px solid var(--color-border-line); white-space: nowrap; }
+.np-table th button { all: unset; cursor: pointer; }
+.np-table th button:focus-visible, .np-table td button:focus-visible { outline: 2px solid var(--color-fg); }
+.np-table td { padding: var(--cds-pad-xs) var(--cds-pad-sm); border-bottom: 1px solid var(--color-border-line); }
+.np-table td button { all: unset; cursor: pointer; text-decoration: underline; text-decoration-color: var(--color-border-line); text-underline-offset: 3px; }
+.np-table td button:hover { text-decoration-color: var(--color-fg); }
+.np-table tr.sel td { background: color-mix(in srgb, var(--color-fg) 6%, transparent); }
+.np-table .num { text-align: right; }
+.np-table .muted { color: var(--color-fg-muted); }
+.np-medal { display: inline-block; width: .7rem; height: .7rem; border-radius: 50%; margin-right: 6px; vertical-align: -1px; }
+.np-g { background: #C9A227; } .np-s { background: #A7ADB4; } .np-b { background: #B4733C; }
+.np-tools { display: flex; gap: var(--cds-gap-md); align-items: center; flex-wrap: wrap; margin-bottom: var(--cds-gap-sm); }
+.np-search { width: 100%; max-width: 18rem; padding: var(--cds-pad-xs) var(--cds-pad-sm); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); background: var(--color-bg); color: var(--color-fg); font: inherit; }
+.np-tools label { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); display: flex; gap: 6px; align-items: center; }
+.np-count { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.np-person h3 { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-heading); margin: 0; }
+.np-person .sum { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); margin: var(--cds-gap-xs) 0 var(--cds-gap-md); }
+.np-method { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); max-width: 80ch; }
+.np-method ul { margin: var(--cds-gap-xs) 0 0; padding-left: 1.2em; }
+.np-fail { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: inherit; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.np-fail::before { content: ""; width: .375rem; height: .375rem; border-radius: 50%; background: var(--color-bad); }
+.np-seg { display: inline-flex; border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); overflow: hidden; margin-bottom: var(--cds-gap-md); flex-wrap: wrap; }
+.np-seg button { all: unset; cursor: pointer; padding: var(--cds-pad-xs) var(--cds-pad-md); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.np-seg button[aria-pressed="true"] { background: var(--color-fg); color: var(--color-bg); }
+.np-seg button:focus-visible { outline: 2px solid var(--color-fg); outline-offset: -2px; }
+.np-pos { color: var(--color-ok); } .np-neg { color: var(--color-bad); }
+.np-big { font-family: var(--font-anthropic-serif); font-size: var(--cds-font-size-title); font-weight: 400; font-variant-numeric: tabular-nums; }
+[data-dash-source-state=empty] { color: transparent; }
+[data-dash-source-state=refreshing] { opacity: .5; transition: opacity var(--cds-dur-slow); }
+</style>
+</head><body data-id="nm-rekruttering"><div id="dash-root">
+
+
+<div class="np">
+  <header class="np-head">
+    <h1 id="tittel">NM-seilere 2017–2026: rekruttering og frafall</h1>
+    <p id="takeaway"><b data-source="nokkeltall" data-field="personer" data-row="0" class="dash-skeleton">—</b> ulike personer har seilt NM i perioden, og <span data-source="nokkeltall" data-field="medaljevinnere" data-row="0" class="dash-skeleton">—</span> av dem har vunnet minst én NM-medalje.</p>
+  </header>
+
+  <section class="np-kpis" id="nokkeltall">
+    <div class="np-card np-kpi"><div class="lbl">Unike personer 2017–2026</div><div class="val dash-skeleton" data-source="nokkeltall" data-field="personer" data-row="0">—</div><div class="sub">Rormenn og mannskap</div></div>
+    <div class="np-card np-kpi"><div class="lbl">Personer i NM 2026</div><div class="val dash-skeleton" data-source="peraar" data-field="personer" data-where="aar=2026">—</div><div class="sub"><span data-source="peraar" data-field="nye" data-where="aar=2026">—</span> nye dette året</div></div>
+    <div class="np-card np-kpi"><div class="lbl">Medaljevinnere</div><div class="val dash-skeleton" data-source="nokkeltall" data-field="medaljevinnere" data-row="0">—</div><div class="sub">Minst én medalje i perioden</div></div>
+    <div class="np-card np-kpi"><div class="lbl">Medaljer delt ut</div><div class="val dash-skeleton" data-source="nokkeltall" data-field="medaljer" data-row="0">—</div><div class="sub">Én per person i medaljebåten</div></div>
+  </section>
+
+  <section class="np-card" id="per-aar">
+    <h2>Unike personer per år</h2>
+    <p class="note">Nye er personer som ikke har seilt NM tidligere i perioden. 2017 er første år i grunnlaget, så der skilles det ikke.</p>
+    <div class="np-legend"><span><i id="lg-gj"></i>Har seilt NM før</span><span><i id="lg-ny"></i>Nye</span><span><i style="background:var(--cds-chart-muted)"></i>2017 (første år)</span></div>
+    <div class="np-chart dash-skeleton" id="aar-chart" data-source="peraar"></div>
+  </section>
+
+  <section class="np-card" id="turnover">
+    <h2>Nye og utgående seilere</h2>
+    <p class="note">Ny: har ikke seilt NM i gruppen de to foregående sesongene. Utgående: seiler ikke NM i gruppen de to neste sesongene. 2020 er hoppet over som pandemiår, så målingen kan gjøres for 2019 og 2021–2024.</p>
+    <div class="np-seg" role="group" aria-label="Velg gruppe" id="np-seg">
+      <button type="button" data-g="Ungdomsklasser" aria-pressed="true">Ungdomsklasser</button>
+      <button type="button" data-g="Kjølbåt" aria-pressed="false">Kjølbåt</button>
+      <button type="button" data-g="Rating og havseiling" aria-pressed="false">Rating og havseiling</button>
+    </div>
+    <div class="np-legend"><span><i id="lg-nye"></i>Nye</span><span><i id="lg-ut"></i>Utgående</span><span><i style="background:var(--color-fg);border-radius:50%"></i>Netto</span></div>
+    <div class="np-chart dash-skeleton" id="turn-chart" data-source="turnover"></div>
+    <div class="np-tablewrap">
+      <table class="np-table" id="tbl-turn" data-source="turnover" data-row-key="gruppe,aar">
+        <thead><tr>
+          <th data-field="aar">År</th>
+          <th data-field="aktive" class="num">Aktive</th>
+          <th data-field="nye" class="num">Nye</th>
+          <th data-field="utgaende" class="num">Utgående</th>
+          <th data-field="netto" class="num">Netto</th>
+          <th data-field="andel_ut" class="num">Andel utgående</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="np-card" id="overgang">
+    <h2>Fra ungdomsklasse til seniorklasse</h2>
+    <p class="note">Seilere som slutter i ungdomsklassene, og hvor mange av dem som seiler NM i en seniorklasse de to neste sesongene.</p>
+    <p class="note"><span class="np-big dash-skeleton" data-source="overgang_total" data-field="andel_tekst" data-row="0">—</span> av alle som seilte ungdoms-NM 2017–2024, har senere seilt NM i en seniorklasse (<span data-source="overgang_total" data-field="videre" data-row="0">—</span> av <span data-source="overgang_total" data-field="ungdom" data-row="0">—</span> personer).</p>
+    <div class="np-legend"><span><i id="lg-videre"></i>Seiler videre i seniorklasse</span><span><i style="background:var(--cds-chart-muted)"></i>Ikke sett i NM igjen</span></div>
+    <div class="np-chart dash-skeleton" id="overgang-chart" data-source="overgang"></div>
+  </section>
+
+  <section class="np-method" id="metode">
+    <strong>Slik er tallene laget</strong>
+    <ul>
+      <li>Tallene bygger på resultatlistene fra alle norgesmesterskap i seiling 2017–2026. Personene er telt ut fra navnene i listene, og klasser som har skiftet navn er slått sammen (for eksempel Laser og ILCA). NM i e-seiling er ikke med.</li>
+      <li>Alle navn i en båt er med, både rormann og mannskap, så langt resultatlisten oppgir dem. Noen lister viser bare rormann, og for Yngling 2023 står det ingen navn.</li>
+      <li>Medaljer går til de tre beste båtene med norsk seilnummer, eller uten nasjonskode. Utenlandske båter foran er hoppet over, slik at f.eks. beste norske båt får gull. Alle i medaljebåten får en medalje.</li>
+      <li>Hver resultatliste regnes som et eget mesterskap med egne medaljer, for eksempel Optimist gutter og jenter, eller liten og stor klasse.</li>
+      <li>Siden viser ingen navn, bare antall. Personer er skilt på navnet slik det står i listen. Samme person med ulik skrivemåte (for eksempel med eller uten mellomnavn, eller bare initialer) telles som to personer, og to med samme navn telles som én.</li>
+      <li>2026 er tatt med slik sesongen står nå.</li>
+      <li>Grupper: Ungdomsklasser er Optimist, ILCA 4, ILCA 6, RS Feva, 29er, Andunge, Techno 293 og iQFoil U19. Kjølbåt er kjølbåtklassene utenom Andunge. Rating og havseiling er ORCi/NOR Rating, Shorthanded/Doublehanded og Sportsbåt shorthanded. Mange bytter mannskap og stiller ikke i NM hvert år, så andelen nye og utgående er høy i alle grupper. Tallene sier mest om utvikling over tid og forskjeller mellom gruppene. Ratinglistene for 2018 har få navn, så nye i rating 2019 er trolig for høyt.</li>
+    </ul>
+  </section>
+</div>
+
+
+<p class="sa-foot">Kilde: resultatlister fra Manage2Sail, sammenstilt av Norges Seilforbund. Oppdatert 22.10.2026.</p>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script>window.__NM_DATA__={"peraar":[{"aar":"2017","personer":1217,"nye":1217,"gjengangere":0,"starter":1334,"medaljevinnere":173},{"aar":"2018","personer":1192,"nye":772,"gjengangere":420,"starter":1277,"medaljevinnere":144},{"aar":"2019","personer":1399,"nye":753,"gjengangere":646,"starter":1558,"medaljevinnere":200},{"aar":"2020","personer":400,"nye":193,"gjengangere":207,"starter":413,"medaljevinnere":57},{"aar":"2021","personer":1251,"nye":491,"gjengangere":760,"starter":1432,"medaljevinnere":219},{"aar":"2022","personer":1392,"nye":560,"gjengangere":832,"starter":1592,"medaljevinnere":264},{"aar":"2023","personer":1361,"nye":554,"gjengangere":807,"starter":1540,"medaljevinnere":229},{"aar":"2024","personer":1337,"nye":424,"gjengangere":913,"starter":1532,"medaljevinnere":252},{"aar":"2025","personer":1336,"nye":466,"gjengangere":870,"starter":1529,"medaljevinnere":264},{"aar":"2026","personer":1495,"nye":438,"gjengangere":1057,"starter":1673,"medaljevinnere":261}],"nokkeltall":[{"personer":5868,"medaljevinnere":1073,"medaljer":2244}],"turnover":[{"gruppe":"Ungdomsklasser","aar":"2019","aktive":177,"nye":91,"utgaende":122,"netto":-31,"andel_ut":69},{"gruppe":"Ungdomsklasser","aar":"2021","aktive":174,"nye":103,"utgaende":65,"netto":38,"andel_ut":37},{"gruppe":"Ungdomsklasser","aar":"2022","aktive":223,"nye":113,"utgaende":92,"netto":21,"andel_ut":41},{"gruppe":"Ungdomsklasser","aar":"2023","aktive":221,"nye":117,"utgaende":143,"netto":-26,"andel_ut":65},{"gruppe":"Ungdomsklasser","aar":"2024","aktive":189,"nye":78,"utgaende":98,"netto":-20,"andel_ut":52},{"gruppe":"Kjølbåt","aar":"2019","aktive":771,"nye":418,"utgaende":445,"netto":-27,"andel_ut":58},{"gruppe":"Kjølbåt","aar":"2021","aktive":638,"nye":356,"utgaende":268,"netto":88,"andel_ut":42},{"gruppe":"Kjølbåt","aar":"2022","aktive":784,"nye":400,"utgaende":384,"netto":16,"andel_ut":49},{"gruppe":"Kjølbåt","aar":"2023","aktive":752,"nye":424,"utgaende":369,"netto":55,"andel_ut":49},{"gruppe":"Kjølbåt","aar":"2024","aktive":834,"nye":382,"utgaende":312,"netto":70,"andel_ut":37},{"gruppe":"Rating og havseiling","aar":"2019","aktive":220,"nye":170,"utgaende":108,"netto":62,"andel_ut":49},{"gruppe":"Rating og havseiling","aar":"2021","aktive":238,"nye":142,"utgaende":128,"netto":14,"andel_ut":54},{"gruppe":"Rating og havseiling","aar":"2022","aktive":245,"nye":141,"utgaende":150,"netto":-9,"andel_ut":61},{"gruppe":"Rating og havseiling","aar":"2023","aktive":219,"nye":127,"utgaende":138,"netto":-11,"andel_ut":63},{"gruppe":"Rating og havseiling","aar":"2024","aktive":158,"nye":64,"utgaende":97,"netto":-33,"andel_ut":61}],"overgang":[{"aar":"2017","ut_ungdom":96,"videre_senior":21,"borte":75,"andel":22},{"aar":"2018","ut_ungdom":90,"videre_senior":21,"borte":69,"andel":23},{"aar":"2019","ut_ungdom":122,"videre_senior":17,"borte":105,"andel":14},{"aar":"2021","ut_ungdom":65,"videre_senior":18,"borte":47,"andel":28},{"aar":"2022","ut_ungdom":92,"videre_senior":9,"borte":83,"andel":10},{"aar":"2023","ut_ungdom":143,"videre_senior":11,"borte":132,"andel":8},{"aar":"2024","ut_ungdom":98,"videre_senior":18,"borte":80,"andel":18}],"overgang_total":[{"ungdom":809,"videre":216,"andel":27,"andel_tekst":"27 %"}]};</script>
+<script>
+(function(){
+  if (window.d3) d3.formatDefaultLocale({decimal: ',', thousands: '\u00a0', grouping: [3], currency: ['', ' kr']});
+  const datasets = window.__NM_DATA__, calcs = {}, cache = {}, subs = [];
+  function get(id){
+    if (id in cache) return cache[id];
+    if (id in datasets) return cache[id] = datasets[id];
+    if (id in calcs){ const c = calcs[id]; return cache[id] = c.fn.apply(null, c.inputs.map(get)); }
+    return null;
+  }
+  window.dash = {
+    colors: ['#1f5f99','#e0892b','#3a9d6e','#8b5cb8','#c94f6d','#4fa3b8','#9a7b3a','#6b7785'],
+    calc(id, o){ calcs[id] = o; },
+    data(id){ const d = get(id); return d == null ? {status:'missing', data:[]} : {status:'ok', data:d, columns: d.length ? Object.keys(d[0]) : []}; },
+    onData(fn){ subs.push(fn); fn(); },
+    setLink(){}, params(){ return {}; }, setParams(){}, resetParams(){}, refresh(){}
+  };
+  let w = window.innerWidth, t;
+  window.addEventListener('resize', () => { clearTimeout(t); t = setTimeout(() => { if (Math.abs(window.innerWidth - w) > 4) { w = window.innerWidth; subs.forEach(f => f()); } }, 150); });
+  function post(){ try { parent.postMessage({nmDashHeight: document.documentElement.scrollHeight, id: document.body.dataset.id}, '*'); } catch(e){} }
+  new ResizeObserver(post).observe(document.body); window.addEventListener('load', post);
+})();
+</script>
+<script>
+dash.calc('peraar', {
+  inputs: ['deltakelser'],
+  title: 'Personer per år',
+  description: 'Unike personer per år, hvor mange som er nye i perioden, antall NM-starter og antall medaljevinnere.',
+  fn: (deltakelser) => {
+    const first = {};
+    deltakelser.forEach(r => { const a = String(r.aar); if (!first[r.person] || a < first[r.person]) first[r.person] = a; });
+    const by = {};
+    deltakelser.forEach(r => {
+      const a = String(r.aar);
+      by[a] = by[a] || {aar: a, p: {}, m: {}, starter: 0};
+      by[a].p[r.person] = 1; by[a].starter += 1;
+      if (r.medalje) by[a].m[r.person] = 1;
+    });
+    return Object.values(by).sort((x, y) => x.aar.localeCompare(y.aar)).map(d => {
+      const ps = Object.keys(d.p);
+      const nye = ps.filter(p => first[p] === d.aar).length;
+      return {aar: d.aar, personer: ps.length, nye, gjengangere: ps.length - nye, starter: d.starter, medaljevinnere: Object.keys(d.m).length};
+    });
+  }
+});
+
+dash.calc('nokkeltall', {
+  inputs: ['deltakelser'],
+  title: 'Nøkkeltall',
+  description: 'Antall unike personer, medaljevinnere og utdelte medaljer i hele perioden.',
+  fn: (deltakelser) => {
+    const p = {}, m = {}; let medaljer = 0;
+    deltakelser.forEach(r => { p[r.person] = 1; if (r.medalje) { m[r.person] = 1; medaljer += 1; } });
+    return [{personer: Object.keys(p).length, medaljevinnere: Object.keys(m).length, medaljer}];
+  }
+});
+
+dash.calc('turnover', {
+  inputs: ['deltakelser', 'lister'],
+  title: 'Nye og utgående per gruppe',
+  description: 'Per gruppe og år: aktive, nye (ikke i gruppen de to foregående sesongene) og utgående (ikke i gruppen de to neste sesongene). 2020 er hoppet over.',
+  fn: (deltakelser, lister) => {
+    const SEAS = ['2017', '2018', '2019', '2021', '2022', '2023', '2024', '2025', '2026'];
+    const gr = {};
+    lister.forEach(l => {
+      gr[l.kilde.replace(/\.pdf$/, '')] = l.ungdom === 'ja' ? 'Ungdomsklasser' : l.kategori === 'Kjølbåt' ? 'Kjølbåt' : l.kategori === 'Rating og havseiling' ? 'Rating og havseiling' : null;
+    });
+    const act = {};
+    deltakelser.forEach(r => { const g = gr[r.liste]; if (!g) return; const k = g + '|' + r.aar; (act[k] = act[k] || new Set()).add(r.person); });
+    const s = (g, y) => act[g + '|' + y] || new Set();
+    const out = [];
+    ['Ungdomsklasser', 'Kjølbåt', 'Rating og havseiling'].forEach(g => {
+      for (let i = 2; i < SEAS.length - 2; i++) {
+        const a = s(g, SEAS[i]);
+        const prev = new Set([...s(g, SEAS[i - 1]), ...s(g, SEAS[i - 2])]);
+        const next = new Set([...s(g, SEAS[i + 1]), ...s(g, SEAS[i + 2])]);
+        const nye = [...a].filter(p => !prev.has(p)).length, ut = [...a].filter(p => !next.has(p)).length;
+        out.push({gruppe: g, aar: SEAS[i], aktive: a.size, nye, utgaende: ut, netto: nye - ut, andel_ut: a.size ? Math.round(ut / a.size * 100) : null});
+      }
+    });
+    return out;
+  }
+});
+
+dash.calc('overgang', {
+  inputs: ['deltakelser', 'lister'],
+  title: 'Overgang ungdom til senior',
+  description: 'Per år: seilere som slutter i ungdomsklassene (ikke i ungdoms-NM de to neste sesongene), og hvor mange som seiler NM i en seniorklasse de to neste sesongene. 2020 er hoppet over.',
+  fn: (deltakelser, lister) => {
+    const SEAS = ['2017', '2018', '2019', '2021', '2022', '2023', '2024', '2025', '2026'];
+    const ung = {};
+    lister.forEach(l => { ung[l.kilde.replace(/\.pdf$/, '')] = l.ungdom === 'ja'; });
+    const U = {}, Sn = {};
+    deltakelser.forEach(r => { const m = ung[r.liste] ? U : Sn; (m[r.aar] = m[r.aar] || new Set()).add(r.person); });
+    const g = (m, y) => m[y] || new Set();
+    const out = [];
+    for (let i = 0; i < SEAS.length - 2; i++) {
+      const y = SEAS[i], n1 = SEAS[i + 1], n2 = SEAS[i + 2];
+      const ut = [...g(U, y)].filter(p => !g(U, n1).has(p) && !g(U, n2).has(p));
+      const videre = ut.filter(p => g(Sn, n1).has(p) || g(Sn, n2).has(p)).length;
+      out.push({aar: y, ut_ungdom: ut.length, videre_senior: videre, borte: ut.length - videre, andel: ut.length ? Math.round(videre / ut.length * 100) : null});
+    }
+    return out;
+  }
+});
+
+dash.calc('overgang_total', {
+  inputs: ['deltakelser', 'lister'],
+  title: 'Ungdom som senere seiler senior',
+  description: 'Personer som seilte ungdoms-NM 2017–2024, og hvor mange av dem som senere har seilt NM i en seniorklasse.',
+  fn: (deltakelser, lister) => {
+    const ung = {};
+    lister.forEach(l => { ung[l.kilde.replace(/\.pdf$/, '')] = l.ungdom === 'ja'; });
+    const firstU = {}, sen = {};
+    deltakelser.forEach(r => {
+      const a = String(r.aar);
+      if (ung[r.liste]) { if (a <= '2024' && (!firstU[r.person] || a < firstU[r.person])) firstU[r.person] = a; }
+      else (sen[r.person] = sen[r.person] || []).push(a);
+    });
+    const ps = Object.keys(firstU);
+    const videre = ps.filter(p => (sen[p] || []).some(a => a > firstU[p])).length;
+    const andel = ps.length ? Math.round(videre / ps.length * 100) : 0;
+    return [{ungdom: ps.length, videre, andel, andel_tekst: andel + ' %'}];
+  }
+});
+
+(function () {
+  const fmt = d3.format(',');
+  const CAP = 'var(--cds-font-size-caption)';
+  const MED = {gull: 'np-g', 'sølv': 'np-s', bronse: 'np-b'};
+  const MEDTXT = {gull: 'Gull', 'sølv': 'Sølv', bronse: 'Bronse'};
+  document.getElementById('lg-gj').style.background = dash.colors[0];
+  document.getElementById('lg-ny').style.background = dash.colors[1];
+
+
+  function fail(el) { el.classList.remove('dash-skeleton'); el.innerHTML = ''; const d = document.createElement('div'); d.className = 'np-fail'; d.textContent = 'Failed to load'; el.appendChild(d); }
+  function tipFor(box) { let t = box.querySelector('.np-tip'); if (!t) { t = document.createElement('div'); t.className = 'np-tip'; t.hidden = true; box.appendChild(t); } return t; }
+  function showTip(box, tip, ev, title, lines) {
+    tip.innerHTML = '';
+    const h = document.createElement('div'); h.className = 't'; h.textContent = title; tip.appendChild(h);
+    lines.forEach(([c, n, v]) => {
+      const l = document.createElement('div');
+      if (c) { const s = document.createElement('i'); s.style.cssText = 'display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:6px;background:' + c; l.appendChild(s); }
+      l.appendChild(document.createTextNode(n + ': ' + v)); tip.appendChild(l);
+    });
+    tip.hidden = false;
+    const r = box.getBoundingClientRect();
+    let x = ev.clientX - r.left + 12, y = ev.clientY - r.top + 12;
+    if (x + tip.offsetWidth > r.width) x = Math.max(0, ev.clientX - r.left - tip.offsetWidth - 12);
+    tip.style.left = x + 'px'; tip.style.top = y + 'px';
+  }
+
+  function yearChart(el, rows) {
+    el.classList.remove('dash-skeleton'); el.innerHTML = '';
+    const W = el.clientWidth || 400, H = 260, m = {l: 8, r: 8, t: 24, b: 28};
+    const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('height', H);
+    el.style.minHeight = H + 'px';
+    const first = rows.length ? rows[0].aar : null;
+    const x = d3.scaleBand(rows.map(r => r.aar), [m.l, W - m.r]).padding(0.3);
+    const y = d3.scaleLinear([0, d3.max(rows, r => r.personer) || 1], [H - m.b, m.t]).nice();
+    y.ticks(4).forEach(t => svg.append('line').attr('x1', m.l).attr('x2', W - m.r).attr('y1', y(t)).attr('y2', y(t)).style('stroke', 'var(--cds-chart-grid)'));
+    const tip = tipFor(el), bw = Math.min(56, x.bandwidth());
+    rows.forEach(r => {
+      const cx = x(r.aar) + x.bandwidth() / 2, g = svg.append('g');
+      if (r.aar === first) {
+        g.append('rect').attr('x', cx - bw / 2).attr('width', bw).attr('y', y(r.personer)).attr('height', y(0) - y(r.personer)).attr('rx', 3).style('fill', 'var(--cds-chart-muted)');
+      } else {
+        g.append('rect').attr('x', cx - bw / 2).attr('width', bw).attr('y', y(r.gjengangere)).attr('height', y(0) - y(r.gjengangere)).style('fill', dash.colors[0]);
+        g.append('rect').attr('x', cx - bw / 2).attr('width', bw).attr('y', y(r.personer)).attr('height', y(r.gjengangere) - y(r.personer)).attr('rx', 3).style('fill', dash.colors[1]);
+      }
+      if (x.bandwidth() > 26) g.append('text').attr('x', cx).attr('y', y(r.personer) - 6).attr('text-anchor', 'middle').style('font-size', CAP).style('fill', 'var(--color-fg)').text(fmt(r.personer));
+      g.append('text').attr('x', cx).attr('y', H - 8).attr('text-anchor', 'middle').style('font-size', CAP).style('fill', 'var(--color-fg-muted)').text(x.bandwidth() > 30 ? r.aar : "'" + r.aar.slice(2));
+      const lines = r.aar === first ? [[null, 'Personer', fmt(r.personer)]] : [[dash.colors[0], 'Har seilt NM før', fmt(r.gjengangere)], [dash.colors[1], 'Nye', fmt(r.nye)]];
+      lines.push([null, 'NM-starter', fmt(r.starter)], [null, 'Medaljevinnere', fmt(r.medaljevinnere)]);
+      g.on('mousemove', ev => showTip(el, tip, ev, r.aar, lines)).on('mouseleave', () => { tip.hidden = true; });
+    });
+    svg.append('line').attr('x1', m.l).attr('x2', W - m.r).attr('y1', y(0)).attr('y2', y(0)).style('stroke', 'var(--cds-chart-axis)');
+  }
+
+  function td(tr, txt, cls) { const c = document.createElement('td'); c.textContent = txt; if (cls) c.className = cls; tr.appendChild(c); }
+
+  // ---- turnover ----
+  let gruppe = 'Ungdomsklasser';
+  document.getElementById('lg-nye').style.background = dash.colors[2];
+  document.getElementById('lg-ut').style.background = dash.colors[4];
+  document.getElementById('lg-videre').style.background = dash.colors[0];
+  document.querySelectorAll('#np-seg button').forEach(b => b.addEventListener('click', () => {
+    gruppe = b.dataset.g;
+    document.querySelectorAll('#np-seg button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+    drawTurnover();
+  }));
+
+  function turnChart(el, rows) {
+    el.classList.remove('dash-skeleton'); el.innerHTML = '';
+    const W = el.clientWidth || 400, H = 280, m = {l: 40, r: 8, t: 16, b: 28};
+    const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('height', H);
+    el.style.minHeight = H + 'px';
+    const x = d3.scaleBand(rows.map(r => r.aar), [m.l, W - m.r]).padding(0.25);
+    const mx = d3.max(rows, r => Math.max(r.nye, r.utgaende)) || 1;
+    const y = d3.scaleLinear([-mx, mx], [H - m.b, m.t]).nice();
+    y.ticks(5).forEach(t => {
+      svg.append('line').attr('x1', m.l).attr('x2', W - m.r).attr('y1', y(t)).attr('y2', y(t)).style('stroke', t === 0 ? 'var(--cds-chart-axis)' : 'var(--cds-chart-grid)');
+      svg.append('text').attr('x', m.l - 6).attr('y', y(t) + 4).attr('text-anchor', 'end').style('font-size', CAP).style('fill', 'var(--color-fg-muted)').text(fmt(Math.abs(t)));
+    });
+    const tip = tipFor(el), bw = Math.min(48, x.bandwidth());
+    rows.forEach(r => {
+      const cx = x(r.aar) + x.bandwidth() / 2, g = svg.append('g');
+      g.append('rect').attr('x', cx - bw / 2).attr('width', bw).attr('y', y(r.nye)).attr('height', y(0) - y(r.nye)).attr('rx', 3).style('fill', dash.colors[2]);
+      g.append('rect').attr('x', cx - bw / 2).attr('width', bw).attr('y', y(0)).attr('height', y(-r.utgaende) - y(0)).attr('rx', 3).style('fill', dash.colors[4]);
+      g.append('circle').attr('cx', cx).attr('cy', y(r.netto)).attr('r', 5).style('fill', 'var(--color-fg)').style('stroke', 'var(--color-panel)').attr('stroke-width', 2);
+      g.append('text').attr('x', cx + 9).attr('y', y(r.netto) + 4).style('font-size', CAP).style('fill', 'var(--color-fg)').text((r.netto > 0 ? '+' : '') + fmt(r.netto));
+      g.append('text').attr('x', cx).attr('y', H - 8).attr('text-anchor', 'middle').style('font-size', CAP).style('fill', 'var(--color-fg-muted)').text(r.aar);
+      g.on('mousemove', ev => showTip(el, tip, ev, gruppe + ' ' + r.aar, [[null, 'Aktive', fmt(r.aktive)], [dash.colors[2], 'Nye', fmt(r.nye)], [dash.colors[4], 'Utgående', fmt(r.utgaende)], [null, 'Netto', (r.netto > 0 ? '+' : '') + fmt(r.netto)]]))
+       .on('mouseleave', () => { tip.hidden = true; });
+    });
+  }
+
+  function drawTurnover() {
+    const st = dash.data('turnover'), el = document.getElementById('turn-chart');
+    const tb = document.querySelector('#tbl-turn tbody'); tb.innerHTML = '';
+    if (st.status !== 'ok') { if (st.status === 'error') fail(el); else { el.innerHTML = ''; el.classList.add('dash-skeleton'); } return; }
+    const rows = st.data.filter(r => r.gruppe === gruppe);
+    turnChart(el, rows);
+    rows.forEach(r => {
+      const tr = document.createElement('tr'); tr.dataset.key = encodeURIComponent(r.gruppe) + ',' + encodeURIComponent(r.aar);
+      td(tr, r.aar); td(tr, fmt(r.aktive), 'num'); td(tr, fmt(r.nye), 'num'); td(tr, fmt(r.utgaende), 'num');
+      td(tr, (r.netto > 0 ? '+' : '') + fmt(r.netto), 'num ' + (r.netto > 0 ? 'np-pos' : r.netto < 0 ? 'np-neg' : ''));
+      td(tr, r.andel_ut == null ? '' : r.andel_ut + ' %', 'num');
+      tb.appendChild(tr);
+    });
+  }
+
+  function overgangChart(el, rows) {
+    el.classList.remove('dash-skeleton'); el.innerHTML = '';
+    const W = el.clientWidth || 400, H = 260, m = {l: 8, r: 8, t: 24, b: 28};
+    const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('height', H);
+    el.style.minHeight = H + 'px';
+    const x = d3.scaleBand(rows.map(r => r.aar), [m.l, W - m.r]).padding(0.3);
+    const y = d3.scaleLinear([0, d3.max(rows, r => r.ut_ungdom) || 1], [H - m.b, m.t]).nice();
+    y.ticks(4).forEach(t => svg.append('line').attr('x1', m.l).attr('x2', W - m.r).attr('y1', y(t)).attr('y2', y(t)).style('stroke', 'var(--cds-chart-grid)'));
+    const tip = tipFor(el), bw = Math.min(52, x.bandwidth());
+    rows.forEach(r => {
+      const cx = x(r.aar) + x.bandwidth() / 2, g = svg.append('g');
+      g.append('rect').attr('x', cx - bw / 2).attr('width', bw).attr('y', y(r.videre_senior)).attr('height', y(0) - y(r.videre_senior)).style('fill', dash.colors[0]);
+      g.append('rect').attr('x', cx - bw / 2).attr('width', bw).attr('y', y(r.ut_ungdom)).attr('height', y(r.videre_senior) - y(r.ut_ungdom)).attr('rx', 3).style('fill', 'var(--cds-chart-muted)');
+      g.append('text').attr('x', cx).attr('y', y(r.ut_ungdom) - 6).attr('text-anchor', 'middle').style('font-size', CAP).style('fill', 'var(--color-fg)').text(r.andel == null ? '' : r.andel + ' %');
+      g.append('text').attr('x', cx).attr('y', H - 8).attr('text-anchor', 'middle').style('font-size', CAP).style('fill', 'var(--color-fg-muted)').text(x.bandwidth() > 30 ? r.aar : "'" + r.aar.slice(2));
+      g.on('mousemove', ev => showTip(el, tip, ev, 'Sluttet i ungdomsklasse etter ' + r.aar, [[null, 'Personer', fmt(r.ut_ungdom)], [dash.colors[0], 'Seiler videre i seniorklasse', fmt(r.videre_senior) + ' (' + r.andel + ' %)'], ['var(--cds-chart-muted)', 'Ikke sett i NM igjen', fmt(r.borte)]]))
+       .on('mouseleave', () => { tip.hidden = true; });
+    });
+    svg.append('line').attr('x1', m.l).attr('x2', W - m.r).attr('y1', y(0)).attr('y2', y(0)).style('stroke', 'var(--cds-chart-axis)');
+  }
+
+  dash.onData(() => {
+    [['nokkeltall', null], ['peraar', 'aar'], ['overgang_total', null]].forEach(([id]) => {
+      const st = dash.data(id);
+      document.querySelectorAll(`[data-source="${id}"][data-field]`).forEach(el => {
+        if (st.status !== 'ok') return;
+        el.classList.remove('dash-skeleton');
+        const r = el.dataset.where ? st.data.find(x => x.aar === el.dataset.where.split('=')[1]) : st.data[Number(el.dataset.row || 0)];
+        const v = r ? r[el.dataset.field] : null;
+        el.textContent = v == null ? '—' : typeof v === 'string' ? v : fmt(v);
+      });
+    });
+    drawTurnover();
+    const og = dash.data('overgang'), ogEl = document.getElementById('overgang-chart');
+    if (og.status === 'ok') overgangChart(ogEl, og.data); else if (og.status === 'error') fail(ogEl); else { ogEl.innerHTML = ''; ogEl.classList.add('dash-skeleton'); }
+    const pa = dash.data('peraar'), el = document.getElementById('aar-chart');
+    if (pa.status === 'ok') yearChart(el, pa.data); else if (pa.status === 'error') fail(el); else { el.innerHTML = ''; el.classList.add('dash-skeleton'); }
+  });
+})();
+</script>
+
+</body></html>
