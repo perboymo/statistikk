@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="nb"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>NM-seilere: rekruttering og frafall</title><meta name="description" content="Unike seilere i NM i seiling 2017–2026, nye og utgående seilere per gruppe, og overgangen fra ungdom til senior.">
+<title>NM-seilere: rekruttering og frafall</title><meta name="description" content="Unike seilere i NM i seiling 2017–2026, nye og utgående seilere per gruppe, og overgangen fra ungdom til senior og seilsportsligaen.">
 <style>
 :root{color-scheme:light;
 --color-fg:#16212b;--color-fg-muted:#5b6670;--color-bg:#ffffff;--color-panel:#f6f8fa;--color-border-line:#dde3e8;
@@ -120,10 +120,14 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 
   <section class="np-card" id="overgang">
     <h2>Fra ungdomsklasse til seniorklasse</h2>
-    <p class="note">Seilere som slutter i ungdomsklassene, og hvor mange av dem som seiler NM i en seniorklasse de to neste sesongene.</p>
-    <p class="note"><span class="np-big dash-skeleton" data-source="overgang_total" data-field="andel_tekst" data-row="0">—</span> av alle som seilte ungdoms-NM 2017–2024, har senere seilt NM i en seniorklasse (<span data-source="overgang_total" data-field="videre" data-row="0">—</span> av <span data-source="overgang_total" data-field="ungdom" data-row="0">—</span> personer).</p>
-    <div class="np-legend"><span><i id="lg-videre"></i>Seiler videre i seniorklasse</span><span><i style="background:var(--cds-chart-muted)"></i>Ikke sett i NM igjen</span></div>
+    <p class="note">Seilere som slutter i ungdomsklassene, og hvor mange av dem som seiler NM i en seniorklasse eller seilsportsligaen de to neste sesongene. Seilsportsligaen er seilt på seniornivå i 2019 og 2021–2026.</p>
+    <p class="note"><span class="np-big dash-skeleton" data-source="overgang_total" data-field="andel_tekst" data-row="0">—</span> av alle som seilte ungdoms-NM 2017–2024, har senere seilt NM i en seniorklasse (<span data-source="overgang_total" data-field="videre" data-row="0">—</span> av <span data-source="overgang_total" data-field="ungdom" data-row="0">—</span> personer). Regnes seilsportsligaen med, er andelen <b data-source="overgang_total" data-field="andel_liga_tekst" data-row="0" class="dash-skeleton">—</b> (<span data-source="overgang_total" data-field="videre_liga" data-row="0">—</span> personer).</p>
+    <div class="np-legend"><span><i id="lg-videre"></i>Seniorklasse i NM</span><span><i id="lg-kunliga"></i>Bare seilsportsligaen</span><span><i style="background:var(--cds-chart-muted)"></i>Ikke sett igjen</span></div>
     <div class="np-chart dash-skeleton" id="overgang-chart" data-source="overgang"></div>
+    <h2 id="liga-tittel" style="margin-top:var(--cds-gap-lg)">Tidligere ungdomsseilere i seilsportsligaen</h2>
+    <p class="note">Deltakere i seilsportsligaen hvert år, og hvor mange av dem som har seilt ungdoms-NM tidligere. Ungdomsdata finnes fra 2017, så tallene for de første årene er lavere enn de egentlig er.</p>
+    <div class="np-legend"><span><i id="lg-ligaung"></i>Har seilt ungdoms-NM tidligere</span><span><i style="background:var(--cds-chart-muted)"></i>Øvrige ligaseilere</span></div>
+    <div class="np-chart dash-skeleton" id="liga-chart" data-source="liga_rekruttering"></div>
   </section>
 
   <section class="np-method" id="metode">
@@ -135,16 +139,17 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
       <li>Hver resultatliste regnes som et eget mesterskap med egne medaljer, for eksempel Optimist gutter og jenter, eller liten og stor klasse.</li>
       <li>Siden viser ingen navn, bare antall. Personer er skilt på navnet slik det står i listen. Samme person med ulik skrivemåte (for eksempel med eller uten mellomnavn, eller bare initialer) telles som to personer, og to med samme navn telles som én.</li>
       <li>2026 er tatt med slik sesongen står nå.</li>
+      <li>Seilsportsligaen: deltakerlister fra alle fire runder hvert år i 2019 og 2021–2026, alle divisjoner. Ligaseilerne er koblet til NM-dataene på fornavn og etternavn. Bare navn og år er brukt. Seilere med ulik skrivemåte i liga og NM, for eksempel med eller uten mellomnavn, blir ikke koblet, så tallene for overgang til ligaen er trolig noe lave.</li>
       <li>Grupper: Ungdomsklasser er Optimist, ILCA 4, ILCA 6, RS Feva, 29er, Andunge, Techno 293 og iQFoil U19. Kjølbåt er kjølbåtklassene utenom Andunge. Rating og havseiling er ORCi/NOR Rating, Shorthanded/Doublehanded og Sportsbåt shorthanded. Mange bytter mannskap og stiller ikke i NM hvert år, så andelen nye og utgående er høy i alle grupper. Tallene sier mest om utvikling over tid og forskjeller mellom gruppene. Ratinglistene for 2018 har få navn, så nye i rating 2019 er trolig for høyt.</li>
     </ul>
   </section>
 </div>
 
 
-<p class="sa-foot">Kilde: resultatlister fra Manage2Sail, sammenstilt av Norges Seilforbund. Oppdatert 22.10.2026.</p>
+<p class="sa-foot">Kilde: resultatlister fra Manage2Sail, sammenstilt av Norges Seilforbund. Oppdatert 27.10.2026.</p>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
-<script>window.__NM_DATA__={"peraar":[{"aar":"2017","personer":1217,"nye":1217,"gjengangere":0,"starter":1334,"medaljevinnere":173},{"aar":"2018","personer":1192,"nye":772,"gjengangere":420,"starter":1277,"medaljevinnere":144},{"aar":"2019","personer":1399,"nye":753,"gjengangere":646,"starter":1558,"medaljevinnere":200},{"aar":"2020","personer":400,"nye":193,"gjengangere":207,"starter":413,"medaljevinnere":57},{"aar":"2021","personer":1251,"nye":491,"gjengangere":760,"starter":1432,"medaljevinnere":219},{"aar":"2022","personer":1392,"nye":560,"gjengangere":832,"starter":1592,"medaljevinnere":264},{"aar":"2023","personer":1361,"nye":554,"gjengangere":807,"starter":1540,"medaljevinnere":229},{"aar":"2024","personer":1337,"nye":424,"gjengangere":913,"starter":1532,"medaljevinnere":252},{"aar":"2025","personer":1336,"nye":466,"gjengangere":870,"starter":1529,"medaljevinnere":264},{"aar":"2026","personer":1495,"nye":438,"gjengangere":1057,"starter":1673,"medaljevinnere":261}],"nokkeltall":[{"personer":5868,"medaljevinnere":1073,"medaljer":2244}],"turnover":[{"gruppe":"Ungdomsklasser","aar":"2019","aktive":177,"nye":91,"utgaende":122,"netto":-31,"andel_ut":69},{"gruppe":"Ungdomsklasser","aar":"2021","aktive":174,"nye":103,"utgaende":65,"netto":38,"andel_ut":37},{"gruppe":"Ungdomsklasser","aar":"2022","aktive":223,"nye":113,"utgaende":92,"netto":21,"andel_ut":41},{"gruppe":"Ungdomsklasser","aar":"2023","aktive":221,"nye":117,"utgaende":143,"netto":-26,"andel_ut":65},{"gruppe":"Ungdomsklasser","aar":"2024","aktive":189,"nye":78,"utgaende":98,"netto":-20,"andel_ut":52},{"gruppe":"Kjølbåt","aar":"2019","aktive":771,"nye":418,"utgaende":445,"netto":-27,"andel_ut":58},{"gruppe":"Kjølbåt","aar":"2021","aktive":638,"nye":356,"utgaende":268,"netto":88,"andel_ut":42},{"gruppe":"Kjølbåt","aar":"2022","aktive":784,"nye":400,"utgaende":384,"netto":16,"andel_ut":49},{"gruppe":"Kjølbåt","aar":"2023","aktive":752,"nye":424,"utgaende":369,"netto":55,"andel_ut":49},{"gruppe":"Kjølbåt","aar":"2024","aktive":834,"nye":382,"utgaende":312,"netto":70,"andel_ut":37},{"gruppe":"Rating og havseiling","aar":"2019","aktive":220,"nye":170,"utgaende":108,"netto":62,"andel_ut":49},{"gruppe":"Rating og havseiling","aar":"2021","aktive":238,"nye":142,"utgaende":128,"netto":14,"andel_ut":54},{"gruppe":"Rating og havseiling","aar":"2022","aktive":245,"nye":141,"utgaende":150,"netto":-9,"andel_ut":61},{"gruppe":"Rating og havseiling","aar":"2023","aktive":219,"nye":127,"utgaende":138,"netto":-11,"andel_ut":63},{"gruppe":"Rating og havseiling","aar":"2024","aktive":158,"nye":64,"utgaende":97,"netto":-33,"andel_ut":61}],"overgang":[{"aar":"2017","ut_ungdom":96,"videre_senior":21,"borte":75,"andel":22},{"aar":"2018","ut_ungdom":90,"videre_senior":21,"borte":69,"andel":23},{"aar":"2019","ut_ungdom":122,"videre_senior":17,"borte":105,"andel":14},{"aar":"2021","ut_ungdom":65,"videre_senior":18,"borte":47,"andel":28},{"aar":"2022","ut_ungdom":92,"videre_senior":9,"borte":83,"andel":10},{"aar":"2023","ut_ungdom":143,"videre_senior":11,"borte":132,"andel":8},{"aar":"2024","ut_ungdom":98,"videre_senior":18,"borte":80,"andel":18}],"overgang_total":[{"ungdom":809,"videre":216,"andel":27,"andel_tekst":"27 %"}]};</script>
+<script>window.__NM_DATA__={"peraar":[{"aar":"2017","personer":1217,"nye":1217,"gjengangere":0,"starter":1334,"medaljevinnere":173},{"aar":"2018","personer":1192,"nye":772,"gjengangere":420,"starter":1277,"medaljevinnere":144},{"aar":"2019","personer":1399,"nye":753,"gjengangere":646,"starter":1558,"medaljevinnere":200},{"aar":"2020","personer":400,"nye":193,"gjengangere":207,"starter":413,"medaljevinnere":57},{"aar":"2021","personer":1251,"nye":491,"gjengangere":760,"starter":1432,"medaljevinnere":219},{"aar":"2022","personer":1392,"nye":560,"gjengangere":832,"starter":1592,"medaljevinnere":264},{"aar":"2023","personer":1361,"nye":554,"gjengangere":807,"starter":1540,"medaljevinnere":229},{"aar":"2024","personer":1337,"nye":424,"gjengangere":913,"starter":1532,"medaljevinnere":252},{"aar":"2025","personer":1336,"nye":466,"gjengangere":870,"starter":1529,"medaljevinnere":264},{"aar":"2026","personer":1495,"nye":438,"gjengangere":1057,"starter":1673,"medaljevinnere":261}],"nokkeltall":[{"personer":5868,"medaljevinnere":1073,"medaljer":2244}],"turnover":[{"gruppe":"Ungdomsklasser","aar":"2019","aktive":177,"nye":91,"utgaende":122,"netto":-31,"andel_ut":69},{"gruppe":"Ungdomsklasser","aar":"2021","aktive":174,"nye":103,"utgaende":65,"netto":38,"andel_ut":37},{"gruppe":"Ungdomsklasser","aar":"2022","aktive":223,"nye":113,"utgaende":92,"netto":21,"andel_ut":41},{"gruppe":"Ungdomsklasser","aar":"2023","aktive":221,"nye":117,"utgaende":143,"netto":-26,"andel_ut":65},{"gruppe":"Ungdomsklasser","aar":"2024","aktive":189,"nye":78,"utgaende":98,"netto":-20,"andel_ut":52},{"gruppe":"Kjølbåt","aar":"2019","aktive":771,"nye":418,"utgaende":445,"netto":-27,"andel_ut":58},{"gruppe":"Kjølbåt","aar":"2021","aktive":638,"nye":356,"utgaende":268,"netto":88,"andel_ut":42},{"gruppe":"Kjølbåt","aar":"2022","aktive":784,"nye":400,"utgaende":384,"netto":16,"andel_ut":49},{"gruppe":"Kjølbåt","aar":"2023","aktive":752,"nye":424,"utgaende":369,"netto":55,"andel_ut":49},{"gruppe":"Kjølbåt","aar":"2024","aktive":834,"nye":382,"utgaende":312,"netto":70,"andel_ut":37},{"gruppe":"Rating og havseiling","aar":"2019","aktive":220,"nye":170,"utgaende":108,"netto":62,"andel_ut":49},{"gruppe":"Rating og havseiling","aar":"2021","aktive":238,"nye":142,"utgaende":128,"netto":14,"andel_ut":54},{"gruppe":"Rating og havseiling","aar":"2022","aktive":245,"nye":141,"utgaende":150,"netto":-9,"andel_ut":61},{"gruppe":"Rating og havseiling","aar":"2023","aktive":219,"nye":127,"utgaende":138,"netto":-11,"andel_ut":63},{"gruppe":"Rating og havseiling","aar":"2024","aktive":158,"nye":64,"utgaende":97,"netto":-33,"andel_ut":61}],"overgang":[{"aar":"2017","ut_ungdom":96,"videre_senior":21,"kun_liga":4,"borte":71,"andel":22,"andel_inkl_liga":26},{"aar":"2018","ut_ungdom":90,"videre_senior":21,"kun_liga":7,"borte":62,"andel":23,"andel_inkl_liga":31},{"aar":"2019","ut_ungdom":122,"videre_senior":17,"kun_liga":4,"borte":101,"andel":14,"andel_inkl_liga":17},{"aar":"2021","ut_ungdom":65,"videre_senior":18,"kun_liga":3,"borte":44,"andel":28,"andel_inkl_liga":32},{"aar":"2022","ut_ungdom":92,"videre_senior":9,"kun_liga":4,"borte":79,"andel":10,"andel_inkl_liga":14},{"aar":"2023","ut_ungdom":143,"videre_senior":11,"kun_liga":12,"borte":120,"andel":8,"andel_inkl_liga":16},{"aar":"2024","ut_ungdom":98,"videre_senior":18,"kun_liga":4,"borte":76,"andel":18,"andel_inkl_liga":22}],"overgang_total":[{"ungdom":809,"videre":216,"andel":27,"andel_tekst":"27 %","videre_liga":258,"andel_liga":32,"andel_liga_tekst":"32 %"}],"liga_rekruttering":[{"aar":"2019","deltakere":291,"tidligere_ungdom":22,"andel":8},{"aar":"2021","deltakere":269,"tidligere_ungdom":33,"andel":12},{"aar":"2022","deltakere":281,"tidligere_ungdom":36,"andel":13},{"aar":"2023","deltakere":292,"tidligere_ungdom":44,"andel":15},{"aar":"2024","deltakere":323,"tidligere_ungdom":57,"andel":18},{"aar":"2025","deltakere":286,"tidligere_ungdom":42,"andel":15},{"aar":"2026","deltakere":276,"tidligere_ungdom":48,"andel":17}]};</script>
 <script>
 (function(){
   if (window.d3) d3.formatDefaultLocale({decimal: ',', thousands: '\u00a0', grouping: [3], currency: ['', ' kr']});
@@ -230,44 +235,70 @@ dash.calc('turnover', {
 });
 
 dash.calc('overgang', {
-  inputs: ['deltakelser', 'lister'],
+  inputs: ['deltakelser', 'lister', 'liga'],
   title: 'Overgang ungdom til senior',
-  description: 'Per år: seilere som slutter i ungdomsklassene (ikke i ungdoms-NM de to neste sesongene), og hvor mange som seiler NM i en seniorklasse de to neste sesongene. 2020 er hoppet over.',
-  fn: (deltakelser, lister) => {
+  description: 'Per år: seilere som slutter i ungdomsklassene (ikke i ungdoms-NM de to neste sesongene), og hvor mange som seiler NM i en seniorklasse eller bare seilsportsligaen de to neste sesongene. 2020 er hoppet over.',
+  fn: (deltakelser, lister, liga) => {
     const SEAS = ['2017', '2018', '2019', '2021', '2022', '2023', '2024', '2025', '2026'];
     const ung = {};
     lister.forEach(l => { ung[l.kilde.replace(/\.pdf$/, '')] = l.ungdom === 'ja'; });
-    const U = {}, Sn = {};
+    const U = {}, Sn = {}, L = {};
     deltakelser.forEach(r => { const m = ung[r.liste] ? U : Sn; (m[r.aar] = m[r.aar] || new Set()).add(r.person); });
+    liga.forEach(r => { (L[r.aar] = L[r.aar] || new Set()).add(r.person); });
     const g = (m, y) => m[y] || new Set();
     const out = [];
     for (let i = 0; i < SEAS.length - 2; i++) {
       const y = SEAS[i], n1 = SEAS[i + 1], n2 = SEAS[i + 2];
       const ut = [...g(U, y)].filter(p => !g(U, n1).has(p) && !g(U, n2).has(p));
-      const videre = ut.filter(p => g(Sn, n1).has(p) || g(Sn, n2).has(p)).length;
-      out.push({aar: y, ut_ungdom: ut.length, videre_senior: videre, borte: ut.length - videre, andel: ut.length ? Math.round(videre / ut.length * 100) : null});
+      const sen = ut.filter(p => g(Sn, n1).has(p) || g(Sn, n2).has(p));
+      const kunLiga = ut.filter(p => !sen.includes(p) && (g(L, n1).has(p) || g(L, n2).has(p))).length;
+      const n = ut.length, v = sen.length;
+      out.push({aar: y, ut_ungdom: n, videre_senior: v, kun_liga: kunLiga, borte: n - v - kunLiga,
+        andel: n ? Math.round(v / n * 100) : null, andel_inkl_liga: n ? Math.round((v + kunLiga) / n * 100) : null});
     }
     return out;
   }
 });
 
 dash.calc('overgang_total', {
-  inputs: ['deltakelser', 'lister'],
+  inputs: ['deltakelser', 'lister', 'liga'],
   title: 'Ungdom som senere seiler senior',
-  description: 'Personer som seilte ungdoms-NM 2017–2024, og hvor mange av dem som senere har seilt NM i en seniorklasse.',
-  fn: (deltakelser, lister) => {
+  description: 'Personer som seilte ungdoms-NM 2017–2024, og hvor mange av dem som senere har seilt NM i en seniorklasse, og hvor mange når seilsportsligaen regnes med.',
+  fn: (deltakelser, lister, liga) => {
     const ung = {};
     lister.forEach(l => { ung[l.kilde.replace(/\.pdf$/, '')] = l.ungdom === 'ja'; });
-    const firstU = {}, sen = {};
+    const firstU = {}, sen = {}, lg = {};
     deltakelser.forEach(r => {
       const a = String(r.aar);
       if (ung[r.liste]) { if (a <= '2024' && (!firstU[r.person] || a < firstU[r.person])) firstU[r.person] = a; }
       else (sen[r.person] = sen[r.person] || []).push(a);
     });
+    liga.forEach(r => { (lg[r.person] = lg[r.person] || []).push(String(r.aar)); });
     const ps = Object.keys(firstU);
-    const videre = ps.filter(p => (sen[p] || []).some(a => a > firstU[p])).length;
+    const later = (m, p) => (m[p] || []).some(a => a > firstU[p]);
+    const videre = ps.filter(p => later(sen, p)).length;
+    const videre_liga = ps.filter(p => later(sen, p) || later(lg, p)).length;
     const andel = ps.length ? Math.round(videre / ps.length * 100) : 0;
-    return [{ungdom: ps.length, videre, andel, andel_tekst: andel + ' %'}];
+    const andel_liga = ps.length ? Math.round(videre_liga / ps.length * 100) : 0;
+    return [{ungdom: ps.length, videre, andel, andel_tekst: andel + ' %', videre_liga, andel_liga, andel_liga_tekst: andel_liga + ' %'}];
+  }
+});
+
+dash.calc('liga_rekruttering', {
+  inputs: ['deltakelser', 'lister', 'liga'],
+  title: 'Ungdomsseilere i ligaen',
+  description: 'Per år: deltakere i seilsportsligaen, og hvor mange av dem som har seilt ungdoms-NM i et tidligere år.',
+  fn: (deltakelser, lister, liga) => {
+    const ung = {};
+    lister.forEach(l => { ung[l.kilde.replace(/\.pdf$/, '')] = l.ungdom === 'ja'; });
+    const firstU = {};
+    deltakelser.forEach(r => { const a = String(r.aar); if (ung[r.liste] && (!firstU[r.person] || a < firstU[r.person])) firstU[r.person] = a; });
+    const by = {};
+    liga.forEach(r => { (by[r.aar] = by[r.aar] || new Set()).add(r.person); });
+    return Object.keys(by).sort().map(a => {
+      const ps = [...by[a]], tidl = ps.filter(p => firstU[p] && firstU[p] < String(a)).length;
+      return {aar: String(a), deltakere: ps.length, tidligere_ungdom: tidl, andel: Math.round(tidl / ps.length * 100)};
+    });
   }
 });
 
@@ -331,6 +362,8 @@ dash.calc('overgang_total', {
   document.getElementById('lg-nye').style.background = dash.colors[2];
   document.getElementById('lg-ut').style.background = dash.colors[4];
   document.getElementById('lg-videre').style.background = dash.colors[0];
+  document.getElementById('lg-kunliga').style.background = dash.colors[1];
+  document.getElementById('lg-ligaung').style.background = dash.colors[1];
   document.querySelectorAll('#np-seg button').forEach(b => b.addEventListener('click', () => {
     gruppe = b.dataset.g;
     document.querySelectorAll('#np-seg button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
@@ -388,15 +421,39 @@ dash.calc('overgang_total', {
     const tip = tipFor(el), bw = Math.min(52, x.bandwidth());
     rows.forEach(r => {
       const cx = x(r.aar) + x.bandwidth() / 2, g = svg.append('g');
-      g.append('rect').attr('x', cx - bw / 2).attr('width', bw).attr('y', y(r.videre_senior)).attr('height', y(0) - y(r.videre_senior)).style('fill', dash.colors[0]);
-      g.append('rect').attr('x', cx - bw / 2).attr('width', bw).attr('y', y(r.ut_ungdom)).attr('height', y(r.videre_senior) - y(r.ut_ungdom)).attr('rx', 3).style('fill', 'var(--cds-chart-muted)');
-      g.append('text').attr('x', cx).attr('y', y(r.ut_ungdom) - 6).attr('text-anchor', 'middle').style('font-size', CAP).style('fill', 'var(--color-fg)').text(r.andel == null ? '' : r.andel + ' %');
+      const a = r.videre_senior, b = a + r.kun_liga;
+      g.append('rect').attr('x', cx - bw / 2).attr('width', bw).attr('y', y(a)).attr('height', y(0) - y(a)).style('fill', dash.colors[0]);
+      g.append('rect').attr('x', cx - bw / 2).attr('width', bw).attr('y', y(b)).attr('height', y(a) - y(b)).style('fill', dash.colors[1]);
+      g.append('rect').attr('x', cx - bw / 2).attr('width', bw).attr('y', y(r.ut_ungdom)).attr('height', y(b) - y(r.ut_ungdom)).attr('rx', 3).style('fill', 'var(--cds-chart-muted)');
+      g.append('text').attr('x', cx).attr('y', y(r.ut_ungdom) - 6).attr('text-anchor', 'middle').style('font-size', CAP).style('fill', 'var(--color-fg)').text(r.andel_inkl_liga == null ? '' : r.andel_inkl_liga + ' %');
       g.append('text').attr('x', cx).attr('y', H - 8).attr('text-anchor', 'middle').style('font-size', CAP).style('fill', 'var(--color-fg-muted)').text(x.bandwidth() > 30 ? r.aar : "'" + r.aar.slice(2));
-      g.on('mousemove', ev => showTip(el, tip, ev, 'Sluttet i ungdomsklasse etter ' + r.aar, [[null, 'Personer', fmt(r.ut_ungdom)], [dash.colors[0], 'Seiler videre i seniorklasse', fmt(r.videre_senior) + ' (' + r.andel + ' %)'], ['var(--cds-chart-muted)', 'Ikke sett i NM igjen', fmt(r.borte)]]))
+      g.on('mousemove', ev => showTip(el, tip, ev, 'Sluttet i ungdomsklasse etter ' + r.aar, [[null, 'Personer', fmt(r.ut_ungdom)], [dash.colors[0], 'Seniorklasse i NM', fmt(r.videre_senior) + ' (' + r.andel + ' %)'], [dash.colors[1], 'Bare seilsportsligaen', fmt(r.kun_liga)], ['var(--cds-chart-muted)', 'Ikke sett igjen', fmt(r.borte)], [null, 'Videre totalt', r.andel_inkl_liga + ' %']]))
        .on('mouseleave', () => { tip.hidden = true; });
     });
     svg.append('line').attr('x1', m.l).attr('x2', W - m.r).attr('y1', y(0)).attr('y2', y(0)).style('stroke', 'var(--cds-chart-axis)');
   }
+
+  function ligaChart(el, rows) {
+    el.classList.remove('dash-skeleton'); el.innerHTML = '';
+    const W = el.clientWidth || 400, H = 240, m = {l: 8, r: 8, t: 24, b: 28};
+    const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('height', H);
+    el.style.minHeight = H + 'px';
+    const x = d3.scaleBand(rows.map(r => r.aar), [m.l, W - m.r]).padding(0.3);
+    const y = d3.scaleLinear([0, d3.max(rows, r => r.deltakere) || 1], [H - m.b, m.t]).nice();
+    y.ticks(4).forEach(t => svg.append('line').attr('x1', m.l).attr('x2', W - m.r).attr('y1', y(t)).attr('y2', y(t)).style('stroke', 'var(--cds-chart-grid)'));
+    const tip = tipFor(el), bw = Math.min(52, x.bandwidth());
+    rows.forEach(r => {
+      const cx = x(r.aar) + x.bandwidth() / 2, g = svg.append('g');
+      g.append('rect').attr('x', cx - bw / 2).attr('width', bw).attr('y', y(r.tidligere_ungdom)).attr('height', y(0) - y(r.tidligere_ungdom)).style('fill', dash.colors[1]);
+      g.append('rect').attr('x', cx - bw / 2).attr('width', bw).attr('y', y(r.deltakere)).attr('height', y(r.tidligere_ungdom) - y(r.deltakere)).attr('rx', 3).style('fill', 'var(--cds-chart-muted)');
+      g.append('text').attr('x', cx).attr('y', y(r.deltakere) - 6).attr('text-anchor', 'middle').style('font-size', CAP).style('fill', 'var(--color-fg)').text(r.andel + ' %');
+      g.append('text').attr('x', cx).attr('y', H - 8).attr('text-anchor', 'middle').style('font-size', CAP).style('fill', 'var(--color-fg-muted)').text(x.bandwidth() > 30 ? r.aar : "'" + r.aar.slice(2));
+      g.on('mousemove', ev => showTip(el, tip, ev, 'Seilsportsligaen ' + r.aar, [[null, 'Deltakere', fmt(r.deltakere)], [dash.colors[1], 'Har seilt ungdoms-NM tidligere', fmt(r.tidligere_ungdom) + ' (' + r.andel + ' %)']]))
+       .on('mouseleave', () => { tip.hidden = true; });
+    });
+    svg.append('line').attr('x1', m.l).attr('x2', W - m.r).attr('y1', y(0)).attr('y2', y(0)).style('stroke', 'var(--cds-chart-axis)');
+  }
+
 
   dash.onData(() => {
     [['nokkeltall', null], ['peraar', 'aar'], ['overgang_total', null]].forEach(([id]) => {
@@ -412,6 +469,8 @@ dash.calc('overgang_total', {
     drawTurnover();
     const og = dash.data('overgang'), ogEl = document.getElementById('overgang-chart');
     if (og.status === 'ok') overgangChart(ogEl, og.data); else if (og.status === 'error') fail(ogEl); else { ogEl.innerHTML = ''; ogEl.classList.add('dash-skeleton'); }
+    const lr = dash.data('liga_rekruttering'), lrEl = document.getElementById('liga-chart');
+    if (lr.status === 'ok') ligaChart(lrEl, lr.data); else if (lr.status === 'error') fail(lrEl); else { lrEl.innerHTML = ''; lrEl.classList.add('dash-skeleton'); }
     const pa = dash.data('peraar'), el = document.getElementById('aar-chart');
     if (pa.status === 'ok') yearChart(el, pa.data); else if (pa.status === 'error') fail(el); else { el.innerHTML = ''; el.classList.add('dash-skeleton'); }
   });
